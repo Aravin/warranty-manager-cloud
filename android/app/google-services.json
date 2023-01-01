@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1044405617102",
+    "project_id": "warranty-manager-cloud",
+    "storage_bucket": "warranty-manager-cloud.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044405617102:android:957bfde81124a54f57eb9f",
+        "android_client_info": {
+          "package_name": "net.aravin.warranty_manager_cloud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1044405617102-42lvhc0p93lgagnv6kqsls759sm42c85.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwimgv7H4xkWJGMf2gi-TXKHKenvNFqW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1044405617102-42lvhc0p93lgagnv6kqsls759sm42c85.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1044405617102-hb27jn3ijc329pu9husdnrajlndl7nid.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.warrantyManagerCloud"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
