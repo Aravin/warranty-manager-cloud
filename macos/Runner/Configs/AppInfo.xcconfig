@@ -8,7 +8,7 @@
 PRODUCT_NAME = warranty_manager_cloud
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.warrantyManagerCloud
+PRODUCT_BUNDLE_IDENTIFIER = net.aravin.warrantyManagerCloud
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2023 net.aravin. All rights reserved.

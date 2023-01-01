@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
+            VALUE "CompanyName", "net.aravin" "\0"
             VALUE "FileDescription", "warranty_manager_cloud" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "warranty_manager_cloud" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 net.aravin. All rights reserved." "\0"
             VALUE "OriginalFilename", "warranty_manager_cloud.exe" "\0"
             VALUE "ProductName", "warranty_manager_cloud" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.warranty_manager_cloud">
+    package="net.aravin.warranty_manager_cloud">
    <application
         android:label="warranty_manager_cloud"
         android:name="${applicationName}"
