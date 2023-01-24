@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:warranty_manager_cloud/screens/home.dart';
+import 'package:warranty_manager_cloud/shared/constants.dart';
 
 import 'firebase_options.dart';
 
@@ -28,8 +30,13 @@ class WarrantyManagerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Firebase Example App',
-      theme: ThemeData(primarySwatch: Colors.amber),
+      title: 'Warranty Manager',
+      theme: ThemeData(
+        primaryColor: primaryColor,
+        secondaryHeaderColor: secondaryColor,
+        primarySwatch: Colors.indigo,
+        textTheme: Typography.blackCupertino,
+      ),
       home: Scaffold(
         body: LayoutBuilder(
           builder: (context, constraints) {
@@ -63,9 +70,9 @@ class WarrantyManagerApp extends StatelessWidget {
                     stream: FirebaseAuth.instance.authStateChanges(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return const Text('Profile'); //const ProfilePage();
+                        return Home(); //const ProfilePage();
                       }
-                      return const Text('Login'); //const AuthGate();
+                      return Home(); //const AuthGate();
                     },
                   ),
                 ),
