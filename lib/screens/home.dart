@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:in_app_review/in_app_review.dart';
-import 'package:warranty_manager_cloud/screens/add_warranty.dart';
+import 'package:warranty_manager_cloud/screens/warranty_form.dart';
 
 import 'package:warranty_manager_cloud/screens/temp.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
@@ -44,11 +44,9 @@ class _HomeState extends State<Home> {
               onPressed: () => {
                     Navigator.of(context)
                         .push(MaterialPageRoute(
-                            builder: (context) => AddItem(
-                                  isUpdate: false,
-                                )))
+                            builder: (context) => WarrantyForm()))
                         .then((value) => setState(() => {}))
-                  }).circle(radius: 40, backgroundColor: secondaryColor),
+                  }).circle(radius: 40, backgroundColor: kSecondaryColor),
         ],
       ),
       drawer: Drawer(
@@ -63,7 +61,7 @@ class _HomeState extends State<Home> {
               child: Text('Menu',
                   style: TextStyle(color: Colors.white, fontSize: 25)),
               decoration: BoxDecoration(
-                color: primaryColor,
+                color: kPrimaryColor,
               ),
             ),
             ListTile(

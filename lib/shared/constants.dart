@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-const appPadding = 12.5;
-const appEdgeInsets = EdgeInsets.all(appPadding);
-const appPaddingSmall = EdgeInsets.all(7.5);
-const appPaddingLarge = EdgeInsets.all(15);
+const kAppPadding = 12.5;
+const kAppEdgeInsets = EdgeInsets.all(kAppPadding);
+const kAppPaddingSmall = EdgeInsets.all(7.5);
+const kAppPaddingLarge = EdgeInsets.all(15);
 
-var warrantyPeriods = [
+var kWarrantyPeriods = [
   '1 Month',
   '3 Month',
   '6 Month',
@@ -21,5 +21,6 @@ var warrantyPeriods = [
   '10 Year'
 ];
 
-const Color primaryColor = Color(0xFF6E4BD9);
-const Color secondaryColor = Color(0xFFFC3259);
+const Color kPrimaryColor = Color(0xFF6E4BD9);
+const MaterialColor kMaterialPrimaryColor = Colors.deepPurple;
+const Color kSecondaryColor = Color(0xFFFC3259);

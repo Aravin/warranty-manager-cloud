@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,6 +8,7 @@ import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'firebase_options.dart';
 
 bool shouldUseFirebaseEmulator = false;
+bool shouldUseFirestoreEmulator = false;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +22,9 @@ Future<void> main() async {
   if (shouldUseFirebaseEmulator) {
     await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   }
+  if (shouldUseFirestoreEmulator) {
+    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+  }
 
   runApp(const WarrantyManagerApp());
 }
@@ -32,9 +37,10 @@ class WarrantyManagerApp extends StatelessWidget {
     return MaterialApp(
       title: 'Warranty Manager',
       theme: ThemeData(
-        primaryColor: primaryColor,
-        secondaryHeaderColor: secondaryColor,
-        primarySwatch: Colors.indigo,
+        // useMaterial3: true,
+        primaryColor: kPrimaryColor,
+        secondaryHeaderColor: kSecondaryColor,
+        primarySwatch: kMaterialPrimaryColor,
         textTheme: Typography.blackCupertino,
       ),
       home: Scaffold(
