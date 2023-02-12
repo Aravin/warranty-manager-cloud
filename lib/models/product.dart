@@ -16,7 +16,6 @@ final COLLECTION_NAME = 'warranty';
 
 // remove (?) optional fields in future
 class Product {
-  int? id;
   String? name;
   double? price; // todo
   DateTime? purchaseDate;
@@ -98,12 +97,12 @@ class Product {
   // columns in the database.
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'name': name,
       'price': price,
       'purchaseDate': purchaseDate!.toIso8601String(),
       'warrantyPeriod': warrantyPeriod,
-      'warrantyEndDate': warrantyEndDate?.toIso8601String(),
+      'warrantyEndDate':
+          generateWarrantyEndDate(purchaseDate!, warrantyPeriod!),
       'purchasedAt': purchasedAt,
       'company': company,
       'salesPerson': salesPerson,
@@ -328,5 +327,29 @@ class Product {
       return file.readAsBytesSync();
     }
     return null;
+  }
+
+  String generateWarrantyEndDate(DateTime purchaseDate, String warrantyPeriod) {
+    if (warrantyPeriod.toLowerCase().indexOf('month') > 0) {
+      var monthToAdd =
+          int.parse(warrantyPeriod.replaceAll(RegExp(r'[^0-9]'), ''));
+      var tempDate = purchaseDate;
+      return DateTime(
+        tempDate.year,
+        tempDate.month + monthToAdd,
+        tempDate.day,
+        tempDate.hour,
+      ).toIso8601String();
+    } else {
+      var yearToAdd =
+          int.parse(warrantyPeriod.replaceAll(RegExp(r'[^0-9]'), ''));
+      var tempDate = purchaseDate;
+      return DateTime(
+        tempDate.year + yearToAdd,
+        tempDate.month,
+        tempDate.day,
+        tempDate.hour,
+      ).toIso8601String();
+    }
   }
 }
