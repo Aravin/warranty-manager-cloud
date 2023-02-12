@@ -5,8 +5,14 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:warranty_manager_cloud/database/index.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:warranty_manager_cloud/services/auth.dart';
+import 'package:warranty_manager_cloud/services/db.dart';
+import 'package:warranty_manager_cloud/services/storage.dart';
+import 'package:form_builder_image_picker/form_builder_image_picker.dart';
+import 'package:form_builder_image_picker/src/form_builder_image_picker.dart';
+
+final COLLECTION_NAME = 'warranty';
 
 // remove (?) optional fields in future
 class Product {
@@ -26,10 +32,10 @@ class Product {
   DateTime? warrantyEndDate;
 
   // images
-  Uint8List? productImage;
-  Uint8List? purchaseCopy;
-  Uint8List? warrantyCopy;
-  Uint8List? additionalImage;
+  XFile? productImage;
+  XFile? purchaseCopy;
+  XFile? warrantyCopy;
+  XFile? additionalImage;
 
   // added later
   String? category;
@@ -104,22 +110,32 @@ class Product {
       'phone': phone,
       'email': email,
       'notes': notes,
-      'productImage': productImage,
-      'purchaseCopy': purchaseCopy,
-      'warrantyCopy': warrantyCopy,
-      'additionalImage': additionalImage,
+      // 'productImage': productImage,
+      // 'purchaseCopy': purchaseCopy,
+      // 'warrantyCopy': warrantyCopy,
+      // 'additionalImage': additionalImage,
       'category': category,
-      'productImagePath': productImagePath,
-      'purchaseCopyPath': purchaseCopyPath,
-      'warrantyCopyPath': warrantyCopyPath,
-      'additionalImagePath': additionalImagePath,
+      // 'productImagePath': productImagePath,
+      // 'purchaseCopyPath': purchaseCopyPath,
+      // 'warrantyCopyPath': warrantyCopyPath,
+      // 'additionalImagePath': additionalImagePath,
+      'userId': USER_ID,
     };
   }
 
   dynamic save() async {
     try {
       inspect(toMap());
-      db.collection('warranty').add(toMap());
+      await db.collection('warranty').add(toMap());
+
+      // product image
+      await storeImage(File(productImage!.path));
+      await storeImage(File(purchaseCopy!.path));
+      await storeImage(File(warrantyCopy!.path));
+      await storeImage(File(additionalImage!.path));
+
+      // warranty image
+
     } catch (err) {
       debugPrint('retry called - $err');
     }
@@ -276,7 +292,11 @@ class Product {
     Future<void> deleteProducts() async {}
 
     Future<int> getProductCount() async {
-      return 0;
+      return db
+          .collection(COLLECTION_NAME)
+          .where('userId', isEqualTo: USER_ID)
+          .snapshots()
+          .length;
     }
 
     // for blob to path conversion

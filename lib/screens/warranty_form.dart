@@ -331,10 +331,10 @@ class _WarrantyFormState extends State<WarrantyForm> {
                       // added later
                       _product.category = formValue['category'];
                       // images
-                      _product.productImage = formValue['productImage'];
-                      _product.purchaseCopy = formValue['purchaseCopy'];
-                      _product.warrantyCopy = formValue['warrantyCopy'];
-                      _product.additionalImage = formValue['additionalImage'];
+                      _product.productImage = formValue['productImage']?[0];
+                      _product.purchaseCopy = formValue['imgBill']?[0];
+                      _product.warrantyCopy = formValue['imgWarranty']?[0];
+                      _product.additionalImage = formValue['imgAdditional']?[0];
 
                       inspect(_product);
                       _product.save();
