@@ -79,7 +79,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                     isActive: currentStep == 0 ? true : false,
                     title: const Text('Required*'),
                     content: Column(
-                      key: UniqueKey(),
+                      // key: UniqueKey(),
                       children: [
                         FormBuilderDateTimePicker(
                           name: "purchaseDate",
@@ -169,7 +169,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                     isActive: currentStep == 1 ? true : false,
                     title: const Text('Optional'),
                     content: Column(
-                      key: UniqueKey(),
+                      // key: UniqueKey(),
                       children: [
                         FormBuilderDropdown(
                           name: 'category',
@@ -260,7 +260,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                     isActive: currentStep == 2 ? true : false,
                     title: const Text('Attachments'),
                     content: Column(
-                      key: UniqueKey(),
+                      // key: UniqueKey(),
                       children: [
                         FormBuilderImagePicker(
                           bottomSheetPadding: const EdgeInsets.only(bottom: 50),
@@ -269,7 +269,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                             labelText: 'Upload Product Image',
                           ),
                           maxImages: 1,
-                          imageQuality: 50,
+                          imageQuality: 75,
                           maxHeight: 720,
                           maxWidth: 720,
                         ),
@@ -279,7 +279,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                             labelText: 'Upload Purchased Bill/Receipt',
                           ),
                           maxImages: 1,
-                          imageQuality: 50,
+                          imageQuality: 75,
                           maxHeight: 720,
                           maxWidth: 720,
                         ),
@@ -289,6 +289,9 @@ class _WarrantyFormState extends State<WarrantyForm> {
                             labelText: 'Upload Warranty Copy',
                           ),
                           maxImages: 1,
+                          imageQuality: 75,
+                          maxHeight: 720,
+                          maxWidth: 720,
                         ),
                         FormBuilderImagePicker(
                           name: 'imgAdditional',
@@ -296,6 +299,9 @@ class _WarrantyFormState extends State<WarrantyForm> {
                             labelText: 'Upload Any Other Additional Image',
                           ),
                           maxImages: 1,
+                          imageQuality: 75,
+                          maxHeight: 720,
+                          maxWidth: 720,
                         ),
                       ],
                     ),
@@ -312,7 +318,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                     if (_formKey.currentState!.saveAndValidate()) {
                       dynamic formValue = _formKey.currentState!.value;
                       debugPrint(_formKey.currentState?.value.toString());
-                      debugPrint(formValue['name'].toString());
                       _product.name = formValue['name']!.toString().trim();
                       _product.price = double.parse(formValue['price']); // todo
                       _product.purchaseDate =

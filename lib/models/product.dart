@@ -123,19 +123,22 @@ class Product {
     };
   }
 
-  dynamic save() async {
+  Future<void> save() async {
     try {
-      inspect(toMap());
       await db.collection('warranty').add(toMap());
 
-      // product image
-      await storeImage(File(productImage!.path));
-      await storeImage(File(purchaseCopy!.path));
-      await storeImage(File(warrantyCopy!.path));
-      await storeImage(File(additionalImage!.path));
-
-      // warranty image
-
+      if (productImage != null) {
+        await storeImage('productImage', File(productImage!.path));
+      }
+      if (purchaseCopy != null) {
+        await storeImage('purchaseCopy', File(purchaseCopy!.path));
+      }
+      if (warrantyCopy != null) {
+        await storeImage('warrantyCopy', File(warrantyCopy!.path));
+      }
+      if (additionalImage != null) {
+        await storeImage('additionalImage', File(additionalImage!.path));
+      }
     } catch (err) {
       debugPrint('retry called - $err');
     }
@@ -319,11 +322,6 @@ class Product {
 
     // end of -- for blob to path conversion
   }
-
-// this.productImagePath,
-// this.purchaseCopyPath,
-// this.warrantyCopyPath,
-// this.additionalImagePath
 
   Uint8List? _fileToBlob(File file) {
     if (file != null) {
