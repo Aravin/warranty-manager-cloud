@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:warranty_manager_cloud/screens/static/about.dart';
 import 'package:warranty_manager_cloud/screens/warranty_form.dart';
 
 import 'package:warranty_manager_cloud/screens/temp.dart';
@@ -50,11 +51,7 @@ class _HomeState extends State<Home> {
         ],
       ),
       drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
@@ -104,7 +101,7 @@ class _HomeState extends State<Home> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (ctxt) => MyWidget()),
+                  MaterialPageRoute(builder: (ctx) => const AboutScreen()),
                 );
               },
             ),
@@ -122,7 +119,7 @@ class _HomeState extends State<Home> {
         ),
       ),
       body: Column(
-        children: <Widget>[
+        children: [
           MyWidget(actionCallback: actionCallback),
           SizedBox(
             height: 7.0,
