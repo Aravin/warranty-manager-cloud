@@ -10,6 +10,8 @@ import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
 import 'dart:developer';
 
+import 'package:warranty_manager_cloud/shared/toast.dart';
+
 class WarrantyForm extends StatefulWidget {
   const WarrantyForm({super.key});
 
@@ -88,6 +90,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                               [FormBuilderValidators.required()]),
                           keyboardType: TextInputType.datetime,
                           inputType: InputType.date,
+                          lastDate: DateTime.now(),
                           format: DateFormat("EEE, MMMM d, yyyy"),
                           decoration: const InputDecoration(
                             labelText: "Purchase Date",
@@ -314,7 +317,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
             children: [
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.saveAndValidate()) {
                       dynamic formValue = _formKey.currentState!.value;
                       debugPrint(_formKey.currentState?.value.toString());
@@ -342,7 +345,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                       _product.additionalImage = formValue['imgAdditional']?[0];
 
                       inspect(_product);
-                      _product.save();
+                      await _product.save();
                     } else {
                       debugPrint(_formKey.currentState?.value.toString());
                       debugPrint('validation failed');
