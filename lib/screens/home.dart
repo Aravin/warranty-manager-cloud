@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:in_app_review/in_app_review.dart';
+import 'package:warranty_manager_cloud/screens/profile.dart';
+// import 'package:in_app_review/in_app_review.dart';
 import 'package:warranty_manager_cloud/screens/static/about.dart';
 import 'package:warranty_manager_cloud/screens/static/privacy_policy.dart';
 import 'package:warranty_manager_cloud/screens/warranty_form.dart';
@@ -107,15 +111,60 @@ class _HomeState extends State<Home> {
               },
             ),
             ListTile(
-              title: Text('Rate Us'),
-              leading: Icon(Icons.thumbs_up_down),
-              onTap: () async {
+              title: Text('Profile'),
+              leading: Icon(Icons.account_box),
+              onTap: () {
                 Navigator.pop(context);
-                final InAppReview inAppReview = InAppReview.instance;
-
-                inAppReview.openStoreListing();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (ctx) => const ProfilePage()),
+                );
               },
             ),
+            ListTile(
+              title: Text('Logout'),
+              leading: Icon(Icons.logout),
+              onTap: () => showDialog<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Logout'),
+                    content: const Text('Are you sure want to logout?'),
+                    actions: <Widget>[
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: Theme.of(context).textTheme.labelLarge,
+                        ),
+                        child: const Text('Yes, log me out'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          _signOut();
+                        },
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: Theme.of(context).textTheme.labelLarge,
+                        ),
+                        child: const Text('Cancel'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+            // ListTile(
+            //   title: Text('Rate Us'),
+            //   leading: Icon(Icons.thumbs_up_down),
+            //   onTap: () async {
+            //     Navigator.pop(context);
+            //     final InAppReview inAppReview = InAppReview.instance;
+
+            //     inAppReview.openStoreListing();
+            //   },
+            // ),
           ],
         ),
       ),
@@ -129,5 +178,11 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
+  }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+    await GoogleSignIn().signOut();
+    await FacebookAuth.instance.logOut();
   }
 }

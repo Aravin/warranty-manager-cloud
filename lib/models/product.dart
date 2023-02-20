@@ -4,8 +4,9 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
+// import 'package:share_plus/share_plus.dart';
 import 'package:warranty_manager_cloud/services/auth.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/services/storage.dart';
@@ -31,10 +32,10 @@ class Product {
   DateTime? warrantyEndDate;
 
   // images
-  XFile? productImage;
-  XFile? purchaseCopy;
-  XFile? warrantyCopy;
-  XFile? additionalImage;
+  dynamic productImage;
+  dynamic purchaseCopy;
+  dynamic warrantyCopy;
+  dynamic additionalImage;
 
   // added later
   String? category;
@@ -118,7 +119,7 @@ class Product {
       // 'purchaseCopyPath': purchaseCopyPath,
       // 'warrantyCopyPath': warrantyCopyPath,
       // 'additionalImagePath': additionalImagePath,
-      'userId': USER_ID,
+      'userId': FirebaseAuth.instance.currentUser!.uid.toString(),
     };
   }
 
@@ -296,7 +297,8 @@ class Product {
     Future<int> getProductCount() async {
       return db
           .collection(COLLECTION_NAME)
-          .where('userId', isEqualTo: USER_ID)
+          .where('userId',
+              isEqualTo: FirebaseAuth.instance.currentUser!.uid.toString())
           .snapshots()
           .length;
     }

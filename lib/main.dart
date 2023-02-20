@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:warranty_manager_cloud/screens/auth.dart';
 import 'package:warranty_manager_cloud/screens/home.dart';
-import 'package:warranty_manager_cloud/services/auth.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 
@@ -21,7 +21,7 @@ Future<void> main() async {
   );
 
   if (shouldUseFirebaseEmulator) {
-    await auth.useAuthEmulator('localhost', 9099);
+    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   }
   if (shouldUseFirestoreEmulator) {
     db.useFirestoreEmulator('localhost', 8080);
@@ -74,12 +74,12 @@ class WarrantyManagerApp extends StatelessWidget {
                       ? constraints.maxWidth / 2
                       : constraints.maxWidth,
                   child: StreamBuilder<User?>(
-                    stream: auth.authStateChanges(),
+                    stream: FirebaseAuth.instance.authStateChanges(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Home(); //const ProfilePage();
                       }
-                      return Home(); //const AuthGate();
+                      return AuthGate();
                     },
                   ),
                 ),

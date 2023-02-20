@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "1044405617102-42lvhc0p93lgagnv6kqsls759sm42c85.apps.googleusercontent.com",
+          "client_id": "1044405617102-fngnokgg90cvvh8iekigm9te507eo1sc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.aravin.warranty_manager_cloud",
+            "certificate_hash": "7689a6d906ed0100107b145ba3c62816017d4fa5"
+          }
+        },
+        {
+          "client_id": "1044405617102-9skm8vhspg5ghqh4cgikquu5dv3ed7hn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -31,10 +39,10 @@
               "client_type": 3
             },
             {
-              "client_id": "1044405617102-hb27jn3ijc329pu9husdnrajlndl7nid.apps.googleusercontent.com",
+              "client_id": "1044405617102-fgu1heqs64ac9l3jdi3lmnfkbaj2botv.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.warrantyManagerCloud"
+                "bundle_id": "net.aravin.warrantyManagerCloud"
               }
             }
           ]
