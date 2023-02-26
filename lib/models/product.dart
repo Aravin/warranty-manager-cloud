@@ -39,14 +39,14 @@ class Product {
   dynamic warrantyCopy;
   dynamic additionalImage;
 
+  // bool
+  bool isProductImage = false;
+  bool isPurchaseCopy = false;
+  bool isWarrantyCopy = false;
+  bool isAdditionalImage = false;
+
   // added later
   String? category;
-
-  // paths
-  String? productImagePath;
-  String? purchaseCopyPath;
-  String? warrantyCopyPath;
-  String? additionalImagePath;
 
   // Convert a Dog into a Map. The keys must correspond to the names of the
   // columns in the database.
@@ -68,31 +68,35 @@ class Product {
       // 'purchaseCopy': purchaseCopy,
       // 'warrantyCopy': warrantyCopy,
       // 'additionalImage': additionalImage,
+      'isProductImage': isProductImage,
+      'isPurchaseCopy': isPurchaseCopy,
+      'isWarrantyCopy': isWarrantyCopy,
+      'isAdditionalImage': isAdditionalImage,
       'category': category,
-      // 'productImagePath': productImagePath,
-      // 'purchaseCopyPath': purchaseCopyPath,
-      // 'warrantyCopyPath': warrantyCopyPath,
-      // 'additionalImagePath': additionalImagePath,
       'userId': FirebaseAuth.instance.currentUser!.uid.toString(),
     };
   }
 
   Future<void> save() async {
     try {
-      await db.collection(COLLECTION_NAME).add(toMap());
-
       if (productImage != null) {
+        isProductImage = true;
         await storeImage('productImage', File(productImage!.path));
       }
       if (purchaseCopy != null) {
+        isPurchaseCopy = true;
         await storeImage('purchaseCopy', File(purchaseCopy!.path));
       }
       if (warrantyCopy != null) {
+        isWarrantyCopy = true;
         await storeImage('warrantyCopy', File(warrantyCopy!.path));
       }
       if (additionalImage != null) {
+        isAdditionalImage = true;
         await storeImage('additionalImage', File(additionalImage!.path));
       }
+
+      await db.collection(COLLECTION_NAME).add(toMap());
     } catch (err) {
       debugPrint('Saved to save product - $err');
     }
@@ -128,10 +132,10 @@ class Product {
           // calculated field
           product.warrantyEndDate = doc['name'];
           // paths
-          product.productImagePath = doc['name'];
-          product.purchaseCopyPath = doc['name'];
-          product.warrantyCopyPath = doc['name'];
-          product.additionalImagePath = doc['name'];
+          product.isProductImage = doc['name'];
+          product.isPurchaseCopy = doc['name'];
+          product.isWarrantyCopy = doc['name'];
+          product.isAdditionalImage = doc['name'];
 
           productList.add(product);
         });
