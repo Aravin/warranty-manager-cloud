@@ -17,6 +17,7 @@ final COLLECTION_NAME = 'warranty';
 
 // remove (?) optional fields in future
 class Product {
+  String? id;
   String? name;
   double? price; // todo
   DateTime? purchaseDate;

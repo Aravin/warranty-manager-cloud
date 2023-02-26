@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:warranty_manager_cloud/screens/home/widgets/highlight_card.dart';
 import 'package:warranty_manager_cloud/screens/profile.dart';
 // import 'package:in_app_review/in_app_review.dart';
 import 'package:warranty_manager_cloud/screens/static/about.dart';
@@ -18,7 +19,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final product = new MyWidget();
+  final product = const MyWidget();
 
   actionCallback(bool rebuild) {
     if (rebuild) {
@@ -49,9 +50,14 @@ class _HomeState extends State<Home> {
               icon: const Icon(Icons.add),
               onPressed: () => {
                     Navigator.of(context)
-                        .push(MaterialPageRoute(
-                            builder: (context) => const WarrantyForm()))
-                        .then((value) => setState(() => {}))
+                        .push(
+                          MaterialPageRoute(
+                            builder: (context) => const WarrantyForm(),
+                          ),
+                        )
+                        .then(
+                          (value) => setState(() => {}),
+                        )
                   }).circle(radius: 40, backgroundColor: kSecondaryColor),
         ],
       ),
@@ -63,8 +69,10 @@ class _HomeState extends State<Home> {
               decoration: BoxDecoration(
                 color: kPrimaryColor,
               ),
-              child: Text('Menu',
-                  style: TextStyle(color: Colors.white, fontSize: 25)),
+              child: Text(
+                'Menu',
+                style: TextStyle(color: Colors.white, fontSize: 25),
+              ),
             ),
             ListTile(
               title: const Text('Saved Items'),
@@ -73,7 +81,9 @@ class _HomeState extends State<Home> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (ctxt) => const MyWidget()),
+                  MaterialPageRoute(
+                    builder: (ctxt) => const MyWidget(),
+                  ),
                 );
               },
             ),
@@ -95,7 +105,9 @@ class _HomeState extends State<Home> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (ctxt) => PrivacyPolicyScreen()),
+                  MaterialPageRoute(
+                    builder: (ctxt) => PrivacyPolicyScreen(),
+                  ),
                 );
               },
             ),
@@ -106,7 +118,9 @@ class _HomeState extends State<Home> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (ctx) => const AboutScreen()),
+                  MaterialPageRoute(
+                    builder: (ctx) => const AboutScreen(),
+                  ),
                 );
               },
             ),
@@ -117,7 +131,9 @@ class _HomeState extends State<Home> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (ctx) => const ProfilePage()),
+                  MaterialPageRoute(
+                    builder: (ctx) => const ProfilePage(),
+                  ),
                 );
               },
             ),
@@ -170,11 +186,23 @@ class _HomeState extends State<Home> {
       ),
       body: Column(
         children: [
-          MyWidget(actionCallback: actionCallback),
-          const SizedBox(
-            height: 7.0,
-          ),
-          MyWidget(actionCallback: actionCallback),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: const [
+              HighlightCard(
+                cardName: 'In Warranty',
+                count: '10',
+                color: kPrimaryColor,
+                icon: Icons.security,
+              ),
+              HighlightCard(
+                cardName: 'Out of Warranty',
+                count: '5',
+                color: kSecondaryColor,
+                icon: Icons.timer_off,
+              ),
+            ],
+          )
         ],
       ),
     );
