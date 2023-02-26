@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:warranty_manager_cloud/screens/auth.dart';
-import 'package:warranty_manager_cloud/screens/home.dart';
+import 'package:warranty_manager_cloud/screens/home/home.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 

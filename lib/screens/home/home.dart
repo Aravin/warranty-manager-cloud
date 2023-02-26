@@ -41,16 +41,16 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Warranty Manager',
         ),
         actions: [
           IconButton(
-              icon: Icon(Icons.add),
+              icon: const Icon(Icons.add),
               onPressed: () => {
                     Navigator.of(context)
                         .push(MaterialPageRoute(
-                            builder: (context) => WarrantyForm()))
+                            builder: (context) => const WarrantyForm()))
                         .then((value) => setState(() => {}))
                   }).circle(radius: 40, backgroundColor: kSecondaryColor),
         ],
@@ -59,21 +59,21 @@ class _HomeState extends State<Home> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              child: Text('Menu',
-                  style: TextStyle(color: Colors.white, fontSize: 25)),
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: kPrimaryColor,
               ),
+              child: Text('Menu',
+                  style: TextStyle(color: Colors.white, fontSize: 25)),
             ),
             ListTile(
-              title: Text('Saved Items'),
-              leading: Icon(Icons.security),
+              title: const Text('Saved Items'),
+              leading: const Icon(Icons.security),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (ctxt) => MyWidget()),
+                  MaterialPageRoute(builder: (ctxt) => const MyWidget()),
                 );
               },
             ),
@@ -89,8 +89,8 @@ class _HomeState extends State<Home> {
             //   },
             // ),
             ListTile(
-              title: Text('Privacy Policy'),
-              leading: Icon(Icons.description),
+              title: const Text('Privacy Policy'),
+              leading: const Icon(Icons.description),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -100,8 +100,8 @@ class _HomeState extends State<Home> {
               },
             ),
             ListTile(
-              title: Text('About'),
-              leading: Icon(Icons.info),
+              title: const Text('About'),
+              leading: const Icon(Icons.info),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -111,8 +111,8 @@ class _HomeState extends State<Home> {
               },
             ),
             ListTile(
-              title: Text('Profile'),
-              leading: Icon(Icons.account_box),
+              title: const Text('Profile'),
+              leading: const Icon(Icons.account_box),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -122,8 +122,8 @@ class _HomeState extends State<Home> {
               },
             ),
             ListTile(
-              title: Text('Logout'),
-              leading: Icon(Icons.logout),
+              title: const Text('Logout'),
+              leading: const Icon(Icons.logout),
               onTap: () => showDialog<void>(
                 context: context,
                 builder: (BuildContext context) {
@@ -171,7 +171,7 @@ class _HomeState extends State<Home> {
       body: Column(
         children: [
           MyWidget(actionCallback: actionCallback),
-          SizedBox(
+          const SizedBox(
             height: 7.0,
           ),
           MyWidget(actionCallback: actionCallback),
