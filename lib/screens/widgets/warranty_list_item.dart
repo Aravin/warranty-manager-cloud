@@ -5,11 +5,11 @@ import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
 
-class WarrantyListItem extends StatelessWidget {
+class WarrantyListItemWidget extends StatelessWidget {
   final Product product;
   final Color cardColor;
 
-  const WarrantyListItem(
+  const WarrantyListItemWidget(
       {super.key, required this.product, required this.cardColor});
 
   @override
