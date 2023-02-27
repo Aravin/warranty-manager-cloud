@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/screens/home/widgets/highlight_card.dart';
 import 'package:warranty_manager_cloud/screens/profile.dart';
 // import 'package:in_app_review/in_app_review.dart';
@@ -11,6 +12,7 @@ import 'package:warranty_manager_cloud/screens/static/privacy_policy.dart';
 import 'package:warranty_manager_cloud/screens/warranty_form.dart';
 
 import 'package:warranty_manager_cloud/screens/temp.dart';
+import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 
 class Home extends StatefulWidget {
@@ -19,18 +21,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final product = const MyWidget();
-
-  actionCallback(bool rebuild) {
-    if (rebuild) {
-      setState(() {});
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    actionCallback(true);
   }
 
   @override
@@ -184,26 +177,39 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
-              HighlightCard(
-                cardName: 'In Warranty',
-                count: '10',
-                color: kPrimaryColor,
-                icon: Icons.security,
-              ),
-              HighlightCard(
-                cardName: 'Out of Warranty',
-                count: '5',
-                color: kSecondaryColor,
-                icon: Icons.timer_off,
-              ),
-            ],
-          )
-        ],
+      body: StreamBuilder(
+        stream: Product().list(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            debugPrint(snapshot.toString());
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    HighlightCard(
+                      cardName: 'In Warranty',
+                      count: snapshot.data!.active.length.toString(),
+                      color: kPrimaryColor,
+                      icon: Icons.security,
+                    ),
+                    HighlightCard(
+                      cardName: 'Out of Warranty',
+                      count: snapshot.data!.expired.length.toString(),
+                      color: kSecondaryColor,
+                      icon: Icons.timer_off,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                WarrantyListTabWidget(warrantyList: snapshot.data!),
+              ],
+            );
+          }
+          return const SizedBox();
+        },
       ),
     );
   }

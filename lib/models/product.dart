@@ -7,6 +7,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:warranty_manager_cloud/models/warranty_list.dart';
 // import 'package:share_plus/share_plus.dart';
 import 'package:warranty_manager_cloud/services/auth.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
@@ -102,7 +103,7 @@ class Product {
     }
   }
 
-  Stream<List<Product>> list() {
+  Stream<WarrantyList> list() {
     try {
       final dbStream = db
           .collection(COLLECTION_NAME)
@@ -111,139 +112,58 @@ class Product {
           .snapshots();
 
       final productStream = dbStream.map((event) {
+        final WarrantyList productObject =
+            WarrantyList(active: [], expiring: [], expired: []);
         final List<Product> productList = [];
 
         event.docs.forEach((doc) {
           final product = Product();
+          final data = doc.data();
 
           product.id = doc.id;
-          product.name = doc['name'];
-          product.price = doc['name'];
-          product.purchaseDate = doc['name'];
-          product.warrantyPeriod = doc['name'];
-          product.purchasedAt = doc['name'];
-          product.company = doc['name'];
-          product.salesPerson = doc['name'];
-          product.phone = doc['name'];
-          product.email = doc['name'];
-          product.notes = doc['name'];
+          product.name = data['name'];
+          product.price = data['price'];
+          product.purchaseDate = DateTime.parse(data['purchaseDate']);
+          product.warrantyPeriod = data['warrantyPeriod'];
+          product.purchasedAt = data['purchasedAt'];
+          product.company = data['company'];
+          product.salesPerson = data['salesPerson'];
+          product.phone = data['phone'];
+          product.email = data['email'];
+          product.notes = data['notes'];
           // added later
-          product.category = doc['name'];
+          product.category = data['category'];
           // calculated field
-          product.warrantyEndDate = doc['name'];
+          product.warrantyEndDate = DateTime.parse(data['warrantyEndDate']);
           // paths
-          product.isProductImage = doc['name'];
-          product.isPurchaseCopy = doc['name'];
-          product.isWarrantyCopy = doc['name'];
-          product.isAdditionalImage = doc['name'];
+          product.isProductImage = data['isProductImage'] ?? false;
+          product.isPurchaseCopy = data['isPurchaseCopy'] ?? false;
+          product.isWarrantyCopy = data['isWarrantyCopy'] ?? false;
+          product.isAdditionalImage = data['isAdditionalImage'] ?? false;
 
-          productList.add(product);
+          if (product.warrantyEndDate!.isAfter(DateTime.now())) {
+            productObject.active.add(product);
+          }
+
+          if (product.warrantyEndDate!
+              .isBefore(DateTime.now().add(const Duration(days: 28)))) {
+            productObject.expiring.add(product);
+          }
+
+          if (product.warrantyEndDate!.isBefore(DateTime.now())) {
+            productObject.expired.add(product);
+          }
+          // productList.add(product);
         });
 
-        return productList;
+        return productObject;
       });
 
       return productStream;
     } catch (err) {
       debugPrint('Saved to save product - $err');
-      throw Error();
+      rethrow;
     }
-  }
-
-  // A method that retrieves all the dogs from the dogs table.
-  Future<List<Product>> getProducts({bool retry = false}) async {
-    try {
-      // Get a reference to the database.
-
-      List<String> columns = [];
-
-      if (retry) {
-        columns = [
-          'id',
-          'name',
-          'price',
-          'purchaseDate',
-          'warrantyPeriod',
-          'warrantyEndDate',
-          'purchasedAt',
-          'company',
-          'salesPerson',
-          'phone',
-          'email',
-          'notes',
-          // 'productImage',
-          // 'purchaseCopy',
-          // 'warrantyCopy',
-          // 'additionalImage',
-          'category',
-          'productImagePath',
-          'purchaseCopyPath',
-          'warrantyCopyPath',
-          'additionalImagePath',
-        ];
-      }
-
-      // Query the table for all The Dogs.
-      final List<Map<String, dynamic>> maps = [];
-
-      // Convert the List<Map<String, dynamic> into a List<Dog>.
-      return List.generate(maps.length, (i) {
-        return Product(
-            // id: maps[i]['id'],
-            // name: maps[i]['name'],
-            // price: maps[i]['price'],
-            // purchaseDate: DateTime.parse(maps[i]['purchaseDate']),
-            // warrantyPeriod: maps[i]['warrantyPeriod'],
-            // warrantyEndDate: DateTime.parse(maps[i]['warrantyEndDate']),
-            // purchasedAt: maps[i]['purchasedAt'],
-            // company: maps[i]['company'],
-            // salesPerson: maps[i]['salesPerson'],
-            // phone: maps[i]['phone'],
-            // email: maps[i]['email'],
-            // notes: maps[i]['notes'],
-            // productImage: maps[i]['productImage'],
-            // purchaseCopy: maps[i]['purchaseCopy'],
-            // warrantyCopy: maps[i]['warrantyCopy'],
-            // additionalImage: maps[i]['additionalImage'],
-            // category: maps[i]['category'],
-            // productImagePath: maps[i]['productImagePath'],
-            // purchaseCopyPath: maps[i]['purchaseCopyPath'],
-            // warrantyCopyPath: maps[i]['warrantyCopyPath'],
-            // additionalImagePath: maps[i]['additionalImagePath'],
-            );
-      });
-    } catch (err) {
-      print('epix - retry called - $err');
-      return await getProducts(retry: true); // getProducts(retry: true);
-    }
-  }
-
-  // Define a function that inserts dogs into the database
-  Future<void> insertProduct() async {
-    // Create a Dog and add it to the dogs table.
-    // final productToInsert = Product(
-    //   id: this.id,
-    //   name: this.name,
-    //   price: this.price,
-    //   purchaseDate: this.purchaseDate,
-    //   warrantyPeriod: this.warrantyPeriod,
-    //   warrantyEndDate: this.warrantyEndDate,
-    //   purchasedAt: this.purchasedAt,
-    //   company: this.company,
-    //   salesPerson: this.salesPerson,
-    //   phone: this.phone,
-    //   email: this.email,
-    //   notes: this.notes,
-    //   // productImage: this.productImage,
-    //   // purchaseCopy: this.purchaseCopy,
-    //   // warrantyCopy: this.warrantyCopy,
-    //   // additionalImage: this.additionalImage,
-    //   category: this.category,
-    //   productImagePath: this.productImagePath,
-    //   purchaseCopyPath: this.purchaseCopyPath,
-    //   warrantyCopyPath: this.warrantyCopyPath,
-    //   additionalImagePath: this.additionalImagePath, additionalImage: null,
-    // );
   }
 
   Future<void> updateProduct() async {
