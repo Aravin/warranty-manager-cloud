@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
+import 'package:warranty_manager_cloud/screens/warranty_details.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
 
@@ -117,14 +118,13 @@ class WarrantyListItemWidget extends StatelessWidget {
                         //   ),
                         // );
                       } else if (result[0] == 'view') {
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (context) => ProductDetailsScreen(
-                        //       product: product,
-                        //       actionCallback: this.actionCallback,
-                        //     ),
-                        //   ),
-                        // );
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => WarrantyDetailsScreen(
+                              product: product,
+                            ),
+                          ),
+                        );
                       }
                     },
                     itemBuilder: (BuildContext context) =>

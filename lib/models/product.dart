@@ -80,24 +80,31 @@ class Product {
 
   Future<void> save() async {
     try {
+      isProductImage = (productImage != null);
+      isPurchaseCopy = (purchaseCopy != null);
+      isWarrantyCopy = (warrantyCopy != null);
+      isAdditionalImage = (additionalImage != null);
+
+      final addResponse = await db.collection(COLLECTION_NAME).add(toMap());
+      final productId = addResponse.id;
+
       if (productImage != null) {
         isProductImage = true;
-        await storeImage('productImage', File(productImage!.path));
+        await storeImage('$productId/productImage', File(productImage!.path));
       }
       if (purchaseCopy != null) {
         isPurchaseCopy = true;
-        await storeImage('purchaseCopy', File(purchaseCopy!.path));
+        await storeImage('$productId/purchaseCopy', File(purchaseCopy!.path));
       }
       if (warrantyCopy != null) {
         isWarrantyCopy = true;
-        await storeImage('warrantyCopy', File(warrantyCopy!.path));
+        await storeImage('$productId/warrantyCopy', File(warrantyCopy!.path));
       }
       if (additionalImage != null) {
         isAdditionalImage = true;
-        await storeImage('additionalImage', File(additionalImage!.path));
+        await storeImage(
+            '$productId/additionalImage', File(additionalImage!.path));
       }
-
-      await db.collection(COLLECTION_NAME).add(toMap());
     } catch (err) {
       debugPrint('Saved to save product - $err');
     }
