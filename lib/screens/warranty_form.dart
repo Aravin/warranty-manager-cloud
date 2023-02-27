@@ -9,6 +9,7 @@ import 'package:warranty_manager_cloud/shared/categories.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
 import 'dart:developer';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:warranty_manager_cloud/shared/toast.dart';
 
@@ -346,6 +347,15 @@ class _WarrantyFormState extends State<WarrantyForm> {
 
                       inspect(_product);
                       await _product.save();
+                      Fluttertoast.showToast(
+                        msg: "Saved Product Successfully!",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        fontSize: 16.0,
+                      );
+                      setState(() {
+                        Navigator.pop(context, true);
+                      });
                     } else {
                       debugPrint(_formKey.currentState?.value.toString());
                       debugPrint('validation failed');
