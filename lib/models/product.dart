@@ -166,6 +166,10 @@ class Product {
     }
   }
 
+  Future<void> delete(String warrantyId) async {
+    await db.collection(COLLECTION_NAME).doc(warrantyId).delete();
+  }
+
   Future<void> updateProduct() async {
     // Create a Dog and add it to the dogs table.
     // final productToUpdate = Product(
@@ -216,9 +220,6 @@ class Product {
     //   );
     // }
   }
-
-  Future<void> deleteProduct(int id) async {}
-
   Future<void> deleteProducts() async {}
 
   Future<int> getProductCount() async {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
@@ -98,12 +99,13 @@ class WarrantyListItemWidget extends StatelessWidget {
                   child: PopupMenuButton<List<String>>(
                     onSelected: (List<String> result) {
                       if (result[0] == 'delete') {
-                        // product
-                        //     .deleteProduct(int.parse(result[1], radix: 10));
-                        // actionCallback(true);
-                        // Toast.show("Product Deleted Successfully!", context,
-                        //     duration: Toast.LENGTH_LONG,
-                        //     gravity: Toast.BOTTOM);
+                        product.delete(result[1]);
+                        Fluttertoast.showToast(
+                          msg: "Product Deleted Successfully!",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          fontSize: 16.0,
+                        );
                       } else if (result[0] == 'edit') {
                         // Navigator.of(context).push(
                         //   MaterialPageRoute(
