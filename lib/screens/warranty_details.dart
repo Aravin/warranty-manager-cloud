@@ -34,6 +34,12 @@ class WarrantyDetailsScreen extends StatelessWidget {
       body: FutureBuilder(
         future: getImages(product.id!, imageList),
         builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Center(child: Text('Loading...'));
+          }
+          if (!snapshot.hasData) {
+            return const Center(child: Text('Unable to load product details'));
+          }
           final data = snapshot.data;
           return Padding(
             padding: kAppPaddingLarge,
@@ -80,13 +86,95 @@ class WarrantyDetailsScreen extends StatelessWidget {
                           const SizedBox(height: 7.5),
                           Text(
                             product.company!,
-                            style: const TextStyle(fontSize: 20),
+                            style: const TextStyle(
+                              fontSize: 20,
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ],
                 ),
+                const SizedBox(height: 10),
+                Expanded(
+                  flex: 2,
+                  child: ListView(
+                    padding: kAppPaddingSmall,
+                    children: [
+                      ListTile(
+                        title: Text('Purchase date'.toUpperCase()),
+                        subtitle: Text(product.purchaseDate!.toIso8601String()),
+                      ),
+                      ListTile(
+                        title: Text('Warranty period'.toUpperCase()),
+                        subtitle: Text(product.warrantyPeriod!),
+                      ),
+                      ListTile(
+                        title: Text('Warranty End Date'.toUpperCase()),
+                        subtitle:
+                            Text(product.warrantyEndDate!.toIso8601String()),
+                      ),
+                      ListTile(
+                        title: Text('Category'.toUpperCase()),
+                        subtitle: Text(product.category!),
+                      ),
+                      ListTile(
+                        title: Text('Amount'.toUpperCase()),
+                        subtitle: Text(product.price!.toString()),
+                      ),
+                      ListTile(
+                        title: Text('Purchase at'.toUpperCase()),
+                        subtitle: Text(product.purchasedAt ?? '-'),
+                      ),
+                      ListTile(
+                        title: Text('Contact Person Name'.toUpperCase()),
+                        subtitle: Text(product.salesPerson ?? '-'),
+                      ),
+                      ListTile(
+                        title: Text('Support Phone Number'.toUpperCase()),
+                        subtitle: Text(product.phone ?? '-'),
+                      ),
+                      ListTile(
+                        title: Text('Support Email'.toUpperCase()),
+                        subtitle: Text(product.email ?? '-'),
+                      ),
+                      ListTile(
+                        title: Text('Quick Note'.toUpperCase()),
+                        subtitle: Text(product.notes ?? '-'),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: GridView.count(
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    crossAxisCount: 2,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.teal[100],
+                        child: const Text("He'd have you all unravel at the"),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.teal[200],
+                        child: const Text('Heed not the rabble'),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.teal[300],
+                        child: const Text('Sound of screams but the'),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.teal[400],
+                        child: const Text('Who scream'),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           );

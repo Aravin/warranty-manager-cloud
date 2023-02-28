@@ -326,17 +326,13 @@ class _WarrantyFormState extends State<WarrantyForm> {
                       _product.price = double.parse(formValue['price']); // todo
                       _product.purchaseDate =
                           formValue['purchaseDate'] as DateTime;
-                      _product.warrantyPeriod =
-                          formValue['warrantyPeriod']!.toString().trim();
-                      _product.purchasedAt =
-                          formValue['purchasedAt']!.toString().trim();
-                      _product.company =
-                          formValue['company']!.toString().trim();
-                      _product.salesPerson =
-                          formValue['salesPerson']!.toString().trim();
-                      _product.phone = formValue['phone']!.toString().trim();
-                      _product.email = formValue['email']!.toString().trim();
-                      _product.notes = formValue['notes']!.toString().trim();
+                      _product.warrantyPeriod = formValue['warrantyPeriod']!;
+                      _product.purchasedAt = formValue['purchasedAt'];
+                      _product.company = formValue['company'];
+                      _product.salesPerson = formValue['salesPerson'];
+                      _product.phone = formValue['phone'];
+                      _product.email = formValue['email'];
+                      _product.notes = formValue['notes'];
                       // added later
                       _product.category = formValue['category'];
                       // images
