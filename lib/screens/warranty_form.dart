@@ -10,8 +10,7 @@ import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import 'package:warranty_manager_cloud/shared/toast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class WarrantyForm extends StatefulWidget {
   const WarrantyForm({super.key});
@@ -24,8 +23,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
   bool autoValidate = true;
   final _formKey = GlobalKey<FormBuilderState>();
   final _product = Product();
-
-  void _onChanged(dynamic val) => debugPrint(val.toString());
 
   // steps
   int currentStep = 0;
@@ -84,6 +81,23 @@ class _WarrantyFormState extends State<WarrantyForm> {
                     content: Column(
                       // key: UniqueKey(),
                       children: [
+                        FormBuilderTextField(
+                          name: 'name',
+                          // focusNode: productFocus,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.minLength(3),
+                            FormBuilderValidators.maxLength(24)
+                          ]),
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.shopping_basket),
+                            hintText: 'Product/Service Name ?',
+                            labelText: 'Product/Service Name *',
+                          ),
+                          // onEditingComplete: () =>
+                          //     FocusScope.of(context).requestFocus(priceFocus),
+                        ),
                         FormBuilderDateTimePicker(
                           name: "purchaseDate",
                           textInputAction: TextInputAction.next,
@@ -113,23 +127,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                               .map((period) => DropdownMenuItem(
                                   value: period, child: Text("$period")))
                               .toList(),
-                        ),
-                        FormBuilderTextField(
-                          name: 'name',
-                          // focusNode: productFocus,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(),
-                            FormBuilderValidators.minLength(3),
-                            FormBuilderValidators.maxLength(24)
-                          ]),
-                          textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.shopping_basket),
-                            hintText: 'Product/Service Name ?',
-                            labelText: 'Product/Service Name *',
-                          ),
-                          // onEditingComplete: () =>
-                          //     FocusScope.of(context).requestFocus(priceFocus),
                         ),
                         FormBuilderTextField(
                           name: 'price',
@@ -320,6 +317,10 @@ class _WarrantyFormState extends State<WarrantyForm> {
                 child: ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.saveAndValidate()) {
+                      await EasyLoading.show(
+                        status: 'loading...',
+                        maskType: EasyLoadingMaskType.clear,
+                      );
                       dynamic formValue = _formKey.currentState!.value;
                       debugPrint(_formKey.currentState?.value.toString());
                       _product.name = formValue['name']!.toString().trim();
@@ -349,6 +350,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                         gravity: ToastGravity.CENTER,
                         fontSize: 16.0,
                       );
+                      await EasyLoading.dismiss();
                       setState(() {
                         Navigator.pop(context, true);
                       });
