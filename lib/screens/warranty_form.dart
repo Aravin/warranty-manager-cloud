@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -13,7 +11,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class WarrantyForm extends StatefulWidget {
-  const WarrantyForm({super.key});
+  final Product? product; // only for edit view, so optional
+  const WarrantyForm({super.key, this.product});
 
   @override
   State<WarrantyForm> createState() => _WarrantyFormState();
@@ -22,7 +21,9 @@ class WarrantyForm extends StatefulWidget {
 class _WarrantyFormState extends State<WarrantyForm> {
   bool autoValidate = true;
   final _formKey = GlobalKey<FormBuilderState>();
-  final _product = Product();
+  late Product _product;
+  late String _pageTitle;
+  late dynamic _formInitialValues;
 
   // steps
   int currentStep = 0;
@@ -51,9 +52,31 @@ class _WarrantyFormState extends State<WarrantyForm> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _product = (widget.product?.id! != null ? widget.product : Product())!;
+    _pageTitle = widget.product?.id! != null ? 'Edit Warranty' : 'Add Warranty';
+    _formInitialValues = widget.product?.id! != null
+        ? {
+            'purchaseDate': _product.purchaseDate,
+            'warranty': _product.warrantyPeriod,
+            'name': _product.name,
+            'price': _product.price!.toString(),
+            'company': _product.company,
+            'purchasedAt': _product.purchasedAt,
+            'salesPerson': _product.salesPerson,
+            'phone': _product.phone,
+            'email': _product.email,
+            'notes': _product.notes,
+            'category': _product.category,
+          }
+        : {'key': 'value'};
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Add / Edit Warranty')),
+      appBar: AppBar(title: Text(_pageTitle)),
       body: Column(
         children: [
           Expanded(
@@ -66,7 +89,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
               },
               autoFocusOnValidationFailure: true,
               autovalidateMode: AutovalidateMode.disabled,
-              initialValue: const {},
+              initialValue: _formInitialValues,
               skipDisabled: true,
               child: Stepper(
                 type: StepperType.horizontal,
@@ -114,18 +137,19 @@ class _WarrantyFormState extends State<WarrantyForm> {
                         ),
                         FormBuilderDropdown(
                           name: "warrantyPeriod",
+                          initialValue: _product.warrantyPeriod,
                           decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.timer),
                             labelText: "Warranty Period",
                             hintText: 'Select Warranty Period',
                           ),
-                          // initialValue: 'Other',
-
                           validator: FormBuilderValidators.compose(
                               [FormBuilderValidators.required()]),
                           items: kWarrantyPeriods
                               .map((period) => DropdownMenuItem(
-                                  value: period, child: Text("$period")))
+                                    value: period,
+                                    child: Text(period),
+                                  ))
                               .toList(),
                         ),
                         FormBuilderTextField(
@@ -175,7 +199,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                         FormBuilderDropdown(
                           name: 'category',
                           // focusNode: categoryFocus,
-
                           decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.category),
                             hintText: 'Product Category',
@@ -196,7 +219,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                             hintText: 'Where did you purchase?',
                             labelText: 'Purchased At',
                           ),
-                          initialValue: '',
                           // onEditingComplete: () => FocusScope.of(context)
                           //     .requestFocus(salesPersonFocus),
                         ),
@@ -209,7 +231,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                             hintText: 'Do you remember sales person name?',
                             labelText: 'Sales Person Name',
                           ),
-                          initialValue: '',
                           // onEditingComplete: () =>
                           //     FocusScope.of(context).requestFocus(phoneFocus),
                         ),
@@ -218,7 +239,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           keyboardType: TextInputType.number,
                           // focusNode: phoneFocus,
                           textInputAction: TextInputAction.next,
-                          initialValue: '',
                           decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.phone),
                             hintText:
@@ -232,7 +252,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           name: 'email',
                           // focusNode: emailFocus,
                           textInputAction: TextInputAction.next,
-                          initialValue: '',
                           decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.email),
                             hintText: 'Customer Service E-Mail Address',
@@ -246,7 +265,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           maxLines: null,
                           keyboardType: TextInputType.multiline,
                           name: 'notes',
-                          initialValue: '',
                           textInputAction: TextInputAction.done,
                           decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.note_add),
@@ -312,72 +330,64 @@ class _WarrantyFormState extends State<WarrantyForm> {
             ),
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.saveAndValidate()) {
-                      await EasyLoading.show(
-                        status: 'loading...',
-                        maskType: EasyLoadingMaskType.clear,
-                      );
-                      dynamic formValue = _formKey.currentState!.value;
-                      debugPrint(_formKey.currentState?.value.toString());
-                      _product.name = formValue['name']!.toString().trim();
-                      _product.price = double.parse(formValue['price']); // todo
-                      _product.purchaseDate =
-                          formValue['purchaseDate'] as DateTime;
-                      _product.warrantyPeriod = formValue['warrantyPeriod']!;
-                      _product.purchasedAt = formValue['purchasedAt'];
-                      _product.company = formValue['company'];
-                      _product.salesPerson = formValue['salesPerson'];
-                      _product.phone = formValue['phone'];
-                      _product.email = formValue['email'];
-                      _product.notes = formValue['notes'];
-                      // added later
-                      _product.category = formValue['category'];
-                      // images
-                      _product.productImage = formValue['productImage']?[0];
-                      _product.purchaseCopy = formValue['imgBill']?[0];
-                      _product.warrantyCopy = formValue['imgWarranty']?[0];
-                      _product.additionalImage = formValue['imgAdditional']?[0];
-
-                      inspect(_product);
-                      await _product.save();
-                      Fluttertoast.showToast(
-                        msg: "Saved Product Successfully!",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        fontSize: 16.0,
-                      );
-                      await EasyLoading.dismiss();
-                      setState(() {
-                        Navigator.pop(context, true);
-                      });
-                    } else {
-                      debugPrint(_formKey.currentState?.value.toString());
-                      debugPrint('validation failed');
-                    }
-                  },
-                  child: const Text(
-                    'Submit',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
+              MaterialButton(
+                color: kSecondaryColor,
+                textColor: Colors.white,
+                child: const Text('Reset'),
+                onPressed: () {
+                  _formKey.currentState?.reset();
+                },
               ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () {
-                    _formKey.currentState?.reset();
-                  },
-                  // color: Theme.of(context).colorScheme.secondary,
-                  child: Text(
-                    'Reset',
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary),
-                  ),
-                ),
+              MaterialButton(
+                color: kPrimaryColor,
+                textColor: Colors.white,
+                child: const Text('Submit'),
+                onPressed: () async {
+                  if (_formKey.currentState!.saveAndValidate()) {
+                    await EasyLoading.show(
+                      status: 'loading...',
+                      maskType: EasyLoadingMaskType.clear,
+                    );
+                    dynamic formValue = _formKey.currentState!.value;
+                    debugPrint(_formKey.currentState?.value.toString());
+                    _product.name = formValue['name']!.toString().trim();
+                    _product.price = double.parse(formValue['price']); // todo
+                    _product.purchaseDate =
+                        formValue['purchaseDate'] as DateTime;
+                    _product.warrantyPeriod = formValue['warrantyPeriod']!;
+                    _product.purchasedAt = formValue['purchasedAt'];
+                    _product.company = formValue['company'];
+                    _product.salesPerson = formValue['salesPerson'];
+                    _product.phone = formValue['phone'];
+                    _product.email = formValue['email'];
+                    _product.notes = formValue['notes'];
+                    // added later
+                    _product.category = formValue['category'];
+                    // images
+                    _product.productImage = formValue['productImage']?[0];
+                    _product.purchaseCopy = formValue['imgBill']?[0];
+                    _product.warrantyCopy = formValue['imgWarranty']?[0];
+                    _product.additionalImage = formValue['imgAdditional']?[0];
+
+                    inspect(_product);
+                    await _product.save();
+                    Fluttertoast.showToast(
+                      msg: "Saved Product Successfully!",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      fontSize: 16.0,
+                    );
+                    await EasyLoading.dismiss();
+                    setState(() {
+                      Navigator.pop(context, true);
+                    });
+                  } else {
+                    debugPrint(_formKey.currentState?.value.toString());
+                    debugPrint('validation failed');
+                  }
+                },
               ),
             ],
           ),
