@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
+import 'package:warranty_manager_cloud/screens/warranty_details_screen/image_thumbnail.dart';
 import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 
@@ -149,29 +147,29 @@ class WarrantyDetailsScreen extends StatelessWidget {
                   flex: 1,
                   child: GridView.count(
                     crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
+                    mainAxisSpacing: 20,
                     crossAxisCount: 2,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.teal[100],
-                        child: const Text("He'd have you all unravel at the"),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.teal[200],
-                        child: const Text('Heed not the rabble'),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.teal[300],
-                        child: const Text('Sound of screams but the'),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.teal[400],
-                        child: const Text('Who scream'),
-                      ),
+                      product.isProductImage
+                          ? ImageThumbnailWidget(
+                              image: data!['productImage']!,
+                              imageName: 'Product Image')
+                          : const SizedBox(),
+                      product.isPurchaseCopy
+                          ? ImageThumbnailWidget(
+                              image: data!['purchaseCopy']!,
+                              imageName: 'Purchase Bill')
+                          : const SizedBox(),
+                      product.isWarrantyCopy
+                          ? ImageThumbnailWidget(
+                              image: data!['warrantyCopy']!,
+                              imageName: 'Warranty Copy')
+                          : const SizedBox(),
+                      product.isAdditionalImage
+                          ? ImageThumbnailWidget(
+                              image: data!['additionalImage']!,
+                              imageName: 'Additional Image')
+                          : const SizedBox(),
                     ],
                   ),
                 )
