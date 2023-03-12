@@ -28,6 +28,10 @@ Future<Map<String, Uint8List>> getImages(
     String productId, List<String> imageList) async {
   final Map<String, Uint8List> images = {};
 
+  if (productId.isEmpty) {
+    return images;
+  }
+
   for (String imageName in imageList) {
     final pathReference =
         storageRef.child('${auth.currentUser!.uid}/$productId/$imageName');
