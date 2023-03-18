@@ -40,3 +40,8 @@ Future<Map<String, Uint8List>> getImages(
 
   return images;
 }
+
+Future<void> deleteImage(String filename) async {
+  final imgRef = storageRef.child('${auth.currentUser!.uid}/$filename');
+  await imgRef.delete();
+}

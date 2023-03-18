@@ -1,21 +1,16 @@
 // ref: https://noxasch.tech/blog/flutter-using-sqflite-with-riverpod/
 
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/warranty_list.dart';
 // import 'package:share_plus/share_plus.dart';
-import 'package:warranty_manager_cloud/services/auth.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/services/storage.dart';
-import 'package:form_builder_image_picker/form_builder_image_picker.dart';
-import 'package:form_builder_image_picker/src/form_builder_image_picker.dart';
 
-final COLLECTION_NAME = 'warranty';
+const COLLECTION_NAME = 'warranty';
 
 // remove (?) optional fields in future
 class Product {
@@ -53,18 +48,18 @@ class Product {
   // columns in the database.
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
+      'name': name?.trim(),
       'price': price,
-      'purchaseDate': purchaseDate!.toIso8601String(),
+      'purchaseDate': purchaseDate?.toIso8601String(),
       'warrantyPeriod': warrantyPeriod,
       'warrantyEndDate':
           _generateWarrantyEndDate(purchaseDate!, warrantyPeriod!),
-      'purchasedAt': purchasedAt!.isNotEmpty ? purchasedAt!.trim() : null,
-      'company': company!.isNotEmpty ? company!.trim() : null,
-      'salesPerson': salesPerson!.isNotEmpty ? salesPerson!.trim() : null,
-      'phone': phone!.isNotEmpty ? phone!.trim() : null,
-      'email': email!.isNotEmpty ? email!.trim() : null,
-      'notes': notes!.isNotEmpty ? notes!.trim() : null,
+      'purchasedAt': purchasedAt?.trim(),
+      'company': company?.trim(),
+      'salesPerson': salesPerson?.trim(),
+      'phone': phone?.trim(),
+      'email': email?.trim(),
+      'notes': notes?.trim(),
       // 'productImage': productImage,
       // 'purchaseCopy': purchaseCopy,
       // 'warrantyCopy': warrantyCopy,
@@ -88,25 +83,51 @@ class Product {
       final addResponse = await db.collection(COLLECTION_NAME).add(toMap());
       final productId = addResponse.id;
 
-      if (productImage != null) {
-        isProductImage = true;
+      if (isProductImage) {
         await storeImage('$productId/productImage', File(productImage!.path));
       }
-      if (purchaseCopy != null) {
-        isPurchaseCopy = true;
+      if (isPurchaseCopy) {
         await storeImage('$productId/purchaseCopy', File(purchaseCopy!.path));
       }
-      if (warrantyCopy != null) {
-        isWarrantyCopy = true;
+      if (isWarrantyCopy) {
         await storeImage('$productId/warrantyCopy', File(warrantyCopy!.path));
       }
-      if (additionalImage != null) {
-        isAdditionalImage = true;
+      if (isAdditionalImage) {
         await storeImage(
             '$productId/additionalImage', File(additionalImage!.path));
       }
     } catch (err) {
       debugPrint('Saved to save product - $err');
+      rethrow;
+    }
+  }
+
+  Future<void> update() async {
+    try {
+      isProductImage = productImage != null;
+      isPurchaseCopy = purchaseCopy != null;
+      isWarrantyCopy = warrantyCopy != null;
+      isAdditionalImage = additionalImage != null;
+
+      await db.collection(COLLECTION_NAME).doc(id).update(toMap());
+      final productId = id;
+
+      if (isProductImage && productImage is File) {
+        await storeImage('$productId/productImage', File(productImage!.path));
+      }
+      if (isPurchaseCopy && purchaseCopy is File) {
+        await storeImage('$productId/purchaseCopy', File(purchaseCopy!.path));
+      }
+      if (isWarrantyCopy && warrantyCopy is File) {
+        await storeImage('$productId/warrantyCopy', File(warrantyCopy!.path));
+      }
+      if (isAdditionalImage && additionalImage is File) {
+        await storeImage(
+            '$productId/additionalImage', File(additionalImage!.path));
+      }
+    } catch (err) {
+      debugPrint('Saved to save product - $err');
+      rethrow;
     }
   }
 
@@ -173,61 +194,29 @@ class Product {
     }
   }
 
-  Future<void> delete(String warrantyId) async {
-    await db.collection(COLLECTION_NAME).doc(warrantyId).delete();
-  }
+  Future<void> delete(Product product) async {
+    try {
+      final productId = product.id;
 
-  Future<void> updateProduct() async {
-    // Create a Dog and add it to the dogs table.
-    // final productToUpdate = Product(
-    //   id: this.id,
-    //   name: this.name,
-    //   price: this.price,
-    //   purchaseDate: this.purchaseDate,
-    //   warrantyPeriod: this.warrantyPeriod,
-    //   warrantyEndDate: this.warrantyEndDate,
-    //   purchasedAt: this.purchasedAt,
-    //   company: this.company,
-    //   salesPerson: this.salesPerson,
-    //   phone: this.phone,
-    //   email: this.email,
-    //   notes: this.notes,
-    //   // productImage: this.productImage,
-    //   // purchaseCopy: this.purchaseCopy,
-    //   // warrantyCopy: this.warrantyCopy,
-    //   // additionalImage: this.additionalImage,
-    //   category: this.category,
-    //   productImagePath: this.productImagePath,
-    //   purchaseCopyPath: this.purchaseCopyPath,
-    //   warrantyCopyPath: this.warrantyCopyPath,
-    //   additionalImagePath: this.additionalImagePath,
-    // );
+      if (product.isProductImage) {
+        await deleteImage('$productId/productImage');
+      }
+      if (product.isPurchaseCopy) {
+        await deleteImage('$productId/purchaseCopy');
+      }
+      if (product.isWarrantyCopy) {
+        await deleteImage('$productId/warrantyCopy');
+      }
+      if (product.isAdditionalImage) {
+        await deleteImage('$productId/additionalImage');
+      }
 
-    // // TODO: remove duplicate code
-    // if (productToUpdate.warrantyPeriod.toLowerCase().indexOf('month') > 0) {
-    //   var monthToAdd = int.parse(
-    //       productToUpdate.warrantyPeriod.replaceAll(new RegExp(r'[^0-9]'), ''));
-    //   var tempDate = productToUpdate.purchaseDate;
-    //   productToUpdate.warrantyEndDate = new DateTime(
-    //     tempDate.year,
-    //     tempDate.month + monthToAdd,
-    //     tempDate.day,
-    //     tempDate.hour,
-    //   );
-    // } else if (productToUpdate.warrantyPeriod.toLowerCase().indexOf('year') >
-    //     0) {
-    //   var yearToAdd = int.parse(
-    //       productToUpdate.warrantyPeriod.replaceAll(new RegExp(r'[^0-9]'), ''));
-    //   var tempDate = productToUpdate.purchaseDate;
-    //   productToUpdate.warrantyEndDate = new DateTime(
-    //     tempDate.year + yearToAdd,
-    //     tempDate.month,
-    //     tempDate.day,
-    //     tempDate.hour,
-    //   );
-    // }
+      await db.collection(COLLECTION_NAME).doc(product.id).delete();
+    } catch (err) {
+      debugPrint('Saved to save product - $err');
+      rethrow;
+    }
   }
-  Future<void> deleteProducts() async {}
 
   Future<int> getProductCount() async {
     return db
@@ -237,26 +226,6 @@ class Product {
         .snapshots()
         .length;
   }
-
-  // for blob to path conversion
-  // Future<List<Map<String, Object>>> getProductColumn(
-  //     List<String> columns, int offset) async {
-  //   // Get a reference to the database.
-  //   final db = await database;
-
-  //   return await db.query('product',
-  //       columns: columns, limit: 1, offset: offset, orderBy: 'id');
-  // }
-
-  updateColumn(int id, String column, String val) async {
-    // Get a reference to the database.
-  }
-
-  deleteColumn(int id, String column) async {
-    // Get a reference to the database.
-  }
-
-  // end of -- for blob to path conversion
 }
 
 Uint8List? _fileToBlob(File file) {

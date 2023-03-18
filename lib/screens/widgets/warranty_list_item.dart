@@ -4,7 +4,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/screens/warranty_details_screen/warranty_details.dart';
+import 'package:warranty_manager_cloud/screens/warranty_edit_form.dart';
 import 'package:warranty_manager_cloud/screens/warranty_form.dart';
+import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
 
@@ -101,7 +103,7 @@ class WarrantyListItemWidget extends StatelessWidget {
                   child: PopupMenuButton<List<String>>(
                     onSelected: (List<String> result) async {
                       if (result[0] == 'delete') {
-                        await product.delete(result[1]);
+                        await product.delete(product);
                         Fluttertoast.showToast(
                           msg: "Product Deleted Successfully!",
                           toastLength: Toast.LENGTH_SHORT,
@@ -109,10 +111,26 @@ class WarrantyListItemWidget extends StatelessWidget {
                           fontSize: 16.0,
                         );
                       } else if (result[0] == 'edit') {
-                        Navigator.of(context).push(
+                        List<String> imageList = [];
+                        if (product.isProductImage) {
+                          imageList.add('productImage');
+                        }
+                        if (product.isPurchaseCopy) {
+                          imageList.add('purchaseCopy');
+                        }
+                        if (product.isWarrantyCopy) {
+                          imageList.add('warrantyCopy');
+                        }
+                        if (product.isAdditionalImage) {
+                          imageList.add('additionalImage');
+                        }
+                        final images = await getImages(product.id!, imageList);
+
+                        await Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => WarrantyForm(
+                            builder: (context) => WarrantyEditForm(
                               product: product,
+                              images: images,
                             ),
                           ),
                         );
