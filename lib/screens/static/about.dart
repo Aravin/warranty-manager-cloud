@@ -7,12 +7,7 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        textTheme: const TextTheme(),
-        title: const Text(
-          'Saved Items',
-        ),
-      ),
+      appBar: AppBar(title: const Text('Saved Items')),
       body: Padding(
         padding: kAppEdgeInsets,
         child: Column(

@@ -11,7 +11,7 @@ import 'package:warranty_manager_cloud/screens/static/about.dart';
 import 'package:warranty_manager_cloud/screens/static/privacy_policy.dart';
 import 'package:warranty_manager_cloud/screens/warranty_form.dart';
 
-import 'package:warranty_manager_cloud/screens/temp.dart';
+import 'package:warranty_manager_cloud/screens/warranty_list_tab_screem.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 
@@ -76,8 +76,7 @@ class _HomeState extends State<Home> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (ctxt) => const MyWidget(),
-                  ),
+                      builder: (ctx) => const WarrantyListTabScreen()),
                 );
               },
             ),
