@@ -58,9 +58,7 @@ class WarrantyManagerApp extends StatelessWidget {
       title: 'Warranty Manager',
       theme: ThemeData(
         // useMaterial3: true,
-        primaryColor: kPrimaryColor,
-        secondaryHeaderColor: kSecondaryColor,
-        primarySwatch: kMaterialPrimaryColor,
+        primarySwatch: Colors.deepPurple,
         textTheme: Typography.blackCupertino,
       ),
       home: Scaffold(

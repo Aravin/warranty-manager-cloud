@@ -21,6 +21,18 @@ var kWarrantyPeriods = [
   '10 Year'
 ];
 
-const Color kPrimaryColor = Color(0xFF6E4BD9);
 const MaterialColor kMaterialPrimaryColor = Colors.deepPurple;
-const Color kSecondaryColor = Color(0xFFFC3259);
+
+const Color kTextColor = Color(0xFFFFFFFF);
+
+const Color kPrimaryColor = Color(0xFF673AB7);
+const Color kPrimaryColorLight = Color(0xFFD1C4E9);
+const Color kPrimaryColorDark = Color(0xFF512DA8);
+
+const Color kPrimaryTextColor = Color(0xFF212121);
+
+const Color kAccentColor = Color(0xFF4CAF50);
+
+const Color kSecondaryTextColor = Color(0xFF757575);
+
+const Color kDividerColor = Color(0xFFBDBDBD);

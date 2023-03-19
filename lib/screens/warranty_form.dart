@@ -313,7 +313,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               MaterialButton(
-                color: kSecondaryColor,
+                color: kAccentColor,
                 textColor: Colors.white,
                 child: const Text('Reset'),
                 onPressed: () {

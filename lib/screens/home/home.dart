@@ -40,18 +40,19 @@ class _HomeState extends State<Home> {
         ),
         actions: [
           IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () => {
-                    Navigator.of(context)
-                        .push(
-                          MaterialPageRoute(
-                            builder: (context) => const WarrantyForm(),
-                          ),
-                        )
-                        .then(
-                          (value) => setState(() => {}),
-                        )
-                  }).circle(radius: 40, backgroundColor: kSecondaryColor),
+            icon: const Icon(Icons.add),
+            onPressed: () => {
+              Navigator.of(context)
+                  .push(
+                    MaterialPageRoute(
+                      builder: (context) => const WarrantyForm(),
+                    ),
+                  )
+                  .then(
+                    (value) => setState(() => {}),
+                  )
+            },
+          ).circle(radius: 40, backgroundColor: kAccentColor),
         ],
       ),
       drawer: Drawer(
@@ -192,13 +193,11 @@ class _HomeState extends State<Home> {
                     HighlightCard(
                       cardName: 'In Warranty',
                       count: snapshot.data!.active.length.toString(),
-                      color: kPrimaryColor,
                       icon: Icons.security,
                     ),
                     HighlightCard(
                       cardName: 'Out of Warranty',
                       count: snapshot.data!.expired.length.toString(),
-                      color: kSecondaryColor,
                       icon: Icons.timer_off,
                     ),
                   ],
