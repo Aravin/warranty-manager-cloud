@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/screens/widgets/image_preview.dart';
 
 class ImageThumbnailWidget extends StatelessWidget {
-  final Uint8List image;
+  final String image;
   final String imageName;
   const ImageThumbnailWidget(
       {super.key, required this.image, required this.imageName});
@@ -18,7 +17,7 @@ class ImageThumbnailWidget extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         GestureDetector(
-          child: Image.memory(
+          child: Image.network(
             image,
             width: 150,
             height: 150,

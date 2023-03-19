@@ -53,7 +53,7 @@ class WarrantyDetailsScreen extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: Colors.grey[300],
                                   borderRadius: BorderRadius.circular(7.5)),
-                              child: Image.memory(
+                              child: Image.network(
                                 data!['productImage']!,
                                 width: 100,
                                 height: 100,

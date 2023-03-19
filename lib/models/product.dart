@@ -9,6 +9,7 @@ import 'package:warranty_manager_cloud/models/warranty_list.dart';
 // import 'package:share_plus/share_plus.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/services/storage.dart';
+import 'package:cross_file/cross_file.dart';
 
 const COLLECTION_NAME = 'warranty';
 
@@ -29,7 +30,7 @@ class Product {
   // calculated field
   DateTime? warrantyEndDate;
 
-  // images
+  // images XFile or string
   dynamic productImage;
   dynamic purchaseCopy;
   dynamic warrantyCopy;
@@ -47,30 +48,35 @@ class Product {
   // Convert a Dog into a Map. The keys must correspond to the names of the
   // columns in the database.
   Map<String, dynamic> toMap() {
-    return {
-      'name': name?.trim(),
-      'price': price,
-      'purchaseDate': purchaseDate?.toIso8601String(),
-      'warrantyPeriod': warrantyPeriod,
-      'warrantyEndDate':
-          _generateWarrantyEndDate(purchaseDate!, warrantyPeriod!),
-      'purchasedAt': purchasedAt?.trim(),
-      'company': company?.trim(),
-      'salesPerson': salesPerson?.trim(),
-      'phone': phone?.trim(),
-      'email': email?.trim(),
-      'notes': notes?.trim(),
-      // 'productImage': productImage,
-      // 'purchaseCopy': purchaseCopy,
-      // 'warrantyCopy': warrantyCopy,
-      // 'additionalImage': additionalImage,
-      'isProductImage': isProductImage,
-      'isPurchaseCopy': isPurchaseCopy,
-      'isWarrantyCopy': isWarrantyCopy,
-      'isAdditionalImage': isAdditionalImage,
-      'category': category,
-      'userId': FirebaseAuth.instance.currentUser!.uid.toString(),
-    };
+    try {
+      return {
+        'name': name?.trim(),
+        'price': price,
+        'purchaseDate': purchaseDate?.toIso8601String(),
+        'warrantyPeriod': warrantyPeriod,
+        'warrantyEndDate':
+            _generateWarrantyEndDate(purchaseDate!, warrantyPeriod!),
+        'purchasedAt': purchasedAt?.trim(),
+        'company': company?.trim(),
+        'salesPerson': salesPerson?.trim(),
+        'phone': phone?.trim(),
+        'email': email?.trim(),
+        'notes': notes?.trim(),
+        // 'productImage': productImage,
+        // 'purchaseCopy': purchaseCopy,
+        // 'warrantyCopy': warrantyCopy,
+        // 'additionalImage': additionalImage,
+        'isProductImage': isProductImage,
+        'isPurchaseCopy': isPurchaseCopy,
+        'isWarrantyCopy': isWarrantyCopy,
+        'isAdditionalImage': isAdditionalImage,
+        'category': category,
+        'userId': FirebaseAuth.instance.currentUser!.uid.toString(),
+      };
+    } catch (err) {
+      debugPrint('Saved to save product - $err');
+      rethrow;
+    }
   }
 
   Future<void> save() async {
@@ -112,16 +118,16 @@ class Product {
       await db.collection(COLLECTION_NAME).doc(id).update(toMap());
       final productId = id;
 
-      if (isProductImage && productImage is File) {
+      if (isProductImage && productImage is XFile) {
         await storeImage('$productId/productImage', File(productImage!.path));
       }
-      if (isPurchaseCopy && purchaseCopy is File) {
+      if (isPurchaseCopy && purchaseCopy is XFile) {
         await storeImage('$productId/purchaseCopy', File(purchaseCopy!.path));
       }
-      if (isWarrantyCopy && warrantyCopy is File) {
+      if (isWarrantyCopy && warrantyCopy is XFile) {
         await storeImage('$productId/warrantyCopy', File(warrantyCopy!.path));
       }
-      if (isAdditionalImage && additionalImage is File) {
+      if (isAdditionalImage && additionalImage is XFile) {
         await storeImage(
             '$productId/additionalImage', File(additionalImage!.path));
       }

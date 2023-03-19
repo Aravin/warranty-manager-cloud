@@ -1,8 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class DisplayImage extends StatelessWidget {
-  final Uint8List image;
+  final String image;
   final String imageName;
 
   const DisplayImage({super.key, required this.image, required this.imageName});
@@ -22,7 +21,7 @@ class DisplayImage extends StatelessWidget {
           Expanded(
             flex: 11,
             child: InteractiveViewer(
-              child: Image.memory(
+              child: Image.network(
                 image,
               ),
             ),

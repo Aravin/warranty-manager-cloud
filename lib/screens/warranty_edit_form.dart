@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -8,13 +9,12 @@ import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/shared/categories.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
-import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class WarrantyEditForm extends StatefulWidget {
   final Product product;
-  final Map<String, Uint8List> images;
+  final Map<String, String> images;
 
   const WarrantyEditForm(
       {super.key, required this.product, required this.images});
