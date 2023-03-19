@@ -67,9 +67,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Privacy Policy')),
-      body: Padding(
-          padding: kAppEdgeInsets,
-          child: WebViewWidget(controller: _controller)),
+      body: Center(child: WebViewWidget(controller: _controller)),
     );
   }
 }
