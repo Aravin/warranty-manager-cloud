@@ -24,7 +24,7 @@ class WarrantyListItemWidget extends StatelessWidget {
           padding: kAppEdgeInsets,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
-            color: cardColor ?? Color(0xFFE4E5E9),
+            color: cardColor ?? const Color(0xFFE4E5E9),
           ),
           height: 100,
           child: Row(
@@ -99,6 +99,9 @@ class WarrantyListItemWidget extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: PopupMenuButton<List<String>>(
+                    iconSize: 30,
+                    icon: const Icon(Icons.more_vert, color: kAccentColor),
+                    tooltip: 'Add, Edit or Delete the warranty',
                     onSelected: (List<String> result) async {
                       if (result[0] == 'delete') {
                         await product.delete(product);
