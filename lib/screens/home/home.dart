@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -38,22 +39,6 @@ class _HomeState extends State<Home> {
         title: const Text(
           'Warranty Manager',
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => {
-              Navigator.of(context)
-                  .push(
-                    MaterialPageRoute(
-                      builder: (context) => const WarrantyForm(),
-                    ),
-                  )
-                  .then(
-                    (value) => setState(() => {}),
-                  )
-            },
-          ).circle(radius: 40, backgroundColor: kAccentColor),
-        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -208,6 +193,18 @@ class _HomeState extends State<Home> {
           }
           return const SizedBox();
         },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const WarrantyForm(),
+            ),
+          );
+        },
+        label: const Text('Add new'),
+        icon: const Icon(Icons.new_label),
+        backgroundColor: kPrimaryColor,
       ),
     );
   }
