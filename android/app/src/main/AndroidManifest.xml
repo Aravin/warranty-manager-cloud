@@ -5,7 +5,7 @@
     </queries>
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="warranty_manager_cloud"
+        android:label="Warranty Manager Cloud"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
