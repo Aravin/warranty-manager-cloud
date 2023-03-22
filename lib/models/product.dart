@@ -177,8 +177,9 @@ class Product {
             productObject.active.add(product);
           }
 
-          if (product.warrantyEndDate!
-              .isBefore(DateTime.now().add(const Duration(days: 28)))) {
+          if (product.warrantyEndDate!.isAfter(DateTime.now()) &&
+              product.warrantyEndDate!
+                  .isBefore(DateTime.now().add(const Duration(days: 28)))) {
             productObject.expiring.add(product);
           }
 
@@ -230,13 +231,6 @@ class Product {
         .snapshots()
         .length;
   }
-}
-
-Uint8List? _fileToBlob(File file) {
-  if (file != null) {
-    return file.readAsBytesSync();
-  }
-  return null;
 }
 
 String _generateWarrantyEndDate(DateTime purchaseDate, String warrantyPeriod) {
