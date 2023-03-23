@@ -104,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
               CircleAvatar(
                 radius: 40,
                 child: Text(
-                  user.email.toString().toUpperCase()[0],
+                  user.email!.toString().toUpperCase()[0],
                   style: const TextStyle(fontSize: 48),
                 ),
               ),
@@ -113,14 +113,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: ListView(
                   padding: const EdgeInsets.all(8),
                   children: <Widget>[
-                    ListTile(
-                      title: const Text('Email',
-                          style: TextStyle(
-                            fontSize: 18,
-                          )),
-                      subtitle: Text(user.email!),
-                    ),
-                    user.displayName != null
+                    user.email != null && user.email != ''
+                        ? ListTile(
+                            title: const Text('Email',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                )),
+                            subtitle: Text(user.email!),
+                          )
+                        : SizedBox(),
+                    user.displayName != null && user.displayName != ''
                         ? ListTile(
                             title: const Text('Name',
                                 style: TextStyle(
@@ -129,7 +131,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             subtitle: Text(user.displayName!),
                           )
                         : SizedBox(),
-                    user.phoneNumber != null
+                    user.phoneNumber != null && user.phoneNumber != ''
                         ? ListTile(
                             title: const Text('Phone',
                                 style: TextStyle(
@@ -138,9 +140,35 @@ class _ProfilePageState extends State<ProfilePage> {
                             subtitle: Text(user.phoneNumber!),
                           )
                         : SizedBox(),
+                    user.metadata.creationTime != null
+                        ? ListTile(
+                            title: const Text('Created on',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                )),
+                            subtitle:
+                                Text(user.metadata.creationTime.toString()),
+                          )
+                        : SizedBox(),
+                    user.metadata.lastSignInTime != null
+                        ? ListTile(
+                            title: const Text('Last sign in',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                )),
+                            subtitle:
+                                Text(user.metadata.lastSignInTime.toString()),
+                          )
+                        : SizedBox(),
                   ],
                 ),
               ),
+              Container(
+                child: const Text(
+                  'The data displayed here is only readonly. we don\'t store any of your data other than warranty information. These are the data you provided during sign-in/register.',
+                  style: TextStyle(fontSize: 12, color: kSecondaryTextColor),
+                ),
+              )
             ],
           ),
         ),
