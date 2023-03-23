@@ -20,8 +20,8 @@ class WarrantyListTabWidget extends StatelessWidget {
               length: 3,
               child: Scaffold(
                 appBar: TabBar(
-                  indicatorColor: kAccentColor,
-                  labelColor: kPrimaryColor,
+                  indicatorColor: kPrimaryColor,
+                  labelColor: kAccentColor,
                   tabs: [
                     Tab(
                       child: Text('ACTIVE (${warrantyList.active.length})'),

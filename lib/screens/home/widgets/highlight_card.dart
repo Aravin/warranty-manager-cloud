@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:warranty_manager_cloud/screens/warranty_list_tab_screem.dart';
+import 'package:warranty_manager_cloud/screens/warranty_list_tab_screen.dart';
 
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:velocity_x/velocity_x.dart';

@@ -12,7 +12,7 @@ import 'package:warranty_manager_cloud/screens/static/about.dart';
 import 'package:warranty_manager_cloud/screens/static/privacy_policy.dart';
 import 'package:warranty_manager_cloud/screens/warranty_form.dart';
 
-import 'package:warranty_manager_cloud/screens/warranty_list_tab_screem.dart';
+import 'package:warranty_manager_cloud/screens/warranty_list_tab_screen.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 
