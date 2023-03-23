@@ -111,41 +111,112 @@ class WarrantyDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       ListTile(
-                        title: Text('Warranty period'.toUpperCase()),
-                        subtitle: Text(product.warrantyPeriod!),
+                        title: Text(
+                          'Warranty period'.toUpperCase(),
+                          style: const TextStyle(color: kPrimaryColor),
+                        ),
+                        subtitle: Text(
+                          product.warrantyPeriod!,
+                          style: const TextStyle(
+                              color: kSecondaryTextColor,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                       ListTile(
-                        title: Text('Warranty End Date'.toUpperCase()),
-                        subtitle: Text(DateFormat.yMMMd()
-                            .format(product.warrantyEndDate!)),
+                        title: Text(
+                          'Warranty End Date'.toUpperCase(),
+                          style: const TextStyle(color: kPrimaryColor),
+                        ),
+                        subtitle: Text(
+                          DateFormat.yMMMd().format(product.warrantyEndDate!),
+                          style: const TextStyle(
+                              color: kSecondaryTextColor,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                       ListTile(
-                        title: Text('Category'.toUpperCase()),
-                        subtitle: Text(product.category!),
+                        title: Text(
+                          'Category'.toUpperCase(),
+                          style: const TextStyle(color: kPrimaryColor),
+                        ),
+                        subtitle: Text(
+                          product.category!,
+                          style: const TextStyle(
+                              color: kSecondaryTextColor,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                       ListTile(
-                        title: Text('Amount'.toUpperCase()),
-                        subtitle: Text(product.price!.toString()),
+                        title: Text(
+                          'Amount'.toUpperCase(),
+                          style: const TextStyle(color: kPrimaryColor),
+                        ),
+                        subtitle: Text(
+                          product.price!.toString(),
+                          style: const TextStyle(
+                              color: kSecondaryTextColor,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                       ListTile(
-                        title: Text('Purchase at'.toUpperCase()),
-                        subtitle: Text(product.purchasedAt ?? '-'),
+                        title: Text(
+                          'Purchase at'.toUpperCase(),
+                          style: const TextStyle(color: kPrimaryColor),
+                        ),
+                        subtitle: Text(
+                          product.purchasedAt ?? '-',
+                          style: const TextStyle(
+                              color: kSecondaryTextColor,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                       ListTile(
-                        title: Text('Contact Person Name'.toUpperCase()),
-                        subtitle: Text(product.salesPerson ?? '-'),
+                        title: Text(
+                          'Contact Person Name'.toUpperCase(),
+                          style: const TextStyle(color: kPrimaryColor),
+                        ),
+                        subtitle: Text(
+                          product.salesPerson ?? '-',
+                          style: const TextStyle(
+                              color: kSecondaryTextColor,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                       ListTile(
-                        title: Text('Support Phone Number'.toUpperCase()),
-                        subtitle: Text(product.phone ?? '-'),
+                        title: Text(
+                          'Support Phone Number'.toUpperCase(),
+                          style: const TextStyle(color: kPrimaryColor),
+                        ),
+                        subtitle: Text(
+                          product.phone ?? '-',
+                          style: const TextStyle(
+                              color: kSecondaryTextColor,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                       ListTile(
-                        title: Text('Support Email'.toUpperCase()),
-                        subtitle: Text(product.email ?? '-'),
+                        title: Text(
+                          'Support Email'.toUpperCase(),
+                          style: const TextStyle(color: kPrimaryColor),
+                        ),
+                        subtitle: Text(
+                          product.email ?? '-',
+                          style: const TextStyle(
+                              color: kSecondaryTextColor,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                       ListTile(
-                        title: Text('Quick Note'.toUpperCase()),
-                        subtitle: Text(product.notes ?? '-'),
+                        title: Text(
+                          'Quick Note'.toUpperCase(),
+                          style: const TextStyle(color: kPrimaryColor),
+                        ),
+                        subtitle: Text(
+                          product.notes ?? '-',
+                          style: const TextStyle(
+                              color: kSecondaryTextColor,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ],
                   ),
