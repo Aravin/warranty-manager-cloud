@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:warranty_manager_cloud/screens/warranty_list_tab_screem.dart';
 
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -18,40 +19,47 @@ class HighlightCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
-        margin: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-            color: kPrimaryColorLight,
-            borderRadius: BorderRadius.circular(7.5)),
-        child: Padding(
+      child: GestureDetector(
+        child: Container(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Icon(
-                icon,
-                color: kPrimaryColor,
-              ),
-              const SizedBox(height: 5),
-              Text(
-                cardName.capitalized,
-                style: const TextStyle(
+          margin: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+              color: kPrimaryColorLight,
+              borderRadius: BorderRadius.circular(7.5)),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Icon(
+                  icon,
                   color: kPrimaryColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15.0,
                 ),
-              ),
-              const SizedBox(height: 7.5),
-              Text(
-                count,
-                style: const TextStyle(
-                  color: kPrimaryColor,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 25.0,
+                const SizedBox(height: 5),
+                Text(
+                  cardName.capitalized,
+                  style: const TextStyle(
+                    color: kPrimaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0,
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 7.5),
+                Text(
+                  count,
+                  style: const TextStyle(
+                    color: kPrimaryColor,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 25.0,
+                  ),
+                ),
+              ],
+            ),
           ),
+        ),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const WarrantyListTabScreen()),
         ),
       ),
     );
