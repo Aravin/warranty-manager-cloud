@@ -44,14 +44,64 @@ class _HomeState extends State<Home> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
+            DrawerHeader(
+              decoration: const BoxDecoration(
                 color: kPrimaryColor,
               ),
-              child: Text(
-                'Menu',
-                style: TextStyle(color: Colors.white, fontSize: 25),
-              ),
+              child: FirebaseAuth.instance.currentUser!.isAnonymous
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        CircleAvatar(
+                          backgroundColor: kAccentColor,
+                          foregroundColor: Colors.white,
+                          radius: 36,
+                          child: Text(
+                            'A',
+                            style: TextStyle(fontSize: 48),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Anonymous User',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          'Please create an account with email address to sync your warranty!',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: kAccentColor,
+                          foregroundColor: Colors.white,
+                          radius: 36,
+                          child: Text(
+                            FirebaseAuth.instance.currentUser!.email
+                                .toString()
+                                .toUpperCase()[0],
+                            style: const TextStyle(fontSize: 48),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          FirebaseAuth.instance.currentUser!.displayName
+                              .toString()
+                              .toUpperCase(),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          FirebaseAuth.instance.currentUser!.email.toString(),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
             ),
             ListTile(
               title: const Text('Saved Items'),
@@ -102,19 +152,21 @@ class _HomeState extends State<Home> {
                 );
               },
             ),
-            ListTile(
-              title: const Text('Profile'),
-              leading: const Icon(Icons.account_box),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (ctx) => const ProfilePage(),
-                  ),
-                );
-              },
-            ),
+            !(FirebaseAuth.instance.currentUser!.isAnonymous)
+                ? ListTile(
+                    title: const Text('Profile'),
+                    leading: const Icon(Icons.account_box),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) => const ProfilePage(),
+                        ),
+                      );
+                    },
+                  )
+                : const SizedBox(),
             ListTile(
               title: const Text('Logout'),
               leading: const Icon(Icons.logout),

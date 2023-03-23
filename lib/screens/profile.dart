@@ -51,8 +51,6 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     });
 
-    log(user.toString());
-
     super.initState();
   }
 
