@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/warranty_list.dart';
+import 'package:warranty_manager_cloud/screens/warranty_form.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_item.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -73,6 +74,18 @@ class WarrantyListTabWidget extends StatelessWidget {
                         : const Center(child: Text('No expired warranty')),
                   ],
                 ).py8(),
+                floatingActionButton: FloatingActionButton.extended(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const WarrantyForm(),
+                      ),
+                    );
+                  },
+                  label: const Text('Add new'),
+                  icon: const Icon(Icons.new_label),
+                  backgroundColor: kAccentColor,
+                ),
               ),
             ),
           )

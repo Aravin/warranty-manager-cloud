@@ -249,18 +249,6 @@ class _HomeState extends State<Home> {
           return const SizedBox();
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const WarrantyForm(),
-            ),
-          );
-        },
-        label: const Text('Add new'),
-        icon: const Icon(Icons.new_label),
-        backgroundColor: kAccentColor,
-      ),
     );
   }
 
