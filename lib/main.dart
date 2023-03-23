@@ -55,6 +55,7 @@ class WarrantyManagerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Warranty Manager',
       theme: ThemeData(
         // useMaterial3: true,
