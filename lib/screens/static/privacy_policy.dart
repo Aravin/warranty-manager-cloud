@@ -11,6 +11,7 @@ class PrivacyPolicyScreen extends StatefulWidget {
 class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
   late final WebViewController _controller;
   final privacyPolicyUrl = 'https://www.epix.io/terms-policy';
+  late bool pageLoading = true;
 
   @override
   void initState() {
@@ -39,6 +40,8 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
           onNavigationRequest: (NavigationRequest request) {
             return NavigationDecision.prevent;
           },
+          onProgress: (url) => pageLoading = true,
+          onPageFinished: (url) => pageLoading = false,
         ),
       )
       ..addJavaScriptChannel(
@@ -66,7 +69,11 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Privacy Policy')),
-      body: Center(child: WebViewWidget(controller: _controller)),
+      body: Center(
+        child: pageLoading
+            ? const Text('Page Loading...')
+            : WebViewWidget(controller: _controller),
+      ),
     );
   }
 }
