@@ -29,7 +29,7 @@ class WarrantyListItemWidget extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             // border: Border.all(color: cardColor),
-            color: Colors.grey.shade100,
+            color: Colors.white,
             boxShadow: [
               BoxShadow(
                 color: cardColor,
@@ -98,7 +98,7 @@ class WarrantyListItemWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
+                        children: [
                           Text(
                             DateFormat.yMMMd().format(product.purchaseDate!),
                             style: const TextStyle(
