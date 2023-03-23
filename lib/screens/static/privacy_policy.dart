@@ -33,6 +33,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
 
     controller
       ..setJavaScriptMode(JavaScriptMode.disabled)
+      ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
           onNavigationRequest: (NavigationRequest request) {
