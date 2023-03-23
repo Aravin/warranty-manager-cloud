@@ -235,7 +235,7 @@ class _HomeState extends State<Home> {
                       icon: Icons.timelapse,
                     ),
                     HighlightCard(
-                      cardName: 'Out of Warranty',
+                      cardName: 'Expired',
                       count: snapshot.data!.expired.length.toString(),
                       icon: Icons.dangerous,
                     ),
