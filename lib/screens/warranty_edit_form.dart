@@ -97,6 +97,29 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                 onStepContinue: next,
                 onStepTapped: (step) => goTo(step),
                 onStepCancel: cancel,
+                controlsBuilder: ((context, details) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        currentStep > 0
+                            ? OutlinedButton(
+                                onPressed: () => cancel(),
+                                child: const Text('Back'),
+                              )
+                            : const SizedBox(),
+                        currentStep < 2
+                            ? OutlinedButton(
+                                onPressed: () => next(),
+                                child: const Text('Next'),
+                              )
+                            : const SizedBox(),
+                      ],
+                    ),
+                  );
+                }),
                 steps: [
                   Step(
                     isActive: currentStep == 0 ? true : false,
