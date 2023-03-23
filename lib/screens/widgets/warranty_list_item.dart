@@ -3,7 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/screens/warranty_details_screen/warranty_details.dart';
 import 'package:warranty_manager_cloud/screens/warranty_edit_form.dart';
-import 'package:warranty_manager_cloud/screens/warranty_form.dart';
 import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
@@ -114,12 +113,42 @@ class WarrantyListItemWidget extends StatelessWidget {
                     tooltip: 'Add, Edit or Delete the warranty',
                     onSelected: (List<String> result) async {
                       if (result[0] == 'delete') {
-                        await product.delete(product);
-                        Fluttertoast.showToast(
-                          msg: "Product Deleted Successfully!",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.CENTER,
-                          fontSize: 16.0,
+                        showDialog<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Delete ${product.name}'),
+                              content:
+                                  const Text('Are you sure want to delete?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    textStyle:
+                                        Theme.of(context).textTheme.labelLarge,
+                                  ),
+                                  child: const Text('Yes, delete!'),
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+                                    await product.delete(product);
+                                    Fluttertoast.showToast(
+                                      msg: "Product Deleted Successfully!",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      fontSize: 16.0,
+                                    );
+                                  },
+                                ),
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    textStyle:
+                                        Theme.of(context).textTheme.labelLarge,
+                                  ),
+                                  child: const Text('Cancel'),
+                                  onPressed: () => Navigator.pop(context),
+                                ),
+                              ],
+                            );
+                          },
                         );
                       } else if (result[0] == 'edit') {
                         List<String> imageList = [];
