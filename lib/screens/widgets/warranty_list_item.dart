@@ -33,17 +33,17 @@ class WarrantyListItemWidget extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: cardColor,
-                blurRadius: 4.0,
-                spreadRadius: 1.0,
-                offset: const Offset(0, 4), // shadow direction: bottom right
+                blurRadius: 1.0,
+                spreadRadius: 0.5,
+                offset: const Offset(0, 1), // shadow direction: bottom right
               ),
               BoxShadow(
                 color: cardShadow,
-                offset: const Offset(-4, 0),
+                offset: const Offset(-1, 0),
               ),
               BoxShadow(
                 color: cardShadow,
-                offset: const Offset(4, 0),
+                offset: const Offset(1, 0),
               )
             ],
           ),
