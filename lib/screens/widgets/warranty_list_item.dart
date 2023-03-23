@@ -23,14 +23,23 @@ class WarrantyListItemWidget extends StatelessWidget {
         child: Container(
           padding: kAppEdgeInsets,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: cardColor ?? const Color(0xFFE4E5E9),
+            borderRadius: BorderRadius.circular(5.0),
+            border: Border.all(color: cardColor),
+            color: Colors.grey.shade100,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade400,
+                blurRadius: 1.0,
+                spreadRadius: 0.0,
+                offset: Offset(2.0, 2.0), // shadow direction: bottom right
+              )
+            ],
           ),
           height: 100,
           child: Row(
             children: <Widget>[
               Expanded(
-                flex: 11,
+                flex: 10,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -94,6 +103,7 @@ class WarrantyListItemWidget extends StatelessWidget {
                   ],
                 ),
               ),
+              const Expanded(flex: 1, child: SizedBox()),
               Expanded(
                 flex: 1,
                 child: Align(
