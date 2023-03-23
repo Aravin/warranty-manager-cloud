@@ -39,7 +39,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.info),
-            label: 'Home',
+            label: 'Product Details',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.attach_file),
