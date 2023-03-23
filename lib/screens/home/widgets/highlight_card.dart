@@ -28,8 +28,8 @@ class HighlightCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              const Icon(
-                Icons.security,
+              Icon(
+                icon,
                 color: kPrimaryColor,
               ),
               const SizedBox(height: 5),
