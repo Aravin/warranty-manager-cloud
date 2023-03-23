@@ -3,6 +3,7 @@ import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/screens/warranty_details_screen/image_thumbnail.dart';
 import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
+import 'package:intl/intl.dart';
 
 class WarrantyDetailsScreen extends StatelessWidget {
   final Product product;
@@ -19,9 +20,7 @@ class WarrantyDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Product Details',
-        ),
+        title: const Text('Product Details'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -51,8 +50,9 @@ class WarrantyDetailsScreen extends StatelessWidget {
                           ? Container(
                               padding: kAppPaddingSmall,
                               decoration: BoxDecoration(
-                                  color: Colors.grey[300],
-                                  borderRadius: BorderRadius.circular(7.5)),
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
                               child: Image.network(
                                 data!['productImage']!,
                                 width: 100,
@@ -62,8 +62,8 @@ class WarrantyDetailsScreen extends StatelessWidget {
                           : Container(
                               padding: kAppPaddingSmall,
                               decoration: BoxDecoration(
-                                  color: Colors.grey[300],
-                                  borderRadius: BorderRadius.circular(7.5)),
+                                  color: Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(2)),
                               child: Image.asset('assets/noimage.jpg'),
                             ),
                     ),
@@ -97,11 +97,18 @@ class WarrantyDetailsScreen extends StatelessWidget {
                 Expanded(
                   flex: 2,
                   child: ListView(
-                    padding: kAppPaddingSmall,
                     children: [
                       ListTile(
-                        title: Text('Purchase date'.toUpperCase()),
-                        subtitle: Text(product.purchaseDate!.toIso8601String()),
+                        title: Text(
+                          'Purchase date'.toUpperCase(),
+                          style: const TextStyle(color: kPrimaryColor),
+                        ),
+                        subtitle: Text(
+                          DateFormat.yMMMd().format(product.purchaseDate!),
+                          style: const TextStyle(
+                              color: kSecondaryTextColor,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                       ListTile(
                         title: Text('Warranty period'.toUpperCase()),
@@ -109,8 +116,8 @@ class WarrantyDetailsScreen extends StatelessWidget {
                       ),
                       ListTile(
                         title: Text('Warranty End Date'.toUpperCase()),
-                        subtitle:
-                            Text(product.warrantyEndDate!.toIso8601String()),
+                        subtitle: Text(DateFormat.yMMMd()
+                            .format(product.warrantyEndDate!)),
                       ),
                       ListTile(
                         title: Text('Category'.toUpperCase()),
