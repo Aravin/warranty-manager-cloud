@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/warranty_list.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_item.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class WarrantyListTabWidget extends StatelessWidget {
   final WarrantyList warrantyList;
@@ -41,7 +42,8 @@ class WarrantyListTabWidget extends StatelessWidget {
                             itemBuilder: ((context, index) =>
                                 WarrantyListItemWidget(
                                   product: warrantyList.active[index],
-                                  cardColor: Colors.green.shade100,
+                                  cardColor: Colors.green.shade200,
+                                  cardShadow: Colors.green.shade100,
                                 )),
                           )
                         : const Center(child: Text('No active warranty')),
@@ -52,7 +54,8 @@ class WarrantyListTabWidget extends StatelessWidget {
                             itemBuilder: ((context, index) =>
                                 WarrantyListItemWidget(
                                   product: warrantyList.expiring[index],
-                                  cardColor: Colors.orange.shade100,
+                                  cardColor: Colors.orange.shade200,
+                                  cardShadow: Colors.orange.shade100,
                                 )),
                           )
                         : const Center(child: Text('No expiring warranty')),
@@ -63,12 +66,13 @@ class WarrantyListTabWidget extends StatelessWidget {
                             itemBuilder: ((context, index) =>
                                 WarrantyListItemWidget(
                                   product: warrantyList.expired[index],
-                                  cardColor: Colors.red.shade100,
+                                  cardColor: Colors.red.shade200,
+                                  cardShadow: Colors.red.shade100,
                                 )),
                           )
                         : const Center(child: Text('No expired warranty')),
                   ],
-                ),
+                ).py8(),
               ),
             ),
           )

@@ -21,11 +21,11 @@ class HighlightCard extends StatelessWidget {
     return Expanded(
       child: GestureDetector(
         child: Container(
-          padding: const EdgeInsets.all(8.0),
-          margin: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(4.0),
+          margin: const EdgeInsets.all(6.0),
           decoration: BoxDecoration(
               color: kPrimaryColorLight,
-              borderRadius: BorderRadius.circular(7.5)),
+              borderRadius: BorderRadius.circular(5)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -40,7 +40,7 @@ class HighlightCard extends StatelessWidget {
                   style: const TextStyle(
                     color: kPrimaryColor,
                     fontWeight: FontWeight.bold,
-                    fontSize: 15.0,
+                    fontSize: 12.5,
                   ),
                 ),
                 const SizedBox(height: 7.5),

@@ -218,8 +218,6 @@ class _HomeState extends State<Home> {
         stream: Product().list(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            debugPrint(snapshot.toString());
-
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -232,13 +230,18 @@ class _HomeState extends State<Home> {
                       icon: Icons.security,
                     ),
                     HighlightCard(
+                      cardName: 'Expiring soon',
+                      count: snapshot.data!.expiring.length.toString(),
+                      icon: Icons.timelapse,
+                    ),
+                    HighlightCard(
                       cardName: 'Out of Warranty',
                       count: snapshot.data!.expired.length.toString(),
-                      icon: Icons.timer_off,
+                      icon: Icons.dangerous,
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 WarrantyListTabWidget(warrantyList: snapshot.data!),
               ],
             );
@@ -256,7 +259,7 @@ class _HomeState extends State<Home> {
         },
         label: const Text('Add new'),
         icon: const Icon(Icons.new_label),
-        backgroundColor: kPrimaryColor,
+        backgroundColor: kAccentColor,
       ),
     );
   }

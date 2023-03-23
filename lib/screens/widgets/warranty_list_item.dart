@@ -6,13 +6,18 @@ import 'package:warranty_manager_cloud/screens/warranty_edit_form.dart';
 import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class WarrantyListItemWidget extends StatelessWidget {
   final Product product;
   final Color cardColor;
+  final Color cardShadow;
 
   const WarrantyListItemWidget(
-      {super.key, required this.product, required this.cardColor});
+      {super.key,
+      required this.product,
+      required this.cardColor,
+      required this.cardShadow});
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +28,22 @@ class WarrantyListItemWidget extends StatelessWidget {
           padding: kAppEdgeInsets,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
-            border: Border.all(color: cardColor),
+            // border: Border.all(color: cardColor),
             color: Colors.grey.shade100,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.shade400,
-                blurRadius: 1.0,
-                spreadRadius: 0.0,
-                offset: Offset(2.0, 2.0), // shadow direction: bottom right
+                color: cardColor,
+                blurRadius: 4.0,
+                spreadRadius: 1.0,
+                offset: const Offset(0, 4), // shadow direction: bottom right
+              ),
+              BoxShadow(
+                color: cardShadow,
+                offset: const Offset(-4, 0),
+              ),
+              BoxShadow(
+                color: cardShadow,
+                offset: const Offset(4, 0),
               )
             ],
           ),
@@ -61,44 +74,46 @@ class WarrantyListItemWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.max,
-                      children: const <Widget>[
-                        Text(
-                          'Purchase Date',
-                          style: TextStyle(
-                            fontSize: 12,
+                    Column(children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          const Text(
+                            'Purchase Date',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ).text.underline.make(),
+                          const Text(
+                            'Valid Till',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ).text.underline.make(),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Text(
+                            DateFormat.yMMMd().format(product.purchaseDate!),
+                            style: const TextStyle(
+                              fontSize: 15,
+                            ),
                           ),
-                        ),
-                        Text(
-                          'Valid Till',
-                          style: TextStyle(
-                            fontSize: 12,
+                          Text(
+                            DateFormat.yMMMd().format(product.warrantyEndDate!),
+                            style: const TextStyle(
+                              fontSize: 15,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Text(
-                          DateFormat.yMMMd().format(product.purchaseDate!),
-                          style: const TextStyle(
-                            fontSize: 15,
-                          ),
-                        ),
-                        Text(
-                          DateFormat.yMMMd().format(product.warrantyEndDate!),
-                          style: const TextStyle(
-                            fontSize: 15,
-                          ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                    ])
                   ],
                 ),
               ),
