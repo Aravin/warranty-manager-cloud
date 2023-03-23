@@ -40,8 +40,12 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
           onNavigationRequest: (NavigationRequest request) {
             return NavigationDecision.prevent;
           },
-          onProgress: (url) => pageLoading = true,
-          onPageFinished: (url) => pageLoading = false,
+          onProgress: (url) => setState(() {
+            pageLoading = true;
+          }),
+          onPageFinished: (url) => setState(() {
+            pageLoading = false;
+          }),
         ),
       )
       ..addJavaScriptChannel(
