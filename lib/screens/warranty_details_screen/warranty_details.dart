@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/screens/warranty_details_screen/image_thumbnail.dart';
-import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 
 class WarrantyDetailsScreen extends StatefulWidget {
-  final Product product;
-  const WarrantyDetailsScreen({super.key, required this.product});
+  final String productId;
+  const WarrantyDetailsScreen({super.key, required this.productId});
 
   @override
   State<WarrantyDetailsScreen> createState() => _WarrantyDetailsScreenState();
@@ -25,13 +24,6 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-// get only required image
-    List<String> imageList = [];
-    widget.product.isProductImage ? imageList.add('productImage') : null;
-    widget.product.isPurchaseCopy ? imageList.add('purchaseCopy') : null;
-    widget.product.isWarrantyCopy ? imageList.add('warrantyCopy') : null;
-    widget.product.isAdditionalImage ? imageList.add('additionalImage') : null;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Details'),
@@ -59,7 +51,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
         child: const Icon(Icons.keyboard_backspace),
       ),
       body: FutureBuilder(
-        future: getImages(widget.product.id!, imageList),
+        future: Product().getById(widget.productId),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return appLoader;
@@ -76,7 +68,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                   children: [
                     Expanded(
                       flex: 4,
-                      child: widget.product.isProductImage
+                      child: data?.images['productImage'] != null
                           ? Container(
                               padding: kAppPaddingSmall,
                               decoration: BoxDecoration(
@@ -84,7 +76,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Image.network(
-                                data!['productImage']!,
+                                data!.images['productImage']!,
                                 width: 100,
                                 height: 100,
                               ),
@@ -105,7 +97,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.product.name!,
+                            data!.product.name!,
                             style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -113,7 +105,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                           ),
                           const SizedBox(height: 7.5),
                           Text(
-                            widget.product.company!,
+                            data.product.company!,
                             style: const TextStyle(
                               fontSize: 20,
                             ),
@@ -136,7 +128,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                               ),
                               subtitle: Text(
                                 DateFormat.yMMMd()
-                                    .format(widget.product.purchaseDate!),
+                                    .format(data.product.purchaseDate!),
                                 style: const TextStyle(
                                     color: kSecondaryTextColor,
                                     fontWeight: FontWeight.bold),
@@ -148,7 +140,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
-                                widget.product.warrantyPeriod!,
+                                data.product.warrantyPeriod!,
                                 style: const TextStyle(
                                     color: kSecondaryTextColor,
                                     fontWeight: FontWeight.bold),
@@ -161,7 +153,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                               ),
                               subtitle: Text(
                                 DateFormat.yMMMd()
-                                    .format(widget.product.warrantyEndDate!),
+                                    .format(data.product.warrantyEndDate!),
                                 style: const TextStyle(
                                     color: kSecondaryTextColor,
                                     fontWeight: FontWeight.bold),
@@ -173,7 +165,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
-                                widget.product.category!,
+                                data.product.category!,
                                 style: const TextStyle(
                                     color: kSecondaryTextColor,
                                     fontWeight: FontWeight.bold),
@@ -185,7 +177,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
-                                widget.product.price!.toString(),
+                                data.product.price!.toString(),
                                 style: const TextStyle(
                                     color: kSecondaryTextColor,
                                     fontWeight: FontWeight.bold),
@@ -197,7 +189,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
-                                widget.product.purchasedAt ?? '-',
+                                data.product.purchasedAt ?? '-',
                                 style: const TextStyle(
                                     color: kSecondaryTextColor,
                                     fontWeight: FontWeight.bold),
@@ -209,7 +201,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
-                                widget.product.salesPerson ?? '-',
+                                data.product.salesPerson ?? '-',
                                 style: const TextStyle(
                                     color: kSecondaryTextColor,
                                     fontWeight: FontWeight.bold),
@@ -221,7 +213,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
-                                widget.product.phone ?? '-',
+                                data.product.phone ?? '-',
                                 style: const TextStyle(
                                     color: kSecondaryTextColor,
                                     fontWeight: FontWeight.bold),
@@ -233,7 +225,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
-                                widget.product.email ?? '-',
+                                data.product.email ?? '-',
                                 style: const TextStyle(
                                     color: kSecondaryTextColor,
                                     fontWeight: FontWeight.bold),
@@ -245,7 +237,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
-                                widget.product.notes ?? '-',
+                                data.product.notes ?? '-',
                                 style: const TextStyle(
                                     color: kSecondaryTextColor,
                                     fontWeight: FontWeight.bold),
@@ -261,24 +253,24 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                           mainAxisSpacing: 20,
                           crossAxisCount: 2,
                           children: [
-                            widget.product.isProductImage
+                            data.product.isProductImage
                                 ? ImageThumbnailWidget(
-                                    image: data!['productImage']!,
+                                    image: data.images['productImage']!,
                                     imageName: 'Product Image')
                                 : const SizedBox(),
-                            widget.product.isPurchaseCopy
+                            data.product.isPurchaseCopy
                                 ? ImageThumbnailWidget(
-                                    image: data!['purchaseCopy']!,
+                                    image: data.images['purchaseCopy']!,
                                     imageName: 'Purchase Bill')
                                 : const SizedBox(),
-                            widget.product.isWarrantyCopy
+                            data.product.isWarrantyCopy
                                 ? ImageThumbnailWidget(
-                                    image: data!['warrantyCopy']!,
+                                    image: data.images['warrantyCopy']!,
                                     imageName: 'Warranty Copy')
                                 : const SizedBox(),
-                            widget.product.isAdditionalImage
+                            data.product.isAdditionalImage
                                 ? ImageThumbnailWidget(
-                                    image: data!['additionalImage']!,
+                                    image: data.images['additionalImage']!,
                                     imageName: 'Additional Image')
                                 : const SizedBox(),
                           ],

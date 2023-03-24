@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/warranty_list.dart';
+import 'package:warranty_manager_cloud/models/warranty_with_images.dart';
 // import 'package:share_plus/share_plus.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/services/storage.dart';
@@ -159,14 +160,23 @@ class Product {
     }
   }
 
-  Future<Product> getById(String productId) async {
+  Future<WarrantyWithImages> getById(String productId) async {
     try {
       Product product = Product();
       product.id = productId;
 
       final doc = await db.collection(COLLECTION_NAME).doc(productId).get();
       product = firebaseToMap(product, doc.data()!);
-      return product;
+
+      List<String> imageList = [];
+      product.isProductImage ? imageList.add('productImage') : null;
+      product.isPurchaseCopy ? imageList.add('purchaseCopy') : null;
+      product.isWarrantyCopy ? imageList.add('warrantyCopy') : null;
+      product.isAdditionalImage ? imageList.add('additionalImage') : null;
+
+      final images = await getImages(productId, imageList);
+
+      return WarrantyWithImages(product, images);
     } catch (err) {
       debugPrint('Saved to save product - $err');
       rethrow;

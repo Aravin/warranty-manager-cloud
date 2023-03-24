@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
-import 'package:warranty_manager_cloud/screens/warranty_details_screen/warranty_details.dart';
 import 'package:warranty_manager_cloud/screens/warranty_edit_form.dart';
 import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import '../warranty_details_screen/warranty_details.dart';
 
 class WarrantyListItemWidget extends StatelessWidget {
   final Product product;
@@ -193,7 +194,7 @@ class WarrantyListItemWidget extends StatelessWidget {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => WarrantyDetailsScreen(
-                              product: product,
+                              productId: product.id!,
                             ),
                           ),
                         );
@@ -224,7 +225,7 @@ class WarrantyListItemWidget extends StatelessWidget {
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => WarrantyDetailsScreen(
-            product: product,
+            productId: product.id!,
           ),
         ),
       ),
