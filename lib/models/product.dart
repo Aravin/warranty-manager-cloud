@@ -77,6 +77,30 @@ class Product {
     }
   }
 
+  Product firebaseToMap(Product product, Map<String, dynamic> data) {
+    product.name = data['name'];
+    product.price = data['price'];
+    product.purchaseDate = DateTime.parse(data['purchaseDate']);
+    product.warrantyPeriod = data['warrantyPeriod'];
+    product.purchasedAt = data['purchasedAt'];
+    product.company = data['company'];
+    product.salesPerson = data['salesPerson'];
+    product.phone = data['phone'];
+    product.email = data['email'];
+    product.notes = data['notes'];
+    // added later
+    product.category = data['category'];
+    // calculated field
+    product.warrantyEndDate = DateTime.parse(data['warrantyEndDate']);
+    // paths
+    product.isProductImage = data['isProductImage'] ?? false;
+    product.isPurchaseCopy = data['isPurchaseCopy'] ?? false;
+    product.isWarrantyCopy = data['isWarrantyCopy'] ?? false;
+    product.isAdditionalImage = data['isAdditionalImage'] ?? false;
+
+    return product;
+  }
+
   Future<void> save() async {
     try {
       isProductImage = (productImage != null);
@@ -135,6 +159,20 @@ class Product {
     }
   }
 
+  Future<Product> getById(String productId) async {
+    try {
+      Product product = Product();
+      product.id = productId;
+
+      final doc = await db.collection(COLLECTION_NAME).doc(productId).get();
+      product = firebaseToMap(product, doc.data()!);
+      return product;
+    } catch (err) {
+      debugPrint('Saved to save product - $err');
+      rethrow;
+    }
+  }
+
   Stream<WarrantyList> list() {
     try {
       final dbStream = db
@@ -149,29 +187,11 @@ class Product {
         final List<Product> productList = [];
 
         event.docs.forEach((doc) {
-          final product = Product();
+          dynamic product = Product();
           final data = doc.data();
 
+          product = firebaseToMap(product, data);
           product.id = doc.id;
-          product.name = data['name'];
-          product.price = data['price'];
-          product.purchaseDate = DateTime.parse(data['purchaseDate']);
-          product.warrantyPeriod = data['warrantyPeriod'];
-          product.purchasedAt = data['purchasedAt'];
-          product.company = data['company'];
-          product.salesPerson = data['salesPerson'];
-          product.phone = data['phone'];
-          product.email = data['email'];
-          product.notes = data['notes'];
-          // added later
-          product.category = data['category'];
-          // calculated field
-          product.warrantyEndDate = DateTime.parse(data['warrantyEndDate']);
-          // paths
-          product.isProductImage = data['isProductImage'] ?? false;
-          product.isPurchaseCopy = data['isPurchaseCopy'] ?? false;
-          product.isWarrantyCopy = data['isWarrantyCopy'] ?? false;
-          product.isAdditionalImage = data['isAdditionalImage'] ?? false;
 
           if (product.warrantyEndDate!.isAfter(DateTime.now())) {
             productObject.active.add(product);
