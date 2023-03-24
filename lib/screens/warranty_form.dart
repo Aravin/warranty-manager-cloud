@@ -105,7 +105,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                     isActive: currentStep == 0 ? true : false,
                     title: const Text('Required*'),
                     content: Column(
-                      // key: UniqueKey(),
                       children: [
                         FormBuilderTextField(
                           name: 'name',
@@ -123,6 +122,23 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           ),
                           // onEditingComplete: () =>
                           //     FocusScope.of(context).requestFocus(priceFocus),
+                        ),
+                        FormBuilderTextField(
+                          name: 'company',
+                          // focusNode: companyFocus,
+                          textInputAction: TextInputAction.next,
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.branding_watermark),
+                            hintText: 'Company or Brand Name?',
+                            labelText: 'Brand/Company',
+                          ),
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.minLength(2),
+                            FormBuilderValidators.maxLength(24)
+                          ]),
+                          // onEditingComplete: () => FocusScope.of(context)
+                          //     .requestFocus(categoryFocus),
                         ),
                         FormBuilderDateTimePicker(
                           name: "purchaseDate",
@@ -173,23 +189,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           // onEditingComplete: () =>
                           //     FocusScope.of(context).requestFocus(companyFocus),
                         ),
-                        FormBuilderTextField(
-                          name: 'company',
-                          // focusNode: companyFocus,
-                          textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.branding_watermark),
-                            hintText: 'Company or Brand Name?',
-                            labelText: 'Brand/Company',
-                          ),
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(),
-                            FormBuilderValidators.minLength(2),
-                            FormBuilderValidators.maxLength(24)
-                          ]),
-                          // onEditingComplete: () => FocusScope.of(context)
-                          //     .requestFocus(categoryFocus),
-                        ),
                       ],
                     ),
                   ),
@@ -197,7 +196,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                     isActive: currentStep == 1 ? true : false,
                     title: const Text('Optional'),
                     content: Column(
-                      // key: UniqueKey(),
                       children: [
                         FormBuilderDropdown(
                           name: 'category',
@@ -282,7 +280,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                     isActive: currentStep == 2 ? true : false,
                     title: const Text('Attachments'),
                     content: Column(
-                      // key: UniqueKey(),
                       children: [
                         FormBuilderImagePicker(
                           bottomSheetPadding: const EdgeInsets.only(bottom: 50),
