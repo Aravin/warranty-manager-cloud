@@ -4,6 +4,7 @@ import 'package:warranty_manager_cloud/screens/warranty_details_screen/image_thu
 import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:warranty_manager_cloud/shared/loader.dart';
 
 class WarrantyDetailsScreen extends StatefulWidget {
   final Product product;
@@ -61,7 +62,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
         future: getImages(widget.product.id!, imageList),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(child: Text('Loading...'));
+            return appLoader;
           }
           if (!snapshot.hasData) {
             return const Center(child: Text('Unable to load product details'));
