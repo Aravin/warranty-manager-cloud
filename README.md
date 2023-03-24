@@ -2,6 +2,7 @@
 
 Warrant Manager Cloud - Manage all your bill/receipts/warranty of your product/services you purchased.
 
+<img src="https://user-images.githubusercontent.com/4869265/227573058-772ca563-a060-404e-94ca-ea9ebd0b3b2f.png" height="400"><img src="https://user-images.githubusercontent.com/4869265/227573111-0fa5527a-a53a-4475-bac2-59e1f13779e3.png" height="400">
 
 
 Introducing our new application: the Warranty Manager. This powerful tool allows you to easily manage all of your product warranties and related information. Whether you need to save, find, or track household, personal, or business assets, the Warranty Manager has you covered.
