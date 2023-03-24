@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
+import 'package:warranty_manager_cloud/models/warranty_with_images.dart';
 import 'package:warranty_manager_cloud/shared/categories.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +27,7 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
   final _formKey = GlobalKey<FormBuilderState>();
   late dynamic _formInitialValues;
   late Product _product;
+  late Future<WarrantyWithImages> _warrantyWithImages;
 
   // steps
   int currentStep = 0;
@@ -55,6 +57,7 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
 
   @override
   void initState() {
+    _warrantyWithImages = Product().getById(widget.productId);
     super.initState();
   }
 
@@ -66,7 +69,7 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
         children: [
           Expanded(
             child: FutureBuilder(
-              future: Product().getById(widget.productId),
+              future: _warrantyWithImages,
               builder: (context, snapshot) {
                 if (snapshot.connectionState != ConnectionState.done) {
                   return appLoader;

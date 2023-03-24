@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
+import 'package:warranty_manager_cloud/models/warranty_with_images.dart';
 import 'package:warranty_manager_cloud/screens/warranty_details_screen/image_thumbnail.dart';
 import 'package:warranty_manager_cloud/screens/warranty_edit_form.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
@@ -16,11 +17,18 @@ class WarrantyDetailsScreen extends StatefulWidget {
 
 class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
   int _selectedIndex = 0;
+  late Future<WarrantyWithImages> _warrantyWithImages;
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    _warrantyWithImages = Product().getById(widget.productId);
+    super.initState();
   }
 
   @override
@@ -58,7 +66,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
         child: const Icon(Icons.edit),
       ),
       body: FutureBuilder(
-        future: Product().getById(widget.productId),
+        future: _warrantyWithImages,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return appLoader;
