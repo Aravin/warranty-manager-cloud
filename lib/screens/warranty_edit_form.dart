@@ -7,6 +7,7 @@ import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/models/warranty_with_images.dart';
+import 'package:warranty_manager_cloud/screens/home/home.dart';
 import 'package:warranty_manager_cloud/shared/categories.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
@@ -435,7 +436,11 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                         } finally {
                           await EasyLoading.dismiss();
                           setState(() {
-                            Navigator.pop(context, true);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => Home(),
+                              ),
+                            );
                           });
                         }
                       } else {
