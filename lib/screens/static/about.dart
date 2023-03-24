@@ -11,24 +11,22 @@ class AboutScreen extends StatelessWidget {
       body: Padding(
         padding: kAppEdgeInsets,
         child: Column(
-          children: <Widget>[
-            Container(
-              child: const Text(
-                'Warranty Manager',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0,
-                ),
+          children: const [
+            Text(
+              'Warranty Manager',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25.0,
               ),
             ),
-            const SizedBox(
+            SizedBox(
               height: 20,
             ),
-            Container(
-              child: const Text(
-                'This is Free to use Application. You can store the warranty information of any of your product / service. All your information are stored in your device locally.',
-              ),
-            )
+            Text(
+              'This is Free to use Application. You can store the warranty information of any of your product / service. All your information are stored in your device locally.',
+            ),
+            SizedBox(height: 20),
+            Text('Logo Credit: Viknesh Karthi'),
           ],
         ),
       ),
