@@ -372,70 +372,79 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              MaterialButton(
-                color: kAccentColor,
-                textColor: Colors.white,
-                child: const Text('Reset'),
-                onPressed: () {
-                  _formKey.currentState?.reset();
-                },
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: OutlinedButton.icon(
+                    icon: Icon(Icons.clear),
+                    label: const Text('RESET'),
+                    onPressed: () => _formKey.currentState?.reset(),
+                  ),
+                ),
               ),
-              MaterialButton(
-                color: kPrimaryColor,
-                textColor: Colors.white,
-                child: const Text('Submit'),
-                onPressed: () async {
-                  if (_formKey.currentState!.saveAndValidate()) {
-                    try {
-                      EasyLoading.show(
-                        indicator: appLoader,
-                      );
-                      dynamic formValue = _formKey.currentState!.value;
-                      debugPrint(_formKey.currentState?.value.toString());
-                      _product.name = formValue['name']!.toString().trim();
-                      _product.price = double.parse(formValue['price']); // todo
-                      _product.purchaseDate =
-                          formValue['purchaseDate'] as DateTime;
-                      _product.warrantyPeriod = formValue['warrantyPeriod']!;
-                      _product.purchasedAt = formValue['purchasedAt'];
-                      _product.company = formValue['company'];
-                      _product.salesPerson = formValue['salesPerson'];
-                      _product.phone = formValue['phone'];
-                      _product.email = formValue['email'];
-                      _product.notes = formValue['notes'];
-                      // added later
-                      _product.category = formValue['category'];
-                      // images
-                      _product.productImage = formValue['productImage']?[0];
-                      _product.purchaseCopy = formValue['imgBill']?[0];
-                      _product.warrantyCopy = formValue['imgWarranty']?[0];
-                      _product.additionalImage = formValue['imgAdditional']?[0];
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton.icon(
+                    icon: Icon(Icons.save),
+                    label: const Text('UPDATE'),
+                    onPressed: () async {
+                      if (_formKey.currentState!.saveAndValidate()) {
+                        try {
+                          EasyLoading.show(
+                            indicator: appLoader,
+                          );
+                          dynamic formValue = _formKey.currentState!.value;
+                          debugPrint(_formKey.currentState?.value.toString());
+                          _product.name = formValue['name']!.toString().trim();
+                          _product.price =
+                              double.parse(formValue['price']); // todo
+                          _product.purchaseDate =
+                              formValue['purchaseDate'] as DateTime;
+                          _product.warrantyPeriod =
+                              formValue['warrantyPeriod']!;
+                          _product.purchasedAt = formValue['purchasedAt'];
+                          _product.company = formValue['company'];
+                          _product.salesPerson = formValue['salesPerson'];
+                          _product.phone = formValue['phone'];
+                          _product.email = formValue['email'];
+                          _product.notes = formValue['notes'];
+                          // added later
+                          _product.category = formValue['category'];
+                          // images
+                          _product.productImage = formValue['productImage']?[0];
+                          _product.purchaseCopy = formValue['imgBill']?[0];
+                          _product.warrantyCopy = formValue['imgWarranty']?[0];
+                          _product.additionalImage =
+                              formValue['imgAdditional']?[0];
 
-                      await _product.update();
-                      Fluttertoast.showToast(
-                        msg: "Saved Product Successfully!",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        fontSize: 16.0,
-                      );
-                    } catch (err) {
-                      Fluttertoast.showToast(
-                        msg: "Failed to save Product!",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        fontSize: 16.0,
-                      );
-                    } finally {
-                      await EasyLoading.dismiss();
-                      setState(() {
-                        Navigator.pop(context, true);
-                      });
-                    }
-                  } else {
-                    debugPrint(_formKey.currentState?.value.toString());
-                    debugPrint('validation failed');
-                  }
-                },
+                          await _product.update();
+                          Fluttertoast.showToast(
+                            msg: "Saved Product Successfully!",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            fontSize: 16.0,
+                          );
+                        } catch (err) {
+                          Fluttertoast.showToast(
+                            msg: "Failed to save Product!",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            fontSize: 16.0,
+                          );
+                        } finally {
+                          await EasyLoading.dismiss();
+                          setState(() {
+                            Navigator.pop(context, true);
+                          });
+                        }
+                      } else {
+                        debugPrint(_formKey.currentState?.value.toString());
+                        debugPrint('validation failed');
+                      }
+                    },
+                  ),
+                ),
               ),
             ],
           ),
