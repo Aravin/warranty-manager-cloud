@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:warranty_manager_cloud/screens/auth.dart';
 import 'package:warranty_manager_cloud/screens/home/home.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
+import 'package:warranty_manager_cloud/services/remote_config.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 
 import 'firebase_options.dart';
@@ -27,6 +29,12 @@ Future<void> main() async {
   if (shouldUseFirestoreEmulator) {
     db.useFirestoreEmulator('localhost', 8080);
   }
+
+  await remoteConfig.setConfigSettings(RemoteConfigSettings(
+    fetchTimeout: const Duration(seconds: 30),
+    minimumFetchInterval: const Duration(hours: 1),
+  ));
+  await remoteConfig.fetchAndActivate();
 
   runApp(const WarrantyManagerApp());
   configLoading();

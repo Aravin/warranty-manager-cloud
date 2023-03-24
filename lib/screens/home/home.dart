@@ -11,6 +11,7 @@ import 'package:warranty_manager_cloud/screens/static/privacy_policy.dart';
 
 import 'package:warranty_manager_cloud/screens/warranty_list_tab_screen.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
+import 'package:warranty_manager_cloud/services/remote_config.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 
 class Home extends StatefulWidget {
@@ -22,6 +23,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    debugPrint(remoteConfig.getAll().toString());
   }
 
   @override

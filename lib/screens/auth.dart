@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:warranty_manager_cloud/services/remote_config.dart';
 
 typedef OAuthSignIn = void Function();
 
@@ -88,26 +89,20 @@ class _AuthGateState extends State<AuthGate> {
             ),
       };
     } else {
-      authButtons = {
-        // Buttons.AppleDark: () => _handleMultiFactorException(
-        //       _signInWithApple,
-        //     ),
-        Buttons.GoogleDark: () => _handleMultiFactorException(
-              _signInWithGoogle,
-            ),
-        Buttons.GitHub: () => _handleMultiFactorException(
-              _signInWithGitHub,
-            ),
-        // Buttons.Microsoft: () => _handleMultiFactorException(
-        //       _signInWithMicrosoft,
-        //     ),
-        // Buttons.Twitter: () => _handleMultiFactorException(
-        //       _signInWithTwitter,
-        //     ),
-        Buttons.FacebookNew: () => _handleMultiFactorException(
-              _signInWithFacebook,
-            ),
-      };
+      authButtons = {};
+
+      if (remoteConfig.getBool('auth_enable_google')) {
+        authButtons[Buttons.GoogleDark] =
+            () => _handleMultiFactorException(_signInWithGoogle);
+      }
+      if (remoteConfig.getBool('auth_enable_github')) {
+        authButtons[Buttons.GitHub] =
+            () => _handleMultiFactorException(_signInWithGitHub);
+      }
+      if (remoteConfig.getBool('auth_enable_fb')) {
+        authButtons[Buttons.FacebookNew] =
+            () => _handleMultiFactorException(_signInWithFacebook);
+      }
     }
   }
 
