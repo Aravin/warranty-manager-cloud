@@ -14,11 +14,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 
 class WarrantyEditForm extends StatefulWidget {
-  final Product product;
-  final Map<String, String> images;
+  final String productId;
 
-  const WarrantyEditForm(
-      {super.key, required this.product, required this.images});
+  const WarrantyEditForm({super.key, required this.productId});
 
   @override
   State<WarrantyEditForm> createState() => _WarrantyEditFormState();
@@ -58,20 +56,6 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
   @override
   void initState() {
     super.initState();
-    _product = widget.product;
-    _formInitialValues = {
-      'purchaseDate': _product.purchaseDate,
-      'warranty': _product.warrantyPeriod,
-      'name': _product.name,
-      'price': _product.price!.toString(),
-      'company': _product.company,
-      'purchasedAt': _product.purchasedAt,
-      'salesPerson': _product.salesPerson,
-      'phone': _product.phone,
-      'email': _product.email,
-      'notes': _product.notes,
-      'category': _product.category,
-    };
   }
 
   @override
@@ -81,277 +65,305 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
       body: Column(
         children: [
           Expanded(
-            child: FormBuilder(
-              key: _formKey,
-              // enabled: false,
-              onChanged: () {
-                _formKey.currentState!.save();
-                debugPrint(_formKey.currentState!.value.toString());
+            child: FutureBuilder(
+              future: Product().getById(widget.productId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return appLoader;
+                }
+                if (!snapshot.hasData) {
+                  return const Center(
+                      child: Text('Unable to load product details'));
+                }
+                final data = snapshot.data;
+                _product = data!.product;
+                _formInitialValues = {
+                  'purchaseDate': _product.purchaseDate,
+                  'warranty': _product.warrantyPeriod,
+                  'name': _product.name,
+                  'price': _product.price!.toString(),
+                  'company': _product.company,
+                  'purchasedAt': _product.purchasedAt,
+                  'salesPerson': _product.salesPerson,
+                  'phone': _product.phone,
+                  'email': _product.email,
+                  'notes': _product.notes,
+                  'category': _product.category,
+                };
+                return FormBuilder(
+                  key: _formKey,
+                  // enabled: false,
+                  onChanged: () {
+                    _formKey.currentState!.save();
+                    debugPrint(_formKey.currentState!.value.toString());
+                  },
+                  autoFocusOnValidationFailure: true,
+                  autovalidateMode: AutovalidateMode.disabled,
+                  initialValue: _formInitialValues,
+                  skipDisabled: true,
+                  child: Stepper(
+                    type: StepperType.horizontal,
+                    currentStep: currentStep ?? 0,
+                    onStepContinue: next,
+                    onStepTapped: (step) => goTo(step),
+                    onStepCancel: cancel,
+                    controlsBuilder: ((context, details) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            currentStep > 0
+                                ? OutlinedButton(
+                                    onPressed: () => cancel(),
+                                    child: const Text('Back'),
+                                  )
+                                : const SizedBox(),
+                            currentStep < 2
+                                ? OutlinedButton(
+                                    onPressed: () => next(),
+                                    child: const Text('Next'),
+                                  )
+                                : const SizedBox(),
+                          ],
+                        ),
+                      );
+                    }),
+                    steps: [
+                      Step(
+                        isActive: currentStep == 0 ? true : false,
+                        title: const Text('Required*'),
+                        content: Column(
+                          children: [
+                            FormBuilderTextField(
+                              name: 'name',
+                              // focusNode: productFocus,
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(),
+                                FormBuilderValidators.minLength(3),
+                                FormBuilderValidators.maxLength(24)
+                              ]),
+                              textInputAction: TextInputAction.next,
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.shopping_basket),
+                                hintText: 'Product/Service Name ?',
+                                labelText: 'Product/Service Name *',
+                              ),
+                              // onEditingComplete: () =>
+                              //     FocusScope.of(context).requestFocus(priceFocus),
+                            ),
+                            FormBuilderTextField(
+                              name: 'company',
+                              // focusNode: companyFocus,
+                              textInputAction: TextInputAction.next,
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.branding_watermark),
+                                hintText: 'Company or Brand Name?',
+                                labelText: 'Brand/Company',
+                              ),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(),
+                                FormBuilderValidators.minLength(2),
+                                FormBuilderValidators.maxLength(24)
+                              ]),
+                              // onEditingComplete: () => FocusScope.of(context)
+                              //     .requestFocus(categoryFocus),
+                            ),
+                            FormBuilderDateTimePicker(
+                              name: "purchaseDate",
+                              textInputAction: TextInputAction.next,
+                              validator: FormBuilderValidators.compose(
+                                  [FormBuilderValidators.required()]),
+                              keyboardType: TextInputType.datetime,
+                              inputType: InputType.date,
+                              lastDate: DateTime.now(),
+                              format: DateFormat("EEE, MMMM d, yyyy"),
+                              decoration: const InputDecoration(
+                                labelText: "Purchase Date",
+                                prefixIcon: Icon(Icons.calendar_today),
+                              ),
+                            ),
+                            FormBuilderDropdown(
+                              name: "warrantyPeriod",
+                              initialValue: _product.warrantyPeriod,
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.timer),
+                                labelText: "Warranty Period",
+                                hintText: 'Select Warranty Period',
+                              ),
+                              validator: FormBuilderValidators.compose(
+                                  [FormBuilderValidators.required()]),
+                              items: kWarrantyPeriods
+                                  .map((period) => DropdownMenuItem(
+                                        value: period,
+                                        child: Text(period),
+                                      ))
+                                  .toList(),
+                            ),
+                            FormBuilderTextField(
+                              name: 'price',
+                              // focusNode: priceFocus,
+                              keyboardType: TextInputType.number,
+                              textInputAction: TextInputAction.next,
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(),
+                                FormBuilderValidators.min(1),
+                                FormBuilderValidators.max(9999999)
+                              ]),
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.monetization_on),
+                                hintText: 'Total Bill Amount ?',
+                                labelText: 'Price *',
+                              ),
+                              // onEditingComplete: () =>
+                              //     FocusScope.of(context).requestFocus(companyFocus),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Step(
+                        isActive: currentStep == 1 ? true : false,
+                        title: const Text('Optional'),
+                        content: Column(
+                          children: [
+                            FormBuilderDropdown(
+                              name: 'category',
+                              // focusNode: categoryFocus,
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.category),
+                                hintText: 'Product Category',
+                                labelText: 'Category',
+                              ),
+                              initialValue: 'Other',
+                              items: categoryList
+                                  .map((category) => DropdownMenuItem(
+                                      value: category, child: Text(category)))
+                                  .toList(),
+                            ),
+                            FormBuilderTextField(
+                              name: 'purchasedAt',
+                              // focusNode: purchasedAtFocus,
+                              textInputAction: TextInputAction.next,
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.add_location),
+                                hintText: 'Where did you purchase?',
+                                labelText: 'Purchased At',
+                              ),
+                              // onEditingComplete: () => FocusScope.of(context)
+                              //     .requestFocus(salesPersonFocus),
+                            ),
+                            FormBuilderTextField(
+                              name: 'salesPerson',
+                              // focusNode: salesPersonFocus,
+                              textInputAction: TextInputAction.next,
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.people),
+                                hintText: 'Do you remember sales person name?',
+                                labelText: 'Sales Person Name',
+                              ),
+                              // onEditingComplete: () =>
+                              //     FocusScope.of(context).requestFocus(phoneFocus),
+                            ),
+                            FormBuilderTextField(
+                              name: 'phone',
+                              keyboardType: TextInputType.number,
+                              // focusNode: phoneFocus,
+                              textInputAction: TextInputAction.next,
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.phone),
+                                hintText:
+                                    'Contact number, i.e customer care number',
+                                labelText: 'Phone number',
+                              ),
+                              // onEditingComplete: () =>
+                              //     FocusScope.of(context).requestFocus(emailFocus),
+                            ),
+                            FormBuilderTextField(
+                              name: 'email',
+                              // focusNode: emailFocus,
+                              textInputAction: TextInputAction.next,
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.email),
+                                hintText: 'Customer Service E-Mail Address',
+                                labelText: 'Email Address',
+                              ),
+                              // onEditingComplete: () =>
+                              //     FocusScope.of(context).requestFocus(notesFocus),
+                            ),
+                            FormBuilderTextField(
+                              // focusNode: notesFocus,
+                              maxLines: null,
+                              keyboardType: TextInputType.multiline,
+                              name: 'notes',
+                              textInputAction: TextInputAction.done,
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.note_add),
+                                hintText: 'Any other additional information',
+                                labelText: 'Quick Note',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Step(
+                        isActive: currentStep == 2 ? true : false,
+                        title: const Text('Attachments'),
+                        content: Column(
+                          children: [
+                            FormBuilderImagePicker(
+                              bottomSheetPadding:
+                                  const EdgeInsets.only(bottom: 50),
+                              name: 'productImage',
+                              decoration: const InputDecoration(
+                                labelText: 'Upload Product Image',
+                              ),
+                              maxImages: 1,
+                              imageQuality: 75,
+                              maxHeight: 720,
+                              maxWidth: 720,
+                              initialValue: [data.images['productImage']],
+                            ),
+                            FormBuilderImagePicker(
+                              name: 'imgBill',
+                              decoration: const InputDecoration(
+                                labelText: 'Upload Purchased Bill/Receipt',
+                              ),
+                              maxImages: 1,
+                              imageQuality: 75,
+                              maxHeight: 720,
+                              maxWidth: 720,
+                              initialValue: [data.images['purchaseCopy']],
+                            ),
+                            FormBuilderImagePicker(
+                              name: 'imgWarranty',
+                              decoration: const InputDecoration(
+                                labelText: 'Upload Warranty Copy',
+                              ),
+                              maxImages: 1,
+                              imageQuality: 75,
+                              maxHeight: 720,
+                              maxWidth: 720,
+                              initialValue: [data.images['warrantyCopy']],
+                            ),
+                            FormBuilderImagePicker(
+                              name: 'imgAdditional',
+                              decoration: const InputDecoration(
+                                labelText: 'Upload Any Other Additional Image',
+                              ),
+                              maxImages: 1,
+                              imageQuality: 75,
+                              maxHeight: 720,
+                              maxWidth: 720,
+                              initialValue: [data.images['additionalImage']],
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                );
               },
-              autoFocusOnValidationFailure: true,
-              autovalidateMode: AutovalidateMode.disabled,
-              initialValue: _formInitialValues,
-              skipDisabled: true,
-              child: Stepper(
-                type: StepperType.horizontal,
-                currentStep: currentStep ?? 0,
-                onStepContinue: next,
-                onStepTapped: (step) => goTo(step),
-                onStepCancel: cancel,
-                controlsBuilder: ((context, details) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        currentStep > 0
-                            ? OutlinedButton(
-                                onPressed: () => cancel(),
-                                child: const Text('Back'),
-                              )
-                            : const SizedBox(),
-                        currentStep < 2
-                            ? OutlinedButton(
-                                onPressed: () => next(),
-                                child: const Text('Next'),
-                              )
-                            : const SizedBox(),
-                      ],
-                    ),
-                  );
-                }),
-                steps: [
-                  Step(
-                    isActive: currentStep == 0 ? true : false,
-                    title: const Text('Required*'),
-                    content: Column(
-                      children: [
-                        FormBuilderTextField(
-                          name: 'name',
-                          // focusNode: productFocus,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(),
-                            FormBuilderValidators.minLength(3),
-                            FormBuilderValidators.maxLength(24)
-                          ]),
-                          textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.shopping_basket),
-                            hintText: 'Product/Service Name ?',
-                            labelText: 'Product/Service Name *',
-                          ),
-                          // onEditingComplete: () =>
-                          //     FocusScope.of(context).requestFocus(priceFocus),
-                        ),
-                        FormBuilderTextField(
-                          name: 'company',
-                          // focusNode: companyFocus,
-                          textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.branding_watermark),
-                            hintText: 'Company or Brand Name?',
-                            labelText: 'Brand/Company',
-                          ),
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(),
-                            FormBuilderValidators.minLength(2),
-                            FormBuilderValidators.maxLength(24)
-                          ]),
-                          // onEditingComplete: () => FocusScope.of(context)
-                          //     .requestFocus(categoryFocus),
-                        ),
-                        FormBuilderDateTimePicker(
-                          name: "purchaseDate",
-                          textInputAction: TextInputAction.next,
-                          validator: FormBuilderValidators.compose(
-                              [FormBuilderValidators.required()]),
-                          keyboardType: TextInputType.datetime,
-                          inputType: InputType.date,
-                          lastDate: DateTime.now(),
-                          format: DateFormat("EEE, MMMM d, yyyy"),
-                          decoration: const InputDecoration(
-                            labelText: "Purchase Date",
-                            prefixIcon: Icon(Icons.calendar_today),
-                          ),
-                        ),
-                        FormBuilderDropdown(
-                          name: "warrantyPeriod",
-                          initialValue: _product.warrantyPeriod,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.timer),
-                            labelText: "Warranty Period",
-                            hintText: 'Select Warranty Period',
-                          ),
-                          validator: FormBuilderValidators.compose(
-                              [FormBuilderValidators.required()]),
-                          items: kWarrantyPeriods
-                              .map((period) => DropdownMenuItem(
-                                    value: period,
-                                    child: Text(period),
-                                  ))
-                              .toList(),
-                        ),
-                        FormBuilderTextField(
-                          name: 'price',
-                          // focusNode: priceFocus,
-                          keyboardType: TextInputType.number,
-                          textInputAction: TextInputAction.next,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(),
-                            FormBuilderValidators.min(1),
-                            FormBuilderValidators.max(9999999)
-                          ]),
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.monetization_on),
-                            hintText: 'Total Bill Amount ?',
-                            labelText: 'Price *',
-                          ),
-                          // onEditingComplete: () =>
-                          //     FocusScope.of(context).requestFocus(companyFocus),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Step(
-                    isActive: currentStep == 1 ? true : false,
-                    title: const Text('Optional'),
-                    content: Column(
-                      children: [
-                        FormBuilderDropdown(
-                          name: 'category',
-                          // focusNode: categoryFocus,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.category),
-                            hintText: 'Product Category',
-                            labelText: 'Category',
-                          ),
-                          initialValue: 'Other',
-                          items: categoryList
-                              .map((category) => DropdownMenuItem(
-                                  value: category, child: Text(category)))
-                              .toList(),
-                        ),
-                        FormBuilderTextField(
-                          name: 'purchasedAt',
-                          // focusNode: purchasedAtFocus,
-                          textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.add_location),
-                            hintText: 'Where did you purchase?',
-                            labelText: 'Purchased At',
-                          ),
-                          // onEditingComplete: () => FocusScope.of(context)
-                          //     .requestFocus(salesPersonFocus),
-                        ),
-                        FormBuilderTextField(
-                          name: 'salesPerson',
-                          // focusNode: salesPersonFocus,
-                          textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.people),
-                            hintText: 'Do you remember sales person name?',
-                            labelText: 'Sales Person Name',
-                          ),
-                          // onEditingComplete: () =>
-                          //     FocusScope.of(context).requestFocus(phoneFocus),
-                        ),
-                        FormBuilderTextField(
-                          name: 'phone',
-                          keyboardType: TextInputType.number,
-                          // focusNode: phoneFocus,
-                          textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.phone),
-                            hintText:
-                                'Contact number, i.e customer care number',
-                            labelText: 'Phone number',
-                          ),
-                          // onEditingComplete: () =>
-                          //     FocusScope.of(context).requestFocus(emailFocus),
-                        ),
-                        FormBuilderTextField(
-                          name: 'email',
-                          // focusNode: emailFocus,
-                          textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.email),
-                            hintText: 'Customer Service E-Mail Address',
-                            labelText: 'Email Address',
-                          ),
-                          // onEditingComplete: () =>
-                          //     FocusScope.of(context).requestFocus(notesFocus),
-                        ),
-                        FormBuilderTextField(
-                          // focusNode: notesFocus,
-                          maxLines: null,
-                          keyboardType: TextInputType.multiline,
-                          name: 'notes',
-                          textInputAction: TextInputAction.done,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.note_add),
-                            hintText: 'Any other additional information',
-                            labelText: 'Quick Note',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Step(
-                    isActive: currentStep == 2 ? true : false,
-                    title: const Text('Attachments'),
-                    content: Column(
-                      children: [
-                        FormBuilderImagePicker(
-                          bottomSheetPadding: const EdgeInsets.only(bottom: 50),
-                          name: 'productImage',
-                          decoration: const InputDecoration(
-                            labelText: 'Upload Product Image',
-                          ),
-                          maxImages: 1,
-                          imageQuality: 75,
-                          maxHeight: 720,
-                          maxWidth: 720,
-                          initialValue: [widget.images['productImage']],
-                        ),
-                        FormBuilderImagePicker(
-                          name: 'imgBill',
-                          decoration: const InputDecoration(
-                            labelText: 'Upload Purchased Bill/Receipt',
-                          ),
-                          maxImages: 1,
-                          imageQuality: 75,
-                          maxHeight: 720,
-                          maxWidth: 720,
-                          initialValue: [widget.images['purchaseCopy']],
-                        ),
-                        FormBuilderImagePicker(
-                          name: 'imgWarranty',
-                          decoration: const InputDecoration(
-                            labelText: 'Upload Warranty Copy',
-                          ),
-                          maxImages: 1,
-                          imageQuality: 75,
-                          maxHeight: 720,
-                          maxWidth: 720,
-                          initialValue: [widget.images['warrantyCopy']],
-                        ),
-                        FormBuilderImagePicker(
-                          name: 'imgAdditional',
-                          decoration: const InputDecoration(
-                            labelText: 'Upload Any Other Additional Image',
-                          ),
-                          maxImages: 1,
-                          imageQuality: 75,
-                          maxHeight: 720,
-                          maxWidth: 720,
-                          initialValue: [widget.images['additionalImage']],
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
             ),
           ),
           Row(

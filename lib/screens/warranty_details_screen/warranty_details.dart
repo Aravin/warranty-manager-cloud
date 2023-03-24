@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/screens/warranty_details_screen/image_thumbnail.dart';
+import 'package:warranty_manager_cloud/screens/warranty_edit_form.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
@@ -45,10 +46,16 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => WarrantyEditForm(
+                productId: widget.productId,
+              ),
+            ),
+          );
         },
         backgroundColor: kAccentColor,
-        child: const Icon(Icons.keyboard_backspace),
+        child: const Icon(Icons.edit),
       ),
       body: FutureBuilder(
         future: Product().getById(widget.productId),

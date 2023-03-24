@@ -184,10 +184,8 @@ class WarrantyListItemWidget extends StatelessWidget {
 
                         await Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => WarrantyEditForm(
-                              product: product,
-                              images: images,
-                            ),
+                            builder: (context) =>
+                                WarrantyEditForm(productId: product.id!),
                           ),
                         );
                       } else if (result[0] == 'view') {
