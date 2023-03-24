@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:warranty_manager_cloud/shared/loader.dart';
 
 class WarrantyForm extends StatefulWidget {
   const WarrantyForm({super.key});
@@ -351,8 +352,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                     onPressed: () async {
                       if (_formKey.currentState!.saveAndValidate()) {
                         await EasyLoading.show(
-                          status: 'loading...',
-                          maskType: EasyLoadingMaskType.clear,
+                          indicator: appLoader,
                         );
                         dynamic formValue = _formKey.currentState!.value;
                         debugPrint(_formKey.currentState?.value.toString());
