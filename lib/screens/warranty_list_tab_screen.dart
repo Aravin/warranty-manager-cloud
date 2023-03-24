@@ -3,6 +3,7 @@ import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/models/warranty_list.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
+import 'package:warranty_manager_cloud/shared/loader.dart';
 
 class WarrantyListTabScreen extends StatelessWidget {
   const WarrantyListTabScreen({super.key});
@@ -18,22 +19,13 @@ class WarrantyListTabScreen extends StatelessWidget {
             StreamBuilder<WarrantyList>(
               stream: Product().list(),
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.active ||
-                    snapshot.connectionState == ConnectionState.done) {
-                  // return const Center(child: Text('Fetching data...'));
-
-                  if (snapshot.hasError) {
-                    return const Center(
-                        child: Text('Failed to display saved warranty'));
-                  }
-
-                  if (!snapshot.hasData) {
-                    return const Center(child: Text('No Saved Products'));
-                  }
-
+                if (snapshot.hasData) {
                   return WarrantyListTabWidget(warrantyList: snapshot.data!);
+                } else if (snapshot.hasError) {
+                  return const Center(
+                      child: Text('Failed to display saved warranty'));
                 }
-                return const SizedBox();
+                return appLoader;
               },
             ),
           ],

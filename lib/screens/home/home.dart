@@ -13,6 +13,7 @@ import 'package:warranty_manager_cloud/screens/warranty_list_tab_screen.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
 import 'package:warranty_manager_cloud/services/remote_config.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
+import 'package:warranty_manager_cloud/shared/loader.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -23,7 +24,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    debugPrint(remoteConfig.getAll().toString());
   }
 
   @override
@@ -244,8 +244,11 @@ class _HomeState extends State<Home> {
                 WarrantyListTabWidget(warrantyList: snapshot.data!),
               ],
             );
+          } else if (snapshot.hasError) {
+            return const Center(
+                child: Text('Failed to load the warranty list!'));
           }
-          return const SizedBox();
+          return appLoader;
         },
       ),
     );
