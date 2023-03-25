@@ -6,7 +6,7 @@ import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:velocity_x/velocity_x.dart';
-
+import 'package:moment_dart/moment_dart.dart';
 import '../warranty_details_screen/warranty_details.dart';
 
 class WarrantyListItemWidget extends StatelessWidget {
@@ -14,11 +14,12 @@ class WarrantyListItemWidget extends StatelessWidget {
   final Color cardColor;
   final Color cardShadow;
 
-  const WarrantyListItemWidget(
-      {super.key,
-      required this.product,
-      required this.cardColor,
-      required this.cardShadow});
+  const WarrantyListItemWidget({
+    super.key,
+    required this.product,
+    required this.cardColor,
+    required this.cardShadow,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +89,7 @@ class WarrantyListItemWidget extends StatelessWidget {
                             ),
                           ).text.underline.make(),
                           const Text(
-                            'Valid Till',
+                            'Expires',
                             style: TextStyle(
                               fontSize: 12,
                             ),
@@ -107,7 +108,7 @@ class WarrantyListItemWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            DateFormat.yMMMd().format(product.warrantyEndDate!),
+                            Moment(product.warrantyEndDate!).fromNow(),
                             style: const TextStyle(
                               fontSize: 15,
                             ),
