@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:warranty_manager_cloud/shared/loader.dart';
 
 class DisplayImage extends StatelessWidget {
   final String image;
@@ -23,6 +24,10 @@ class DisplayImage extends StatelessWidget {
             child: InteractiveViewer(
               child: Image.network(
                 image,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) =>
+                    child,
+                loadingBuilder: (context, child, loadingProgress) =>
+                    loadingProgress == null ? child : appLoader,
               ),
             ),
           ),

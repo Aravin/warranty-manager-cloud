@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/screens/widgets/image_preview.dart';
+import 'package:warranty_manager_cloud/shared/loader.dart';
 
 class ImageThumbnailWidget extends StatelessWidget {
   final String image;
@@ -9,29 +10,36 @@ class ImageThumbnailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
-        Text(
-          imageName,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+        const SizedBox(height: 25),
+        Center(
+          child: Text(
+            imageName,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         GestureDetector(
           child: Image.network(
             image,
-            width: 150,
-            height: 150,
+            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) =>
+                child,
+            loadingBuilder: (context, child, loadingProgress) =>
+                loadingProgress == null ? child : appLoader,
+            fit: BoxFit.cover,
           ),
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (ctxt) => DisplayImage(
+              builder: (ctx) => DisplayImage(
                 image: image,
                 imageName: imageName,
               ),
             ),
           ),
-        )
+        ),
+        const SizedBox(height: 5),
       ],
     );
   }
