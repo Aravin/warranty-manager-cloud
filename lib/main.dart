@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:isolate';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +10,10 @@ import 'package:warranty_manager_cloud/screens/auth.dart';
 import 'package:warranty_manager_cloud/screens/home/home.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/services/remote_config.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 
 import 'firebase_options.dart';
 
@@ -15,6 +21,14 @@ bool shouldUseFirebaseEmulator = false;
 bool shouldUseFirestoreEmulator = false;
 
 Future<void> main() async {
+  Isolate.current.addErrorListener(RawReceivePort((pair) async {
+    final List<dynamic> errorAndStacktrace = pair;
+    await FirebaseCrashlytics.instance.recordError(
+      errorAndStacktrace.first,
+      errorAndStacktrace.last,
+    );
+  }).sendPort);
+
   WidgetsFlutterBinding.ensureInitialized();
   // We're using the manual installation on non-web platforms since Google sign in plugin doesn't yet support Dart initialization.
   // See related issue: https://github.com/flutter/flutter/issues/96391
@@ -30,14 +44,32 @@ Future<void> main() async {
     db.useFirestoreEmulator('localhost', 8080);
   }
 
+  // Pass all uncaught errors from the framework to Crashlytics.
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  if (kDebugMode) {
+    // Force disable Crashlytics collection while doing every day development.
+    // Temporarily toggle this to true if you want to test crash reporting in your app.
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  } else {
+    // Handle Crashlytics enabled status when not in Debug,
+    // e.g. allow your users to opt-in to crash reporting.
+  }
+
   await remoteConfig.setConfigSettings(RemoteConfigSettings(
     fetchTimeout: const Duration(seconds: 30),
     minimumFetchInterval: const Duration(hours: 1),
   ));
   await remoteConfig.fetchAndActivate();
 
-  runApp(const WarrantyManagerApp());
-  configLoading();
+  runZonedGuarded<Future<void>>(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    // The following lines are the same as previously explained in "Handling uncaught errors"
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
+    runApp(const WarrantyManagerApp());
+    configLoading();
+  }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
 }
 
 // loader
