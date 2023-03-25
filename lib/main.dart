@@ -11,7 +11,7 @@ import 'package:warranty_manager_cloud/screens/home/home.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/services/remote_config.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 
@@ -60,6 +60,8 @@ Future<void> main() async {
     minimumFetchInterval: const Duration(hours: 1),
   ));
   await remoteConfig.fetchAndActivate();
+
+  FirebasePerformance performance = FirebasePerformance.instance;
 
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();

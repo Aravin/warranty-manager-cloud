@@ -87,10 +87,12 @@ dependencies {
     implementation ('com.google.firebase:firebase-auth-ktx') {
         exclude module: "play-services-safetynet" // temp: to ignore playstore warning
     }
+    implementation 'com.google.firebase:firebase-perf-ktx'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.android.material:material:1.8.0'
 }
 
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 android.buildTypes.release.ndk.debugSymbolLevel = 'FULL'
