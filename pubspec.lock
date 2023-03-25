@@ -609,6 +609,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  moment_dart:
+    dependency: "direct main"
+    description:
+      name: moment_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.17.4"
   path:
     dependency: transitive
     description:
