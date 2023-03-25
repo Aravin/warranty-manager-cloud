@@ -168,21 +168,6 @@ class WarrantyListItemWidget extends StatelessWidget {
                           },
                         );
                       } else if (result[0] == 'edit') {
-                        List<String> imageList = [];
-                        if (product.isProductImage) {
-                          imageList.add('productImage');
-                        }
-                        if (product.isPurchaseCopy) {
-                          imageList.add('purchaseCopy');
-                        }
-                        if (product.isWarrantyCopy) {
-                          imageList.add('warrantyCopy');
-                        }
-                        if (product.isAdditionalImage) {
-                          imageList.add('additionalImage');
-                        }
-                        final images = await getImages(product.id!, imageList);
-
                         await Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) =>
