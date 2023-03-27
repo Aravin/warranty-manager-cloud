@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
@@ -83,17 +84,17 @@ class WarrantyListItemWidget extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           const Text(
-                            'Purchase Date',
+                            'purchase_date',
                             style: TextStyle(
                               fontSize: 12,
                             ),
-                          ).text.underline.make(),
+                          ).tr().text.underline.make(),
                           const Text(
-                            'Expires',
+                            'expires',
                             style: TextStyle(
                               fontSize: 12,
                             ),
-                          ).text.underline.make(),
+                          ).tr().text.underline.make(),
                         ],
                       ),
                       Row(

@@ -4,6 +4,7 @@ import 'package:warranty_manager_cloud/screens/warranty_form.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_item.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class WarrantyListTabWidget extends StatelessWidget {
   final WarrantyList warrantyList;
@@ -24,14 +25,14 @@ class WarrantyListTabWidget extends StatelessWidget {
                   labelColor: kAccentColor,
                   tabs: [
                     Tab(
-                      child: Text('ACTIVE (${warrantyList.active.length})'),
-                    ),
+                        child: Text(
+                            '${'active_args'.tr()} (${warrantyList.active.length})')),
                     Tab(
-                      child: Text('EXPIRING (${warrantyList.expiring.length})'),
-                    ),
+                        child: Text(
+                            '${'expiring_args'.tr()} (${warrantyList.expiring.length})')),
                     Tab(
-                      child: Text('EXPIRED (${warrantyList.expired.length})'),
-                    ),
+                        child: Text(
+                            '${'expired_args'.tr()} (${warrantyList.expired.length})')),
                   ],
                 ),
                 body: TabBarView(
@@ -82,7 +83,7 @@ class WarrantyListTabWidget extends StatelessWidget {
                       ),
                     );
                   },
-                  label: const Text('Add new'),
+                  label: const Text('add_new').tr(),
                   icon: const Icon(Icons.new_label),
                   backgroundColor: kAccentColor,
                 ),

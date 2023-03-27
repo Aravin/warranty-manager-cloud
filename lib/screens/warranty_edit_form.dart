@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
@@ -65,7 +66,7 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit Warranty')),
+      appBar: AppBar(title: const Text('edit_warranty').tr()),
       body: Column(
         children: [
           Expanded(
@@ -106,7 +107,7 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                   initialValue: _formInitialValues,
                   skipDisabled: true,
                   child: Stepper(
-                    type: StepperType.horizontal,
+                    type: StepperType.vertical,
                     currentStep: currentStep ?? 0,
                     onStepContinue: next,
                     onStepTapped: (step) => goTo(step),
@@ -137,7 +138,7 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                     steps: [
                       Step(
                         isActive: currentStep == 0 ? true : false,
-                        title: const Text('Required*'),
+                        title: const Text('required').tr(),
                         content: Column(
                           children: [
                             FormBuilderTextField(
@@ -149,10 +150,10 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                                 FormBuilderValidators.maxLength(24)
                               ]),
                               textInputAction: TextInputAction.next,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.shopping_basket),
-                                hintText: 'Product/Service Name ?',
-                                labelText: 'Product/Service Name *',
+                                hintText: 'product_service_name'.tr(),
+                                labelText: 'product_service_name'.tr(),
                               ),
                               // onEditingComplete: () =>
                               //     FocusScope.of(context).requestFocus(priceFocus),
@@ -161,10 +162,10 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               name: 'company',
                               // focusNode: companyFocus,
                               textInputAction: TextInputAction.next,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.branding_watermark),
-                                hintText: 'Company or Brand Name?',
-                                labelText: 'Brand/Company',
+                                hintText: 'brand_company'.tr(),
+                                labelText: 'brand_company'.tr(),
                               ),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(),
@@ -183,18 +184,18 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               inputType: InputType.date,
                               lastDate: DateTime.now(),
                               format: DateFormat("EEE, MMMM d, yyyy"),
-                              decoration: const InputDecoration(
-                                labelText: "Purchase Date",
+                              decoration: InputDecoration(
+                                labelText: 'purchase_date'.tr(),
                                 prefixIcon: Icon(Icons.calendar_today),
                               ),
                             ),
                             FormBuilderDropdown(
                               name: "warrantyPeriod",
                               initialValue: _product.warrantyPeriod,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.timer),
-                                labelText: "Warranty Period",
-                                hintText: 'Select Warranty Period',
+                                labelText: 'warranty_period'.tr(),
+                                hintText: 'warranty_period'.tr(),
                               ),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required()]),
@@ -215,10 +216,10 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                                 FormBuilderValidators.min(1),
                                 FormBuilderValidators.max(9999999)
                               ]),
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.monetization_on),
-                                hintText: 'Total Bill Amount ?',
-                                labelText: 'Price *',
+                                hintText: 'price'.tr(),
+                                labelText: 'price'.tr(),
                               ),
                               // onEditingComplete: () =>
                               //     FocusScope.of(context).requestFocus(companyFocus),
@@ -228,16 +229,16 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                       ),
                       Step(
                         isActive: currentStep == 1 ? true : false,
-                        title: const Text('Optional'),
+                        title: const Text('optional').tr(),
                         content: Column(
                           children: [
                             FormBuilderDropdown(
                               name: 'category',
                               // focusNode: categoryFocus,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.category),
-                                hintText: 'Product Category',
-                                labelText: 'Category',
+                                hintText: 'category'.tr(),
+                                labelText: 'category'.tr(),
                               ),
                               initialValue: 'Other',
                               items: categoryList
@@ -249,10 +250,10 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               name: 'purchasedAt',
                               // focusNode: purchasedAtFocus,
                               textInputAction: TextInputAction.next,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.add_location),
-                                hintText: 'Where did you purchase?',
-                                labelText: 'Purchased At',
+                                hintText: 'where_did_you_purchase'.tr(),
+                                labelText: 'purchased_at'.tr(),
                               ),
                               // onEditingComplete: () => FocusScope.of(context)
                               //     .requestFocus(salesPersonFocus),
@@ -261,10 +262,11 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               name: 'salesPerson',
                               // focusNode: salesPersonFocus,
                               textInputAction: TextInputAction.next,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.people),
-                                hintText: 'Do you remember sales person name?',
-                                labelText: 'Sales Person Name',
+                                hintText:
+                                    'do_you_know_contact_person_name'.tr(),
+                                labelText: 'contact_person_name'.tr(),
                               ),
                               // onEditingComplete: () =>
                               //     FocusScope.of(context).requestFocus(phoneFocus),
@@ -274,11 +276,10 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               keyboardType: TextInputType.number,
                               // focusNode: phoneFocus,
                               textInputAction: TextInputAction.next,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.phone),
-                                hintText:
-                                    'Contact number, i.e customer care number',
-                                labelText: 'Phone number',
+                                hintText: 'customer_care_phone'.tr(),
+                                labelText: 'support_phone'.tr(),
                               ),
                               // onEditingComplete: () =>
                               //     FocusScope.of(context).requestFocus(emailFocus),
@@ -287,10 +288,10 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               name: 'email',
                               // focusNode: emailFocus,
                               textInputAction: TextInputAction.next,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.email),
-                                hintText: 'Customer Service E-Mail Address',
-                                labelText: 'Email Address',
+                                hintText: 'customer_care_email'.tr(),
+                                labelText: 'support_email'.tr(),
                               ),
                               // onEditingComplete: () =>
                               //     FocusScope.of(context).requestFocus(notesFocus),
@@ -301,10 +302,10 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               keyboardType: TextInputType.multiline,
                               name: 'notes',
                               textInputAction: TextInputAction.done,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.note_add),
-                                hintText: 'Any other additional information',
-                                labelText: 'Quick Note',
+                                hintText: 'additional_information'.tr(),
+                                labelText: 'quick_note'.tr(),
                               ),
                             ),
                           ],
@@ -312,15 +313,15 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                       ),
                       Step(
                         isActive: currentStep == 2 ? true : false,
-                        title: const Text('Attachments'),
+                        title: const Text('attachments').tr(),
                         content: Column(
                           children: [
                             FormBuilderImagePicker(
                               bottomSheetPadding:
                                   const EdgeInsets.only(bottom: 50),
                               name: 'productImage',
-                              decoration: const InputDecoration(
-                                labelText: 'Upload Product Image',
+                              decoration: InputDecoration(
+                                labelText: 'upload_product_image'.tr(),
                               ),
                               maxImages: 1,
                               imageQuality: 75,
@@ -330,8 +331,8 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                             ),
                             FormBuilderImagePicker(
                               name: 'imgBill',
-                              decoration: const InputDecoration(
-                                labelText: 'Upload Purchased Bill/Receipt',
+                              decoration: InputDecoration(
+                                labelText: 'upload_purchase_bill_image'.tr(),
                               ),
                               maxImages: 1,
                               imageQuality: 75,
@@ -341,8 +342,8 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                             ),
                             FormBuilderImagePicker(
                               name: 'imgWarranty',
-                              decoration: const InputDecoration(
-                                labelText: 'Upload Warranty Copy',
+                              decoration: InputDecoration(
+                                labelText: 'upload_warranty_image'.tr(),
                               ),
                               maxImages: 1,
                               imageQuality: 75,
@@ -352,8 +353,8 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                             ),
                             FormBuilderImagePicker(
                               name: 'imgAdditional',
-                              decoration: const InputDecoration(
-                                labelText: 'Upload Any Other Additional Image',
+                              decoration: InputDecoration(
+                                labelText: 'other_image'.tr(),
                               ),
                               maxImages: 1,
                               imageQuality: 75,

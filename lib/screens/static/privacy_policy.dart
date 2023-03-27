@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -73,7 +74,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Privacy Policy')),
+      appBar: AppBar(title: const Text('terms_policy').tr()),
       body: Center(
         child: pageLoading ? appLoader : WebViewWidget(controller: _controller),
       ),

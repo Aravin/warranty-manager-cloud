@@ -62,6 +62,7 @@ dependencies:
   firebase_crashlytics: ^3.0.17
   firebase_performance: ^0.9.0+16
   moment_dart: ^0.17.4
+  easy_localization: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -90,6 +91,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/translations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

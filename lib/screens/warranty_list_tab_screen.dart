@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/models/warranty_list.dart';
@@ -11,7 +12,7 @@ class WarrantyListTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Warranty List')),
+      appBar: AppBar(title: const Text('saved_warranty').tr()),
       body: Padding(
         padding: kAppPaddingSmall,
         child: Column(

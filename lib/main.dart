@@ -14,6 +14,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'firebase_options.dart';
 
@@ -32,6 +34,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // We're using the manual installation on non-web platforms since Google sign in plugin doesn't yet support Dart initialization.
   // See related issue: https://github.com/flutter/flutter/issues/96391
+
+  await EasyLocalization.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -69,7 +73,19 @@ Future<void> main() async {
     // The following lines are the same as previously explained in "Handling uncaught errors"
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-    runApp(const WarrantyManagerApp());
+    runApp(
+      EasyLocalization(
+        supportedLocales: const [
+          Locale('en'),
+          Locale('ta', 'IN'),
+          Locale('hi', 'IN')
+        ],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en'),
+        useOnlyLangCode: true,
+        child: const WarrantyManagerApp(),
+      ),
+    );
     configLoading();
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
 }
@@ -81,7 +97,7 @@ void configLoading() {
     ..indicatorType = EasyLoadingIndicatorType.chasingDots
     ..loadingStyle = EasyLoadingStyle.light
     ..indicatorSize = 250.0
-    ..maskColor = Color.fromARGB(255, 0, 0, 0).withOpacity(0.5)
+    ..maskColor = const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5)
     ..userInteractions = false
     ..dismissOnTap = false;
 }
@@ -91,7 +107,12 @@ class WarrantyManagerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.setLocale(const Locale('hi', 'IN'));
+
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       debugShowCheckedModeBanner: false,
       title: 'Warranty Manager',
       theme: ThemeData(
@@ -132,9 +153,9 @@ class WarrantyManagerApp extends StatelessWidget {
                     stream: FirebaseAuth.instance.authStateChanges(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return Home();
+                        return const Home();
                       }
-                      return AuthGate();
+                      return const AuthGate();
                     },
                   ),
                 ),

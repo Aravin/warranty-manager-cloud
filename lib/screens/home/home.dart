@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -12,7 +12,6 @@ import 'package:warranty_manager_cloud/screens/static/privacy_policy.dart';
 
 import 'package:warranty_manager_cloud/screens/warranty_list_tab_screen.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
-import 'package:warranty_manager_cloud/services/remote_config.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 
@@ -38,9 +37,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Warranty Manager',
-        ),
+        title: const Text('warranty_manager').tr(),
       ),
       drawer: Drawer(
         child: ListView(
@@ -106,7 +103,7 @@ class _HomeState extends State<Home> {
                     ),
             ),
             ListTile(
-              title: const Text('Saved Items'),
+              title: const Text('saved_warranty').tr(),
               leading: const Icon(Icons.security),
               onTap: () {
                 Navigator.pop(context);
@@ -129,7 +126,7 @@ class _HomeState extends State<Home> {
             //   },
             // ),
             ListTile(
-              title: const Text('Privacy Policy'),
+              title: const Text('terms_policy').tr(),
               leading: const Icon(Icons.description),
               onTap: () {
                 Navigator.pop(context);
@@ -142,7 +139,7 @@ class _HomeState extends State<Home> {
               },
             ),
             ListTile(
-              title: const Text('About'),
+              title: const Text('about').tr(),
               leading: const Icon(Icons.info),
               onTap: () {
                 Navigator.pop(context);
@@ -156,7 +153,7 @@ class _HomeState extends State<Home> {
             ),
             !(FirebaseAuth.instance.currentUser!.isAnonymous)
                 ? ListTile(
-                    title: const Text('Profile'),
+                    title: const Text('profile').tr(),
                     leading: const Icon(Icons.account_box),
                     onTap: () {
                       Navigator.pop(context);
@@ -170,13 +167,13 @@ class _HomeState extends State<Home> {
                   )
                 : const SizedBox(),
             ListTile(
-              title: const Text('Logout'),
+              title: const Text('logout').tr(),
               leading: const Icon(Icons.logout),
               onTap: () => showDialog<void>(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text('Logout'),
+                    title: const Text('logout').tr(),
                     content: const Text('Are you sure want to logout?'),
                     actions: <Widget>[
                       TextButton(
@@ -227,17 +224,17 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     HighlightCard(
-                      cardName: 'In Warranty',
+                      cardName: tr('in_warranty'),
                       count: snapshot.data!.active.length.toString(),
                       icon: Icons.security,
                     ),
                     HighlightCard(
-                      cardName: 'Expiring soon',
+                      cardName: tr('expiring_soon'),
                       count: snapshot.data!.expiring.length.toString(),
                       icon: Icons.timelapse,
                     ),
                     HighlightCard(
-                      cardName: 'Expired',
+                      cardName: tr('expired'),
                       count: snapshot.data!.expired.length.toString(),
                       icon: Icons.dangerous,
                     ),
