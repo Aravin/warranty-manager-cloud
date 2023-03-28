@@ -88,6 +88,10 @@
     "created_on": "Creado en",
     "last_sign_in": "Último inicio de sesión",
     "profile_page_terms": "Los datos mostrados aquí son solo de lectura. No almacenamos ninguno de tus datos aparte de la información de garantía. Estos son los datos que proporcionaste al registrarte/iniciar sesión.",
+    "settings": "Configuración",
+    "display_lang": "Idioma de pantalla",
+    "expiry_warranty_notification": "Permitir notificaciones push para recordar 30 días antes del vencimiento del producto/servicio",
+    "remainder_to_story_notification": "Permitir notificaciones push para recordar almacenar nuevos productos/servicios",
     "tooltip": {
         "add_edit_delete_warranty": "Agregar, editar o eliminar la garantía"
     },

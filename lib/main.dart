@@ -16,6 +16,7 @@ import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:warranty_manager_cloud/shared/locales.dart';
 
 import 'firebase_options.dart';
 
@@ -75,11 +76,7 @@ Future<void> main() async {
 
     runApp(
       EasyLocalization(
-        supportedLocales: const [
-          Locale('en'),
-          Locale('ta', 'IN'),
-          Locale('hi', 'IN')
-        ],
+        supportedLocales: supportedLocales,
         path: 'assets/translations',
         fallbackLocale: const Locale('en'),
         useOnlyLangCode: true,
@@ -107,7 +104,7 @@ class WarrantyManagerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.setLocale(const Locale('ta', 'IN'));
+    context.setLocale(const Locale('es'));
     // context.setLocale(const Locale('en'));
 
     return MaterialApp(

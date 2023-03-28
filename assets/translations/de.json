@@ -88,6 +88,10 @@
     "created_on": "Erstellt am",
     "last_sign_in": "Letzte Anmeldung",
     "profile_page_terms": "Die hier angezeigten Daten sind nur lesbar. Wir speichern keine Ihrer Daten außer Garantieinformationen. Dies sind die Daten, die Sie bei der Anmeldung/Registrierung angegeben haben.",
+    "settings": "Einstellungen",
+    "display_lang": "Anzeigesprache",
+    "expiry_warranty_notification": "Erlaube Push-Benachrichtigungen, um 30 Tage vor dem Ablauf von Produkten/Dienstleistungen zu erinnern",
+    "remainder_to_story_notification": "Erlaube Push-Benachrichtigungen, um an das Speichern neuer Produkte/Dienstleistungen zu erinnern",
     "tooltip": {
         "add_edit_delete_warranty": "Garantie hinzufügen, bearbeiten oder löschen"
     },

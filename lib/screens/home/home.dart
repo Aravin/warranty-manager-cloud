@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/screens/home/widgets/highlight_card.dart';
 import 'package:warranty_manager_cloud/screens/profile.dart';
+import 'package:warranty_manager_cloud/screens/settings_screen/settings_screen.dart';
 // import 'package:in_app_review/in_app_review.dart';
 import 'package:warranty_manager_cloud/screens/static/about.dart';
 import 'package:warranty_manager_cloud/screens/static/privacy_policy.dart';
@@ -117,17 +118,17 @@ class _HomeState extends State<Home> {
                 );
               },
             ),
-            // ListTile(
-            //   title: Text('Bulk Actions'),
-            //   leading: Icon(Icons.group_work),
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (ctxt) => BulkUploadScreen()),
-            //     );
-            //   },
-            // ),
+            ListTile(
+              title: Text('settings').tr(),
+              leading: Icon(Icons.settings),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (ctx) => SettingsScreen()),
+                );
+              },
+            ),
             ListTile(
               title: const Text('terms_policy').tr(),
               leading: const Icon(Icons.description),
@@ -136,7 +137,7 @@ class _HomeState extends State<Home> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (ctxt) => PrivacyPolicyScreen(),
+                    builder: (ctx) => PrivacyPolicyScreen(),
                   ),
                 );
               },

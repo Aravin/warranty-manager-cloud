@@ -88,6 +88,10 @@
     "created_on": "作成日",
     "last_sign_in": "最終ログイン",
     "profile_page_terms": "ここに表示されるデータは読み取り専用です。保証情報以外のデータは保存していません。これらはサインイン/登録時に提供されたデータです。",
+    "settings": "設定",
+    "display_lang": "表示言語",
+    "expiry_warranty_notification": "製品/サービスの有効期限が切れる30日前に通知をリマインドするためのプッシュ通知を許可する",
+    "remainder_to_story_notification": "新しい製品/サービスをストアするようにリマインドするためのプッシュ通知を許可する",
     "tooltip": {
         "add_edit_delete_warranty": "保証を追加、編集、または削除する"
     },

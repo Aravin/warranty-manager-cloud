@@ -88,12 +88,16 @@
     "created_on": "Criado em",
     "last_sign_in": "Último login",
     "profile_page_terms": "Os dados exibidos aqui são somente leitura. Não armazenamos nenhum de seus dados além das informações de garantia. Esses são os dados que você forneceu durante o registro/login.",
+    "settings": "Configurações",
+    "display_lang": "Idioma de exibição",
+    "expiry_warranty_notification": "Permitir notificação por push para lembrar 30 dias antes do vencimento do produto/serviço",
+    "remainder_to_story_notification": "Permitir notificação por push para lembrar de armazenar novos produtos/serviços",
     "tooltip": {
-    "add_edit_delete_warranty": "Adicionar, Editar ou Excluir a garantia"
+        "add_edit_delete_warranty": "Adicionar, Editar ou Excluir a garantia"
     },
     "toast": {
-    "delete_success": "Excluído com sucesso!",
-    "save_success": "Produto salvo com sucesso!",
-    "failed_to_save": "Falha ao salvar o produto!"
+        "delete_success": "Excluído com sucesso!",
+        "save_success": "Produto salvo com sucesso!",
+        "failed_to_save": "Falha ao salvar o produto!"
     }
 }

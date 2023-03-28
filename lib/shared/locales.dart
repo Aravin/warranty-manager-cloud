@@ -1,0 +1,43 @@
+import 'package:flutter/material.dart';
+
+const supportedLocales = [
+  Locale('en'),
+  Locale('es'),
+  Locale('pt'),
+  Locale('ru'),
+  Locale('ja'),
+  Locale('fr'),
+  Locale('de'),
+  Locale('zh'),
+  Locale('hi', 'IN'),
+  Locale('ta', 'IN'),
+  Locale('bn', 'IN'),
+  Locale('mr', 'IN'),
+  Locale('te', 'IN'),
+  Locale('gu', 'IN'),
+  Locale('ur', 'IN'),
+  Locale('kn', 'IN'),
+  Locale('or', 'IN'),
+  Locale('ml', 'IN'),
+];
+
+const localeLanguageMap = {
+  'en': 'English',
+  'es': 'Spanish (Castilian)',
+  'pt': 'Portuguese (português)',
+  'ru': 'Russian (русский язык)',
+  'ja': 'Japanese (nihongo)',
+  'fr': 'French (français)',
+  'de': 'German (Standardhochdeutsch)',
+  'zh': 'China (官話 / 官话)',
+  'hi': 'Hindi (हिन्दी)',
+  'ta': 'Tamil (தமிழ்)',
+  'bn': 'Bengali (বাংলা)',
+  'mr': 'Marathi (मराठी)',
+  'te': 'Telugu (తెలుగు)',
+  'gu': 'Gujarati (ગુજરાતી)',
+  'ur': 'Urdu (اردو)',
+  'kn': 'Kannada (ಕನ್ನಡ)',
+  'or': 'Odia (ଓଡ଼ିଆ)',
+  'ml': 'Malayalam (മലയാളം)',
+};

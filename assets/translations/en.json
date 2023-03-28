@@ -88,6 +88,10 @@
     "created_on": "Created on",
     "last_sign_in": "Last sign in",
     "profile_page_terms": "The data displayed here is only readonly. we don\"t store any of your data other than warranty information. These are the data you provided during sign-in/register.",
+    "settings": "Settings",
+    "display_lang": "Display Language",
+    "expiry_warranty_notification": "Allow Push Notification to remind 30 days before product/service expiry",
+    "remainder_to_story_notification": "Allow Push Notification to remind to store new products/services",
     "tooltip": {
         "add_edit_delete_warranty": "Add, Edit or Delete the warranty"
     },
