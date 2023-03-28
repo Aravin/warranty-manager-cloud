@@ -73,7 +73,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
             return appLoader;
           }
           if (!snapshot.hasData) {
-            return const Center(child: Text('Unable to load product details'));
+            return Center(child: Text('failed_to_load_warranty_details'.tr()));
           }
           final data = snapshot.data;
           return Padding(
@@ -272,22 +272,23 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                             data.product.isProductImage
                                 ? ImageThumbnailWidget(
                                     image: data.images['productImage']!,
-                                    imageName: 'Product Image')
+                                    imageName: 'upload_product_image'.tr())
                                 : const SizedBox(),
                             data.product.isPurchaseCopy
                                 ? ImageThumbnailWidget(
                                     image: data.images['purchaseCopy']!,
-                                    imageName: 'Purchase Bill')
+                                    imageName:
+                                        'upload_purchase_bill_image'.tr())
                                 : const SizedBox(),
                             data.product.isWarrantyCopy
                                 ? ImageThumbnailWidget(
                                     image: data.images['warrantyCopy']!,
-                                    imageName: 'Warranty Copy')
+                                    imageName: 'upload_warranty_image'.tr())
                                 : const SizedBox(),
                             data.product.isAdditionalImage
                                 ? ImageThumbnailWidget(
                                     image: data.images['additionalImage']!,
-                                    imageName: 'Additional Image')
+                                    imageName: 'other_image'.tr())
                                 : const SizedBox(),
                           ],
                         ),

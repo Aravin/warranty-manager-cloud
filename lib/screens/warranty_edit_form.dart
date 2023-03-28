@@ -77,8 +77,8 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                   return appLoader;
                 }
                 if (!snapshot.hasData) {
-                  return const Center(
-                      child: Text('Unable to load product details'));
+                  return Center(
+                      child: Text('failed_to_load_warranty_details').tr());
                 }
                 final data = snapshot.data;
                 _product = data!.product;
@@ -122,13 +122,13 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                             currentStep > 0
                                 ? OutlinedButton(
                                     onPressed: () => cancel(),
-                                    child: const Text('Back'),
+                                    child: const Text('back').tr(),
                                   )
                                 : const SizedBox(),
                             currentStep < 2
                                 ? OutlinedButton(
                                     onPressed: () => next(),
-                                    child: const Text('Next'),
+                                    child: const Text('next').tr(),
                                   )
                                 : const SizedBox(),
                           ],
@@ -379,7 +379,7 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                   padding: const EdgeInsets.all(8.0),
                   child: OutlinedButton.icon(
                     icon: Icon(Icons.clear),
-                    label: const Text('RESET'),
+                    label: const Text('reset').tr(),
                     onPressed: () => _formKey.currentState?.reset(),
                   ),
                 ),
@@ -389,7 +389,7 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton.icon(
                     icon: Icon(Icons.save),
-                    label: const Text('UPDATE'),
+                    label: const Text('update').tr(),
                     onPressed: () async {
                       if (_formKey.currentState!.saveAndValidate()) {
                         try {
@@ -422,14 +422,14 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
 
                           await _product.update();
                           Fluttertoast.showToast(
-                            msg: "Saved Product Successfully!",
+                            msg: 'toast.save_success'.tr(),
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.CENTER,
                             fontSize: 16.0,
                           );
                         } catch (err) {
                           Fluttertoast.showToast(
-                            msg: "Failed to save Product!",
+                            msg: 'toast.failed_to_save'.tr(),
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.CENTER,
                             fontSize: 16.0,
@@ -446,7 +446,6 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                         }
                       } else {
                         debugPrint(_formKey.currentState?.value.toString());
-                        debugPrint('validation failed');
                       }
                     },
                   ),

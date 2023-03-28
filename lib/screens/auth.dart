@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -47,7 +48,7 @@ class ScaffoldSnackbar {
 enum AuthMode { login, register }
 
 extension on AuthMode {
-  String get label => this == AuthMode.login ? 'Sign in' : 'Register';
+  String get label => this == AuthMode.login ? 'sign_in'.tr() : 'register'.tr();
 }
 
 /// Entrypoint example for various sign-in flows with Firebase.
@@ -126,8 +127,8 @@ class _AuthGateState extends State<AuthGate> {
                     const SizedBox(height: 10),
                     Text(
                       mode == AuthMode.login
-                          ? "Login Page"
-                          : 'Registration Page',
+                          ? 'login_page'.tr()
+                          : 'registration_page'.tr(),
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -140,13 +141,13 @@ class _AuthGateState extends State<AuthGate> {
                         children: [
                           TextSpan(
                             text: mode == AuthMode.login
-                                ? "Don't have an account? "
-                                : 'You have an account? ',
+                                ? 'dont_have_account'.tr()
+                                : 'you_have_account'.tr(),
                           ),
                           TextSpan(
                             text: mode == AuthMode.login
-                                ? 'Register now'
-                                : 'Click to login',
+                                ? 'register_now'.tr()
+                                : 'login_now'.tr(),
                             style: const TextStyle(color: Colors.blue),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
@@ -198,27 +199,27 @@ class _AuthGateState extends State<AuthGate> {
                               children: [
                                 TextFormField(
                                   controller: emailController,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Email',
+                                  decoration: InputDecoration(
+                                    hintText: 'email'.tr(),
                                     border: OutlineInputBorder(),
                                   ),
                                   validator: (value) =>
                                       value != null && value.isNotEmpty
                                           ? null
-                                          : 'Required',
+                                          : 'required'.tr(),
                                 ),
                                 const SizedBox(height: 20),
                                 TextFormField(
                                   controller: passwordController,
                                   obscureText: true,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Password',
+                                  decoration: InputDecoration(
+                                    hintText: 'password'.tr(),
                                     border: OutlineInputBorder(),
                                   ),
                                   validator: (value) =>
                                       value != null && value.isNotEmpty
                                           ? null
-                                          : 'Required',
+                                          : 'required'.tr(),
                                 ),
                               ],
                             ),
@@ -239,13 +240,13 @@ class _AuthGateState extends State<AuthGate> {
                             ),
                             TextButton(
                               onPressed: _resetPassword,
-                              child: const Text('Forgot password?'),
+                              child: const Text('forgot_password').tr(),
                             ),
                             const SizedBox(height: 5),
                             const Text(
-                              'OR',
+                              'or',
                               style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
+                            ).tr(),
                             const SizedBox(height: 5),
                             ...authButtons.keys
                                 .map(
@@ -280,13 +281,13 @@ class _AuthGateState extends State<AuthGate> {
                                 children: [
                                   TextSpan(
                                     text: mode == AuthMode.login
-                                        ? "Don't have an account? "
-                                        : 'You have an account? ',
+                                        ? 'dont_have_account'.tr()
+                                        : 'you_have_account'.tr(),
                                   ),
                                   TextSpan(
                                     text: mode == AuthMode.login
-                                        ? 'Register now'
-                                        : 'Click to login',
+                                        ? 'register_now'.tr()
+                                        : 'login_now'.tr(),
                                     style: const TextStyle(color: Colors.blue),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
@@ -305,9 +306,10 @@ class _AuthGateState extends State<AuthGate> {
                               text: TextSpan(
                                 style: Theme.of(context).textTheme.bodyLarge,
                                 children: [
-                                  const TextSpan(text: 'Or '),
+                                  TextSpan(text: 'or'.tr()),
+                                  TextSpan(text: ''),
                                   TextSpan(
-                                    text: 'continue as guest',
+                                    text: 'continue_as_guest'.tr(),
                                     style: const TextStyle(color: Colors.blue),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = _anonymousAuth,
@@ -340,14 +342,14 @@ class _AuthGateState extends State<AuthGate> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Send'),
+              child: const Text('send').tr(),
             ),
           ],
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('Enter your email'),
+              const Text('enter_your_email').tr(),
               const SizedBox(height: 20),
               TextFormField(
                 onChanged: (value) {
@@ -363,13 +365,13 @@ class _AuthGateState extends State<AuthGate> {
     if (email != null) {
       try {
         await _auth.sendPasswordResetEmail(email: email!);
-        ScaffoldSnackbar.of(context).show('Password reset email is sent');
+        ScaffoldSnackbar.of(context).show('pass_reset_mail_sent'.tr());
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
-          ScaffoldSnackbar.of(context).show('User not found!');
+          ScaffoldSnackbar.of(context).show('user_not_found'.tr());
         }
       } catch (e) {
-        ScaffoldSnackbar.of(context).show('Error resetting');
+        ScaffoldSnackbar.of(context).show('error_reset'.tr());
       }
     }
   }
@@ -552,20 +554,20 @@ Future<String?> getSmsCodeFromUser(BuildContext context) async {
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: const Text('SMS code:'),
+        title: const Text('sms_code').tr(),
         actions: [
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text('Sign in'),
+            child: const Text('sign_in').tr(),
           ),
           OutlinedButton(
             onPressed: () {
               smsCode = null;
               Navigator.of(context).pop();
             },
-            child: const Text('Cancel'),
+            child: const Text('cancel').tr(),
           ),
         ],
         content: Container(

@@ -23,8 +23,8 @@ class WarrantyListTabScreen extends StatelessWidget {
                 if (snapshot.hasData) {
                   return WarrantyListTabWidget(warrantyList: snapshot.data!);
                 } else if (snapshot.hasError) {
-                  return const Center(
-                      child: Text('Failed to display saved warranty'));
+                  return Center(
+                      child: Text('failed_to_load_warranty_details').tr());
                 }
                 return appLoader;
               },

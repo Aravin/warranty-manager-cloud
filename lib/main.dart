@@ -107,14 +107,14 @@ class WarrantyManagerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.setLocale(const Locale('hi', 'IN'));
+    // context.setLocale(const Locale('ta', 'IN'));
+    context.setLocale(const Locale('en'));
 
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       debugShowCheckedModeBanner: false,
-      title: 'Warranty Manager',
       theme: ThemeData(
         // useMaterial3: true,
         primarySwatch: Colors.deepPurple,
@@ -136,7 +136,7 @@ class WarrantyManagerApp extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Firebase Auth Desktop',
+                              'Desktop Login',
                               style: Theme.of(context).textTheme.headline4,
                             ),
                           ],

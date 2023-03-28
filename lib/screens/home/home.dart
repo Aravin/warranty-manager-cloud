@@ -51,25 +51,28 @@ class _HomeState extends State<Home> {
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CircleAvatar(
+                      children: [
+                        const CircleAvatar(
                           backgroundColor: kAccentColor,
                           foregroundColor: Colors.white,
-                          radius: 36,
+                          radius: 24,
                           child: Text(
                             'A',
-                            style: TextStyle(fontSize: 48),
+                            style: TextStyle(fontSize: 36),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 7.5),
                         Text(
-                          'Anonymous User',
-                          style: TextStyle(color: Colors.white),
+                          'anonymous_user'.tr(),
+                          style: const TextStyle(color: Colors.white),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text(
-                          'Please create an account with email address to sync your warranty!',
-                          style: TextStyle(color: Colors.white),
+                          'create_account_with_email'.tr(),
+                          softWrap: true,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ],
                     )
@@ -174,23 +177,23 @@ class _HomeState extends State<Home> {
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: const Text('logout').tr(),
-                    content: const Text('Are you sure want to logout?'),
+                    content: const Text('are_you_sure_logout').tr(),
                     actions: <Widget>[
                       TextButton(
                         style: TextButton.styleFrom(
                           textStyle: Theme.of(context).textTheme.labelLarge,
                         ),
-                        child: const Text('Yes, log me out'),
-                        onPressed: () {
+                        child: const Text('yes_logout').tr(),
+                        onPressed: () async {
+                          await _signOut();
                           Navigator.pop(context);
-                          _signOut();
                         },
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
                           textStyle: Theme.of(context).textTheme.labelLarge,
                         ),
-                        child: const Text('Cancel'),
+                        child: const Text('cancel').tr(),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -245,8 +248,7 @@ class _HomeState extends State<Home> {
               ],
             );
           } else if (snapshot.hasError) {
-            return const Center(
-                child: Text('Failed to load the warranty list!'));
+            return Center(child: const Text('failed_to_load_warranty').tr());
           }
           return appLoader;
         },

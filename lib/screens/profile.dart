@@ -116,47 +116,47 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: <Widget>[
                     user.email != null && user.email != ''
                         ? ListTile(
-                            title: const Text('Email',
+                            title: const Text('email',
                                 style: TextStyle(
                                   fontSize: 18,
-                                )),
+                                )).tr(),
                             subtitle: Text(user.email!),
                           )
                         : SizedBox(),
                     user.displayName != null && user.displayName != ''
                         ? ListTile(
-                            title: const Text('Name',
+                            title: const Text('name',
                                 style: TextStyle(
                                   fontSize: 18,
-                                )),
+                                )).tr(),
                             subtitle: Text(user.displayName!),
                           )
                         : SizedBox(),
                     user.phoneNumber != null && user.phoneNumber != ''
                         ? ListTile(
-                            title: const Text('Phone',
+                            title: const Text('phone',
                                 style: TextStyle(
                                   fontSize: 18,
-                                )),
+                                )).tr(),
                             subtitle: Text(user.phoneNumber!),
                           )
                         : SizedBox(),
                     user.metadata.creationTime != null
                         ? ListTile(
-                            title: const Text('Created on',
+                            title: const Text('created_on',
                                 style: TextStyle(
                                   fontSize: 18,
-                                )),
+                                )).tr(),
                             subtitle:
                                 Text(user.metadata.creationTime.toString()),
                           )
                         : SizedBox(),
                     user.metadata.lastSignInTime != null
                         ? ListTile(
-                            title: const Text('Last sign in',
+                            title: const Text('last_sign_in',
                                 style: TextStyle(
                                   fontSize: 18,
-                                )),
+                                )).tr(),
                             subtitle:
                                 Text(user.metadata.lastSignInTime.toString()),
                           )
@@ -165,8 +165,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               Container(
-                child: const Text(
-                  'The data displayed here is only readonly. we don\'t store any of your data other than warranty information. These are the data you provided during sign-in/register.',
+                child: Text(
+                  'profile_page_terms'.tr(),
                   style: TextStyle(fontSize: 12, color: kSecondaryTextColor),
                 ),
               )
@@ -177,45 +177,45 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Future<String?> getPhotoURLFromUser() async {
-    String? photoURL;
+  // Future<String?> getPhotoURLFromUser() async {
+  //   String? photoURL;
 
-    // Update the UI - wait for the user to enter the SMS code
-    await showDialog<String>(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('New image Url:'),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Update'),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                photoURL = null;
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-          ],
-          content: Container(
-            padding: const EdgeInsets.all(20),
-            child: TextField(
-              onChanged: (value) {
-                photoURL = value;
-              },
-              textAlign: TextAlign.center,
-              autofocus: true,
-            ),
-          ),
-        );
-      },
-    );
+  //   // Update the UI - wait for the user to enter the SMS code
+  //   await showDialog<String>(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (context) {
+  //       return AlertDialog(
+  //         title: const Text('New image Url:'),
+  //         actions: [
+  //           ElevatedButton(
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //             child: const Text('Update'),
+  //           ),
+  //           OutlinedButton(
+  //             onPressed: () {
+  //               photoURL = null;
+  //               Navigator.of(context).pop();
+  //             },
+  //             child: const Text('Cancel'),
+  //           ),
+  //         ],
+  //         content: Container(
+  //           padding: const EdgeInsets.all(20),
+  //           child: TextField(
+  //             onChanged: (value) {
+  //               photoURL = value;
+  //             },
+  //             textAlign: TextAlign.center,
+  //             autofocus: true,
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
 
-    return photoURL;
-  }
+  //   return photoURL;
+  // }
 }
