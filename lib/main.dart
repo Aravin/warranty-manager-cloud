@@ -6,6 +6,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:warranty_manager_cloud/models/settings.dart';
 import 'package:warranty_manager_cloud/screens/auth.dart';
 import 'package:warranty_manager_cloud/screens/home/home.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
@@ -16,6 +17,7 @@ import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:warranty_manager_cloud/shared/loader.dart';
 import 'package:warranty_manager_cloud/shared/locales.dart';
 
 import 'firebase_options.dart';
@@ -104,7 +106,6 @@ class WarrantyManagerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.setLocale(const Locale('es'));
     // context.setLocale(const Locale('en'));
 
     return MaterialApp(
@@ -150,7 +151,17 @@ class WarrantyManagerApp extends StatelessWidget {
                     stream: FirebaseAuth.instance.authStateChanges(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return const Home();
+                        return StreamBuilder<Settings>(
+                          stream: Settings().get(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              context
+                                  .setLocale(snapshot.data!.locale.toLocale());
+                              return Home();
+                            }
+                            return appLoader;
+                          },
+                        );
                       }
                       return const AuthGate();
                     },

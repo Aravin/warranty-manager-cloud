@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:warranty_manager_cloud/models/settings.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:warranty_manager_cloud/shared/locales.dart';
@@ -13,8 +12,6 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
     List<Locale> localeOptions = supportedLocales;
-
-    void _onChanged(dynamic val) => debugPrint(val.toString());
 
     return Scaffold(
       appBar: AppBar(title: const Text('settings').tr()),
@@ -29,8 +26,8 @@ class SettingsScreen extends StatelessWidget {
                   children: [
                     const SizedBox(height: 5),
                     FormBuilderDropdown<String>(
-                      name: 'lang',
-                      initialValue: 'en',
+                      name: 'locale',
+                      initialValue: context.locale.toString(),
                       decoration: InputDecoration(
                         labelText: 'display_lang'.tr(),
                         suffix: IconButton(
@@ -43,9 +40,10 @@ class SettingsScreen extends StatelessWidget {
                       ),
                       items: localeOptions
                           .map((locale) => DropdownMenuItem(
-                                value: locale.languageCode,
-                                child: Text(
-                                    localeLanguageMap[locale.languageCode]!),
+                                value:
+                                    '${locale.languageCode}_${locale.countryCode}',
+                                child: Text(localeLanguageMap[
+                                    '${locale.languageCode}_${locale.countryCode}']!),
                               ))
                           .toList(),
                     ),
@@ -53,14 +51,12 @@ class SettingsScreen extends StatelessWidget {
                     FormBuilderCheckbox(
                       name: 'allow_expiry_notification',
                       initialValue: true,
-                      onChanged: _onChanged,
                       title: const Text('expiry_warranty_notification').tr(),
                     ),
                     const SizedBox(height: 5),
                     FormBuilderCheckbox(
                       name: 'allow_remainder_notification',
                       initialValue: true,
-                      onChanged: _onChanged,
                       title: const Text('remainder_to_story_notification').tr(),
                     ),
                     const SizedBox(height: 5),
@@ -77,7 +73,7 @@ class SettingsScreen extends StatelessWidget {
 
                           final formData = formKey.currentState?.value;
                           final settings = Settings();
-                          settings.langCode = formData!['lang'] ?? 'en';
+                          settings.locale = formData!['locale'] ?? 'en_GB';
                           settings.allowExpiryNotification =
                               formData['allow_expiry_notification'];
                           settings.allowRemainderNotification =
