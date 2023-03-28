@@ -107,8 +107,8 @@ class WarrantyManagerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // context.setLocale(const Locale('ta', 'IN'));
-    context.setLocale(const Locale('en'));
+    context.setLocale(const Locale('ta', 'IN'));
+    // context.setLocale(const Locale('en'));
 
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
