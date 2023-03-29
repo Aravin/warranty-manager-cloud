@@ -22,21 +22,24 @@ class WarrantyListTabWidget extends StatelessWidget {
               child: Scaffold(
                 appBar: TabBar(
                   indicatorColor: kPrimaryColor,
-                  labelColor: kAccentColor,
+                  labelColor: kPrimaryColor,
+                  unselectedLabelColor: kAccentColor,
                   tabs: [
                     Tab(
                         child: Text(
                       '${'active_args'.tr()} (${warrantyList.active.length})',
-                      style: TextStyle(fontSize: 12),
+                      style: const TextStyle(fontSize: 12.5),
                     )),
                     Tab(
-                        child: Text(
-                            '${'expiring_args'.tr()} (${warrantyList.expiring.length})',
-                            style: TextStyle(fontSize: 12))),
+                      child: Text(
+                          '${'expiring_args'.tr()} (${warrantyList.expiring.length})',
+                          style: const TextStyle(fontSize: 12.5)),
+                    ),
                     Tab(
-                        child: Text(
-                            '${'expired_args'.tr()} (${warrantyList.expired.length})',
-                            style: TextStyle(fontSize: 12))),
+                      child: Text(
+                          '${'expired_args'.tr()} (${warrantyList.expired.length})',
+                          style: const TextStyle(fontSize: 12.5)),
+                    ),
                   ],
                 ),
                 body: Container(
@@ -53,7 +56,8 @@ class WarrantyListTabWidget extends StatelessWidget {
                                     cardShadow: Colors.green.shade100,
                                   )),
                             )
-                          : Center(child: Text('no_active_warranty').tr()),
+                          : Center(
+                              child: const Text('no_active_warranty').tr()),
                       warrantyList.expiring.isNotEmpty
                           ? ListView.builder(
                               shrinkWrap: true,
@@ -65,7 +69,8 @@ class WarrantyListTabWidget extends StatelessWidget {
                                     cardShadow: Colors.orange.shade100,
                                   )),
                             )
-                          : Center(child: Text('no_expiring_warranty').tr()),
+                          : Center(
+                              child: const Text('no_expiring_warranty').tr()),
                       warrantyList.expired.isNotEmpty
                           ? ListView.builder(
                               shrinkWrap: true,
@@ -77,7 +82,8 @@ class WarrantyListTabWidget extends StatelessWidget {
                                     cardShadow: Colors.red.shade100,
                                   )),
                             )
-                          : Center(child: Text('no_expired_warranty').tr()),
+                          : Center(
+                              child: const Text('no_expired_warranty').tr()),
                     ],
                   ).py8(),
                 ),
