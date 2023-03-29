@@ -40,7 +40,6 @@ class WarrantyListTabWidget extends StatelessWidget {
                   ],
                 ),
                 body: Container(
-                  color: Colors.grey.shade200,
                   child: TabBarView(
                     children: [
                       warrantyList.active.isNotEmpty

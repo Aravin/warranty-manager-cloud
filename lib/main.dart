@@ -114,10 +114,10 @@ class WarrantyManagerApp extends StatelessWidget {
       locale: context.locale,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // useMaterial3: true,
-        primarySwatch: Colors.deepPurple,
-        textTheme: Typography.blackCupertino,
-      ),
+          // useMaterial3: true,
+          primarySwatch: Colors.deepPurple,
+          textTheme: Typography.blackCupertino,
+          scaffoldBackgroundColor: Colors.grey.shade200),
       home: Scaffold(
         body: LayoutBuilder(
           builder: (context, constraints) {
