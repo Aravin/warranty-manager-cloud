@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:warranty_manager_cloud/models/settings.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
+import 'package:warranty_manager_cloud/shared/loader.dart';
 import 'package:warranty_manager_cloud/shared/locales.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -69,17 +72,35 @@ class SettingsScreen extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () async {
                         if (formKey.currentState?.saveAndValidate() ?? false) {
-                          debugPrint(formKey.currentState?.value.toString());
+                          try {
+                            await EasyLoading.show(
+                              indicator: appLoader,
+                            );
+                            final formData = formKey.currentState?.value;
+                            final settings = Settings();
+                            settings.locale = formData!['locale'] ?? 'en_GB';
+                            settings.allowExpiryNotification =
+                                formData['allow_expiry_notification'];
+                            settings.allowRemainderNotification =
+                                formData['allow_remainder_notification'];
 
-                          final formData = formKey.currentState?.value;
-                          final settings = Settings();
-                          settings.locale = formData!['locale'] ?? 'en_GB';
-                          settings.allowExpiryNotification =
-                              formData['allow_expiry_notification'];
-                          settings.allowRemainderNotification =
-                              formData['allow_remainder_notification'];
-
-                          await settings.save();
+                            await settings.save();
+                            Fluttertoast.showToast(
+                              msg: 'toast.settings_save_success'.tr(),
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.CENTER,
+                            );
+                          } catch (err) {
+                            debugPrint(formKey.currentState?.value.toString());
+                            Fluttertoast.showToast(
+                              msg: 'toast.settings_save_failure'.tr(),
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.CENTER,
+                            );
+                          } finally {
+                            await EasyLoading.dismiss()
+                                .then((value) => Navigator.pop(context));
+                          }
                         } else {
                           debugPrint(formKey.currentState?.value.toString());
                           debugPrint('validation failed');

@@ -224,14 +224,6 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               // onEditingComplete: () =>
                               //     FocusScope.of(context).requestFocus(companyFocus),
                             ),
-                          ],
-                        ),
-                      ),
-                      Step(
-                        isActive: currentStep == 1 ? true : false,
-                        title: const Text('optional').tr(),
-                        content: Column(
-                          children: [
                             FormBuilderDropdown(
                               name: 'category',
                               // focusNode: categoryFocus,
@@ -246,6 +238,14 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                                       value: category, child: Text(category)))
                                   .toList(),
                             ),
+                          ],
+                        ),
+                      ),
+                      Step(
+                        isActive: currentStep == 1 ? true : false,
+                        title: const Text('optional').tr(),
+                        content: Column(
+                          children: [
                             FormBuilderTextField(
                               name: 'purchasedAt',
                               // focusNode: purchasedAtFocus,

@@ -98,6 +98,8 @@
     "toast": {
         "delete_success": "Deleted Successfully!",
         "save_success": "Saved Product Successfully!",
-        "failed_to_save": "Failed to save Product!"
+        "failed_to_save": "Failed to save Product!",
+        "settings_save_success": "Settings updated successfully!",
+        "settings_save_failure": "Failed to update settings!"
     }
 }
