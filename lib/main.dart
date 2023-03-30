@@ -6,19 +6,22 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:warranty_manager_cloud/screens/auth.dart';
-import 'package:warranty_manager_cloud/screens/home/home.dart';
+import 'package:warranty_manager_cloud/screens/auth/auth_widget.dart';
+import 'package:warranty_manager_cloud/screens/onboarding/onboarding_screen.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/services/remote_config.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_performance/firebase_performance.dart';
-import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:warranty_manager_cloud/shared/locales.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
 
 bool shouldUseFirebaseEmulator = false;
 bool shouldUseFirestoreEmulator = false;
+bool isFirstLaunch = true;
 
 Future<void> main() async {
   Isolate.current.addErrorListener(RawReceivePort((pair) async {
@@ -32,6 +35,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // We're using the manual installation on non-web platforms since Google sign in plugin doesn't yet support Dart initialization.
   // See related issue: https://github.com/flutter/flutter/issues/96391
+
+  await EasyLocalization.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -63,13 +68,26 @@ Future<void> main() async {
 
   FirebasePerformance performance = FirebasePerformance.instance;
 
+  // Obtain shared preferences.
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  // await prefs.clear(); //only for testing
+  isFirstLaunch = await prefs.getBool('isFirstLaunch') ?? true;
+
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     // The following lines are the same as previously explained in "Handling uncaught errors"
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-    runApp(const WarrantyManagerApp());
+    runApp(
+      EasyLocalization(
+        supportedLocales: supportedLocales,
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en'),
+        useOnlyLangCode: true,
+        child: const WarrantyManagerApp(),
+      ),
+    );
     configLoading();
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
 }
@@ -81,7 +99,7 @@ void configLoading() {
     ..indicatorType = EasyLoadingIndicatorType.chasingDots
     ..loadingStyle = EasyLoadingStyle.light
     ..indicatorSize = 250.0
-    ..maskColor = Color.fromARGB(255, 0, 0, 0).withOpacity(0.5)
+    ..maskColor = const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5)
     ..userInteractions = false
     ..dismissOnTap = false;
 }
@@ -91,14 +109,18 @@ class WarrantyManagerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // context.setLocale(const Locale('en', 'GB'));
+
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       debugShowCheckedModeBanner: false,
-      title: 'Warranty Manager',
       theme: ThemeData(
-        // useMaterial3: true,
-        primarySwatch: Colors.deepPurple,
-        textTheme: Typography.blackCupertino,
-      ),
+          // useMaterial3: true,
+          primarySwatch: Colors.deepPurple,
+          textTheme: Typography.blackCupertino,
+          scaffoldBackgroundColor: Colors.grey.shade200),
       home: Scaffold(
         body: LayoutBuilder(
           builder: (context, constraints) {
@@ -115,7 +137,7 @@ class WarrantyManagerApp extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Firebase Auth Desktop',
+                              'Desktop Login',
                               style: Theme.of(context).textTheme.headline4,
                             ),
                           ],
@@ -128,15 +150,9 @@ class WarrantyManagerApp extends StatelessWidget {
                   width: constraints.maxWidth >= 1200
                       ? constraints.maxWidth / 2
                       : constraints.maxWidth,
-                  child: StreamBuilder<User?>(
-                    stream: FirebaseAuth.instance.authStateChanges(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Home();
-                      }
-                      return AuthGate();
-                    },
-                  ),
+                  child: isFirstLaunch
+                      ? const OnBoardingPage()
+                      : const AuthWidget(),
                 ),
               ],
             );

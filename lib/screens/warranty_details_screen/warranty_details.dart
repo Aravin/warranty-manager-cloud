@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/models/warranty_with_images.dart';
@@ -35,17 +36,17 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Product Details'),
+        title: const Text('warranty_details').tr(),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.info),
-            label: 'Product Details',
+            label: 'product_details'.tr(),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.attach_file),
-            label: 'Attachments',
+            label: 'attachments'.tr(),
           ),
         ],
         currentIndex: _selectedIndex,
@@ -72,7 +73,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
             return appLoader;
           }
           if (!snapshot.hasData) {
-            return const Center(child: Text('Unable to load product details'));
+            return Center(child: Text('failed_to_load_warranty_details'.tr()));
           }
           final data = snapshot.data;
           return Padding(
@@ -138,7 +139,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                           children: [
                             ListTile(
                               title: Text(
-                                'Purchase date'.toUpperCase(),
+                                'purchase_date'.tr().toUpperCase(),
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
@@ -151,7 +152,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                             ),
                             ListTile(
                               title: Text(
-                                'Warranty period'.toUpperCase(),
+                                'warranty_period'.tr().toUpperCase(),
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
@@ -163,7 +164,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                             ),
                             ListTile(
                               title: Text(
-                                'Warranty End Date'.toUpperCase(),
+                                'warranty_end_date'.tr().toUpperCase(),
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
@@ -176,7 +177,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                             ),
                             ListTile(
                               title: Text(
-                                'Category'.toUpperCase(),
+                                'category'.tr().toUpperCase(),
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
@@ -188,7 +189,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                             ),
                             ListTile(
                               title: Text(
-                                'Amount'.toUpperCase(),
+                                'amount'.tr().toUpperCase(),
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
@@ -200,7 +201,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                             ),
                             ListTile(
                               title: Text(
-                                'Purchase at'.toUpperCase(),
+                                'purchased_at'.tr().toUpperCase(),
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
@@ -212,7 +213,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                             ),
                             ListTile(
                               title: Text(
-                                'Contact Person Name'.toUpperCase(),
+                                'contact_person_name'.tr().toUpperCase(),
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
@@ -224,7 +225,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                             ),
                             ListTile(
                               title: Text(
-                                'Support Phone Number'.toUpperCase(),
+                                'support_phone'.tr().toUpperCase(),
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
@@ -236,7 +237,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                             ),
                             ListTile(
                               title: Text(
-                                'Support Email'.toUpperCase(),
+                                'support_email'.tr().toUpperCase(),
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
@@ -248,7 +249,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                             ),
                             ListTile(
                               title: Text(
-                                'Quick Note'.toUpperCase(),
+                                'quick_note'.tr().toUpperCase(),
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
@@ -271,22 +272,23 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                             data.product.isProductImage
                                 ? ImageThumbnailWidget(
                                     image: data.images['productImage']!,
-                                    imageName: 'Product Image')
+                                    imageName: 'upload_product_image'.tr())
                                 : const SizedBox(),
                             data.product.isPurchaseCopy
                                 ? ImageThumbnailWidget(
                                     image: data.images['purchaseCopy']!,
-                                    imageName: 'Purchase Bill')
+                                    imageName:
+                                        'upload_purchase_bill_image'.tr())
                                 : const SizedBox(),
                             data.product.isWarrantyCopy
                                 ? ImageThumbnailWidget(
                                     image: data.images['warrantyCopy']!,
-                                    imageName: 'Warranty Copy')
+                                    imageName: 'upload_warranty_image'.tr())
                                 : const SizedBox(),
                             data.product.isAdditionalImage
                                 ? ImageThumbnailWidget(
                                     image: data.images['additionalImage']!,
-                                    imageName: 'Additional Image')
+                                    imageName: 'other_image'.tr())
                                 : const SizedBox(),
                           ],
                         ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 
@@ -12,7 +13,7 @@ class DisplayImage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          imageName.isNotEmpty ? imageName : 'Image Viewer',
+          imageName.isNotEmpty ? imageName : 'image_viewer'.tr(),
         ),
       ),
       body: Column(

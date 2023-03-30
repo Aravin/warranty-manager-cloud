@@ -22,25 +22,24 @@ class HighlightCard extends StatelessWidget {
       child: GestureDetector(
         child: Container(
           padding: const EdgeInsets.all(4.0),
-          margin: const EdgeInsets.all(6.0),
+          margin: const EdgeInsets.all(4.0),
           decoration: BoxDecoration(
               color: kPrimaryColorLight,
-              borderRadius: BorderRadius.circular(5)),
+              borderRadius: BorderRadius.circular(4)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Icon(
-                  icon,
-                  color: kPrimaryColor,
-                ),
+                Icon(icon, color: kPrimaryColor),
                 const SizedBox(height: 5),
                 Text(
                   cardName.capitalized,
+                  softWrap: false,
+                  overflow: TextOverflow.fade,
                   style: const TextStyle(
                     color: kPrimaryColor,
                     fontWeight: FontWeight.bold,
-                    fontSize: 12.5,
+                    fontSize: 10,
                   ),
                 ),
                 const SizedBox(height: 7.5),

@@ -1,31 +1,47 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
+import 'package:warranty_manager_cloud/models/settings.dart';
+import 'package:warranty_manager_cloud/screens/auth.dart';
 import 'package:warranty_manager_cloud/screens/home/widgets/highlight_card.dart';
 import 'package:warranty_manager_cloud/screens/profile.dart';
+import 'package:warranty_manager_cloud/screens/settings_screen/settings_screen.dart';
 // import 'package:in_app_review/in_app_review.dart';
 import 'package:warranty_manager_cloud/screens/static/about.dart';
 import 'package:warranty_manager_cloud/screens/static/privacy_policy.dart';
 
 import 'package:warranty_manager_cloud/screens/warranty_list_tab_screen.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
-import 'package:warranty_manager_cloud/services/remote_config.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
+  saveOnboardingSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    Settings settings = Settings();
+    settings.locale = prefs.getString('locale')!;
+    settings.allowExpiryNotification =
+        prefs.getBool('allow_expiry_notification')!;
+    settings.allowRemainderNotification =
+        prefs.getBool('allow_remainder_notification')!;
+    settings.save();
+  }
+
   @override
   void initState() {
+    saveOnboardingSettings();
     super.initState();
   }
 
@@ -38,9 +54,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Warranty Manager',
-        ),
+        title: const Text('warranty_manager').tr(),
       ),
       drawer: Drawer(
         child: ListView(
@@ -54,25 +68,28 @@ class _HomeState extends State<Home> {
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CircleAvatar(
+                      children: [
+                        const CircleAvatar(
                           backgroundColor: kAccentColor,
                           foregroundColor: Colors.white,
-                          radius: 36,
+                          radius: 24,
                           child: Text(
                             'A',
-                            style: TextStyle(fontSize: 48),
+                            style: TextStyle(fontSize: 36),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 7.5),
                         Text(
-                          'Anonymous User',
-                          style: TextStyle(color: Colors.white),
+                          'anonymous_user'.tr(),
+                          style: const TextStyle(color: Colors.white),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text(
-                          'Please create an account with email address to sync your warranty!',
-                          style: TextStyle(color: Colors.white),
+                          'create_account_with_email'.tr(),
+                          softWrap: true,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ],
                     )
@@ -106,7 +123,7 @@ class _HomeState extends State<Home> {
                     ),
             ),
             ListTile(
-              title: const Text('Saved Items'),
+              title: const Text('saved_warranty').tr(),
               leading: const Icon(Icons.security),
               onTap: () {
                 Navigator.pop(context);
@@ -117,32 +134,32 @@ class _HomeState extends State<Home> {
                 );
               },
             ),
-            // ListTile(
-            //   title: Text('Bulk Actions'),
-            //   leading: Icon(Icons.group_work),
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (ctxt) => BulkUploadScreen()),
-            //     );
-            //   },
-            // ),
             ListTile(
-              title: const Text('Privacy Policy'),
+              title: Text('settings').tr(),
+              leading: Icon(Icons.settings),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (ctx) => SettingsScreen()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('terms_policy').tr(),
               leading: const Icon(Icons.description),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (ctxt) => PrivacyPolicyScreen(),
+                    builder: (ctx) => PrivacyPolicyScreen(),
                   ),
                 );
               },
             ),
             ListTile(
-              title: const Text('About'),
+              title: const Text('about').tr(),
               leading: const Icon(Icons.info),
               onTap: () {
                 Navigator.pop(context);
@@ -156,7 +173,7 @@ class _HomeState extends State<Home> {
             ),
             !(FirebaseAuth.instance.currentUser!.isAnonymous)
                 ? ListTile(
-                    title: const Text('Profile'),
+                    title: const Text('profile').tr(),
                     leading: const Icon(Icons.account_box),
                     onTap: () {
                       Navigator.pop(context);
@@ -170,30 +187,29 @@ class _HomeState extends State<Home> {
                   )
                 : const SizedBox(),
             ListTile(
-              title: const Text('Logout'),
+              title: const Text('logout').tr(),
               leading: const Icon(Icons.logout),
               onTap: () => showDialog<void>(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text('Logout'),
-                    content: const Text('Are you sure want to logout?'),
+                    title: const Text('logout').tr(),
+                    content: const Text('are_you_sure_logout').tr(),
                     actions: <Widget>[
                       TextButton(
-                        style: TextButton.styleFrom(
-                          textStyle: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        child: const Text('Yes, log me out'),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _signOut();
-                        },
-                      ),
+                          style: TextButton.styleFrom(
+                            textStyle: Theme.of(context).textTheme.labelLarge,
+                          ),
+                          child: const Text('yes_logout').tr(),
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            await _signOut();
+                          }),
                       TextButton(
                         style: TextButton.styleFrom(
                           textStyle: Theme.of(context).textTheme.labelLarge,
                         ),
-                        child: const Text('Cancel'),
+                        child: const Text('cancel').tr(),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -227,17 +243,17 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     HighlightCard(
-                      cardName: 'In Warranty',
+                      cardName: tr('in_warranty'),
                       count: snapshot.data!.active.length.toString(),
                       icon: Icons.security,
                     ),
                     HighlightCard(
-                      cardName: 'Expiring soon',
+                      cardName: tr('expiring_soon'),
                       count: snapshot.data!.expiring.length.toString(),
                       icon: Icons.timelapse,
                     ),
                     HighlightCard(
-                      cardName: 'Expired',
+                      cardName: tr('expired'),
                       count: snapshot.data!.expired.length.toString(),
                       icon: Icons.dangerous,
                     ),
@@ -248,8 +264,7 @@ class _HomeState extends State<Home> {
               ],
             );
           } else if (snapshot.hasError) {
-            return const Center(
-                child: Text('Failed to load the warranty list!'));
+            return Center(child: const Text('failed_to_load_warranty').tr());
           }
           return appLoader;
         },

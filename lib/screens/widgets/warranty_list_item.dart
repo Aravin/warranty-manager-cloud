@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
@@ -83,17 +84,17 @@ class WarrantyListItemWidget extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           const Text(
-                            'Purchase Date',
+                            'purchase_date',
                             style: TextStyle(
                               fontSize: 12,
                             ),
-                          ).text.underline.make(),
+                          ).tr().text.underline.make(),
                           const Text(
-                            'Expires',
+                            'expires',
                             style: TextStyle(
                               fontSize: 12,
                             ),
-                          ).text.underline.make(),
+                          ).tr().text.underline.make(),
                         ],
                       ),
                       Row(
@@ -127,28 +128,27 @@ class WarrantyListItemWidget extends StatelessWidget {
                   child: PopupMenuButton<List<String>>(
                     iconSize: 30,
                     icon: const Icon(Icons.more_vert, color: kAccentColor),
-                    tooltip: 'Add, Edit or Delete the warranty',
+                    tooltip: 'tooltip.add_edit_delete_warranty'.tr(),
                     onSelected: (List<String> result) async {
                       if (result[0] == 'delete') {
                         showDialog<void>(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text('Delete ${product.name}'),
-                              content:
-                                  const Text('Are you sure want to delete?'),
+                              title: Text('${'delete'.tr()} ${product.name}'),
+                              content: Text('delete_confirm'.tr()),
                               actions: <Widget>[
                                 TextButton(
                                   style: TextButton.styleFrom(
                                     textStyle:
                                         Theme.of(context).textTheme.labelLarge,
                                   ),
-                                  child: const Text('Yes, delete!'),
+                                  child: const Text('yes_delete').tr(),
                                   onPressed: () async {
                                     Navigator.pop(context);
                                     await product.delete(product);
                                     Fluttertoast.showToast(
-                                      msg: "Product Deleted Successfully!",
+                                      msg: 'toast.delete_success'.tr(),
                                       toastLength: Toast.LENGTH_SHORT,
                                       gravity: ToastGravity.CENTER,
                                       fontSize: 16.0,
@@ -160,7 +160,7 @@ class WarrantyListItemWidget extends StatelessWidget {
                                     textStyle:
                                         Theme.of(context).textTheme.labelLarge,
                                   ),
-                                  child: const Text('Cancel'),
+                                  child: const Text('cancel').tr(),
                                   onPressed: () => Navigator.pop(context),
                                 ),
                               ],
@@ -188,15 +188,15 @@ class WarrantyListItemWidget extends StatelessWidget {
                         <PopupMenuEntry<List<String>>>[
                       PopupMenuItem<List<String>>(
                         value: ['view', product.id.toString()],
-                        child: const Text('View'),
+                        child: const Text('view').tr(),
                       ),
                       PopupMenuItem<List<String>>(
                         value: ['edit', product.id.toString()],
-                        child: const Text('Edit'),
+                        child: const Text('edit').tr(),
                       ),
                       PopupMenuItem<List<String>>(
                         value: ['delete', product.id.toString()],
-                        child: const Text('Delete'),
+                        child: const Text('delete').tr(),
                       ),
                     ],
                   ),

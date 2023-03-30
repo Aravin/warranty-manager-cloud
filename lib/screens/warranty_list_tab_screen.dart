@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/models/warranty_list.dart';
@@ -11,7 +12,7 @@ class WarrantyListTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Warranty List')),
+      appBar: AppBar(title: const Text('saved_warranty').tr()),
       body: Padding(
         padding: kAppPaddingSmall,
         child: Column(
@@ -22,8 +23,8 @@ class WarrantyListTabScreen extends StatelessWidget {
                 if (snapshot.hasData) {
                   return WarrantyListTabWidget(warrantyList: snapshot.data!);
                 } else if (snapshot.hasError) {
-                  return const Center(
-                      child: Text('Failed to display saved warranty'));
+                  return Center(
+                      child: Text('failed_to_load_warranty_details').tr());
                 }
                 return appLoader;
               },
