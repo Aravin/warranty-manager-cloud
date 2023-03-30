@@ -21,7 +21,7 @@ class AuthWidget extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 context.setLocale(snapshot.data!.locale.toLocale());
-                return const HomeScreen();
+                return HomeScreen();
               }
               return appLoader;
             },
