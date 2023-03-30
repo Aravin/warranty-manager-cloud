@@ -117,7 +117,9 @@ class OnBoardingPageState extends State<OnBoardingPage> {
               margin: kAppPaddingSmall,
               child: FormBuilderDropdown<String>(
                 name: 'locale',
-                initialValue: context.locale.toString(),
+                initialValue: context.locale.toString() == 'en'
+                    ? 'en_GB'
+                    : context.locale.toString(),
                 items: supportedLocales
                     .map((locale) => DropdownMenuItem(
                           value: '${locale.languageCode}_${locale.countryCode}',

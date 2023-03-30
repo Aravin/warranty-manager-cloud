@@ -70,7 +70,7 @@ Future<void> main() async {
 
   // Obtain shared preferences.
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  // await prefs.clear(); only for testing
+  await prefs.clear(); //only for testing
   isFirstLaunch = await prefs.getBool('isFirstLaunch') ?? true;
 
   runZonedGuarded<Future<void>>(() async {
@@ -83,7 +83,6 @@ Future<void> main() async {
       EasyLocalization(
         supportedLocales: supportedLocales,
         path: 'assets/translations',
-        startLocale: const Locale('en'),
         fallbackLocale: const Locale('en'),
         useOnlyLangCode: true,
         child: const WarrantyManagerApp(),
