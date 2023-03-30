@@ -3,7 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
+import 'package:warranty_manager_cloud/models/settings.dart';
+import 'package:warranty_manager_cloud/screens/auth.dart';
 import 'package:warranty_manager_cloud/screens/home/widgets/highlight_card.dart';
 import 'package:warranty_manager_cloud/screens/profile.dart';
 import 'package:warranty_manager_cloud/screens/settings_screen/settings_screen.dart';
@@ -16,16 +19,29 @@ import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
+  saveOnboardingSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    Settings settings = Settings();
+    settings.locale = prefs.getString('locale')!;
+    settings.allowExpiryNotification =
+        prefs.getBool('allow_expiry_notification')!;
+    settings.allowRemainderNotification =
+        prefs.getBool('allow_remainder_notification')!;
+    settings.save();
+  }
+
   @override
   void initState() {
+    saveOnboardingSettings();
     super.initState();
   }
 
@@ -181,15 +197,14 @@ class _HomeState extends State<Home> {
                     content: const Text('are_you_sure_logout').tr(),
                     actions: <Widget>[
                       TextButton(
-                        style: TextButton.styleFrom(
-                          textStyle: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        child: const Text('yes_logout').tr(),
-                        onPressed: () async {
-                          await _signOut();
-                          Navigator.pop(context);
-                        },
-                      ),
+                          style: TextButton.styleFrom(
+                            textStyle: Theme.of(context).textTheme.labelLarge,
+                          ),
+                          child: const Text('yes_logout').tr(),
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            await _signOut();
+                          }),
                       TextButton(
                         style: TextButton.styleFrom(
                           textStyle: Theme.of(context).textTheme.labelLarge,

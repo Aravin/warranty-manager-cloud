@@ -144,6 +144,7 @@ class _AuthGateState extends State<AuthGate> {
                                 ? 'dont_have_account'.tr()
                                 : 'you_have_account'.tr(),
                           ),
+                          const TextSpan(text: ' '),
                           TextSpan(
                             text: mode == AuthMode.login
                                 ? 'register_now'.tr()
@@ -284,6 +285,7 @@ class _AuthGateState extends State<AuthGate> {
                                         ? 'dont_have_account'.tr()
                                         : 'you_have_account'.tr(),
                                   ),
+                                  const TextSpan(text: ' '),
                                   TextSpan(
                                     text: mode == AuthMode.login
                                         ? 'register_now'.tr()
@@ -307,7 +309,7 @@ class _AuthGateState extends State<AuthGate> {
                                 style: Theme.of(context).textTheme.bodyLarge,
                                 children: [
                                   TextSpan(text: 'or'.tr()),
-                                  TextSpan(text: ''),
+                                  const TextSpan(text: ' '),
                                   TextSpan(
                                     text: 'continue_as_guest'.tr(),
                                     style: const TextStyle(color: Colors.blue),

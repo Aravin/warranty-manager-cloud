@@ -6,24 +6,22 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:warranty_manager_cloud/models/settings.dart';
-import 'package:warranty_manager_cloud/screens/auth.dart';
-import 'package:warranty_manager_cloud/screens/home/home.dart';
+import 'package:warranty_manager_cloud/screens/auth/auth_widget.dart';
+import 'package:warranty_manager_cloud/screens/onboarding/onboarding_screen.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/services/remote_config.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_performance/firebase_performance.dart';
-import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:warranty_manager_cloud/shared/loader.dart';
 import 'package:warranty_manager_cloud/shared/locales.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
 
 bool shouldUseFirebaseEmulator = false;
 bool shouldUseFirestoreEmulator = false;
+bool isFirstLaunch = true;
 
 Future<void> main() async {
   Isolate.current.addErrorListener(RawReceivePort((pair) async {
@@ -70,6 +68,11 @@ Future<void> main() async {
 
   FirebasePerformance performance = FirebasePerformance.instance;
 
+  // Obtain shared preferences.
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  // await prefs.clear(); only for testing
+  isFirstLaunch = await prefs.getBool('isFirstLaunch') ?? true;
+
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
@@ -80,6 +83,7 @@ Future<void> main() async {
       EasyLocalization(
         supportedLocales: supportedLocales,
         path: 'assets/translations',
+        startLocale: const Locale('en'),
         fallbackLocale: const Locale('en'),
         useOnlyLangCode: true,
         child: const WarrantyManagerApp(),
@@ -106,7 +110,7 @@ class WarrantyManagerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // context.setLocale(const Locale('en'));
+    // context.setLocale(const Locale('en', 'GB'));
 
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
@@ -147,25 +151,9 @@ class WarrantyManagerApp extends StatelessWidget {
                   width: constraints.maxWidth >= 1200
                       ? constraints.maxWidth / 2
                       : constraints.maxWidth,
-                  child: StreamBuilder<User?>(
-                    stream: FirebaseAuth.instance.authStateChanges(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return StreamBuilder<Settings>(
-                          stream: Settings().get(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              context
-                                  .setLocale(snapshot.data!.locale.toLocale());
-                              return Home();
-                            }
-                            return appLoader;
-                          },
-                        );
-                      }
-                      return const AuthGate();
-                    },
-                  ),
+                  child: isFirstLaunch
+                      ? const OnBoardingPage()
+                      : const AuthWidget(),
                 ),
               ],
             );

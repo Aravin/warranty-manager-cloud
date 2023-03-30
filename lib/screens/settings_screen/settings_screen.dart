@@ -14,7 +14,6 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
-    List<Locale> localeOptions = supportedLocales;
 
     return Scaffold(
       appBar: AppBar(title: const Text('settings').tr()),
@@ -41,7 +40,7 @@ class SettingsScreen extends StatelessWidget {
                         ),
                         hintText: 'Select Display Language',
                       ),
-                      items: localeOptions
+                      items: supportedLocales
                           .map((locale) => DropdownMenuItem(
                                 value:
                                     '${locale.languageCode}_${locale.countryCode}',
