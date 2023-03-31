@@ -6,8 +6,6 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/shared/categories.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
-import 'package:intl/intl.dart';
-import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
@@ -71,7 +69,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
               },
               autoFocusOnValidationFailure: true,
               autovalidateMode: AutovalidateMode.disabled,
-              initialValue: {},
+              initialValue: const {},
               skipDisabled: true,
               child: Stepper(
                 type: StepperType.vertical,
@@ -118,7 +116,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           ]),
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.shopping_basket),
+                            prefixIcon: const Icon(Icons.shopping_basket),
                             hintText: 'product_service_name'.tr(),
                             labelText: 'product_service_name'.tr(),
                           ),
@@ -130,7 +128,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           // focusNode: companyFocus,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.branding_watermark),
+                            prefixIcon: const Icon(Icons.branding_watermark),
                             hintText: 'brand_company'.tr(),
                             labelText: 'brand_company'.tr(),
                           ),
@@ -153,14 +151,14 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           format: DateFormat("EEE, MMMM d, yyyy"),
                           decoration: InputDecoration(
                             labelText: 'purchase_date'.tr(),
-                            prefixIcon: Icon(Icons.calendar_today),
+                            prefixIcon: const Icon(Icons.calendar_today),
                           ),
                         ),
                         FormBuilderDropdown(
                           name: "warrantyPeriod",
                           initialValue: _product.warrantyPeriod,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.timer),
+                            prefixIcon: const Icon(Icons.timer),
                             labelText: 'warranty_period'.tr(),
                             hintText: 'warranty_period'.tr(),
                           ),
@@ -184,7 +182,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                             FormBuilderValidators.max(9999999)
                           ]),
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.monetization_on),
+                            prefixIcon: const Icon(Icons.monetization_on),
                             hintText: 'price'.tr(),
                             labelText: 'price'.tr(),
                           ),
@@ -195,7 +193,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           name: 'category',
                           // focusNode: categoryFocus,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.category),
+                            prefixIcon: const Icon(Icons.category),
                             hintText: 'category'.tr(),
                             labelText: 'category'.tr(),
                           ),
@@ -218,7 +216,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           // focusNode: purchasedAtFocus,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.add_location),
+                            prefixIcon: const Icon(Icons.add_location),
                             hintText: 'where_did_you_purchase'.tr(),
                             labelText: 'purchased_at'.tr(),
                           ),
@@ -230,7 +228,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           // focusNode: salesPersonFocus,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.people),
+                            prefixIcon: const Icon(Icons.people),
                             hintText: 'do_you_know_contact_person_name'.tr(),
                             labelText: 'contact_person_name'.tr(),
                           ),
@@ -243,7 +241,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           // focusNode: phoneFocus,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.phone),
+                            prefixIcon: const Icon(Icons.phone),
                             hintText: 'customer_care_phone'.tr(),
                             labelText: 'support_phone'.tr(),
                           ),
@@ -255,7 +253,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           // focusNode: emailFocus,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.email),
+                            prefixIcon: const Icon(Icons.email),
                             hintText: 'customer_care_email'.tr(),
                             labelText: 'support_email'.tr(),
                           ),
@@ -269,7 +267,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           name: 'notes',
                           textInputAction: TextInputAction.done,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.note_add),
+                            prefixIcon: const Icon(Icons.note_add),
                             hintText: 'additional_information'.tr(),
                             labelText: 'quick_note'.tr(),
                           ),
@@ -337,7 +335,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: OutlinedButton.icon(
-                    icon: Icon(Icons.clear),
+                    icon: const Icon(Icons.clear),
                     label: const Text('reset').tr(),
                     onPressed: () => _formKey.currentState?.reset(),
                   ),
@@ -347,7 +345,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton.icon(
-                    icon: Icon(Icons.save),
+                    icon: const Icon(Icons.save),
                     label: const Text('save').tr(),
                     onPressed: () async {
                       if (_formKey.currentState!.saveAndValidate()) {

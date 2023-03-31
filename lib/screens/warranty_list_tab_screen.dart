@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
-import 'package:warranty_manager_cloud/models/warranty_list.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
 import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
@@ -31,13 +30,16 @@ class WarrantyListTabScreen extends StatelessWidget {
                         }
                         if (snapshot.hasData) {
                           return Center(
-                              child: Text('Failed to load the warranty'));
+                              child:
+                                  const Text('failed_to_load_warranty_details')
+                                      .tr());
                         }
                         return appLoader;
                       });
                 } else if (snapshot.hasError) {
                   return Center(
-                      child: Text('failed_to_load_warranty_details').tr());
+                      child:
+                          const Text('failed_to_load_warranty_details').tr());
                 }
                 return appLoader;
               },

@@ -5,7 +5,6 @@ import 'package:warranty_manager_cloud/models/warranty_with_images.dart';
 import 'package:warranty_manager_cloud/screens/warranty_details_screen/image_thumbnail.dart';
 import 'package:warranty_manager_cloud/screens/warranty_edit_form.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
-import 'package:intl/intl.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 
 class WarrantyDetailsScreen extends StatefulWidget {
@@ -41,11 +40,11 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.info),
+            icon: const Icon(Icons.info),
             label: 'product_details'.tr(),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.attach_file),
+            icon: const Icon(Icons.attach_file),
             label: 'attachments'.tr(),
           ),
         ],

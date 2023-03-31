@@ -6,8 +6,10 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 class PrivacyPolicyScreen extends StatefulWidget {
+  const PrivacyPolicyScreen({super.key});
+
   @override
-  _PrivacyPolicyScreenState createState() => _PrivacyPolicyScreenState();
+  State<StatefulWidget> createState() => _PrivacyPolicyScreenState();
 }
 
 class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {

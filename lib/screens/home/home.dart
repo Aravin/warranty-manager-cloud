@@ -136,13 +136,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
-              title: Text('settings').tr(),
-              leading: Icon(Icons.settings),
+              title: const Text('settings').tr(),
+              leading: const Icon(Icons.settings),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (ctx) => SettingsScreen()),
+                  MaterialPageRoute(builder: (ctx) => const SettingsScreen()),
                 );
               },
             ),
@@ -154,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (ctx) => PrivacyPolicyScreen(),
+                    builder: (ctx) => const PrivacyPolicyScreen(),
                   ),
                 );
               },

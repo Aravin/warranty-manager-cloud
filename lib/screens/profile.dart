@@ -2,13 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:warranty_manager_cloud/services/auth.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 
 import 'auth.dart';
@@ -122,7 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 )).tr(),
                             subtitle: Text(user.email!),
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                     user.displayName != null && user.displayName != ''
                         ? ListTile(
                             title: const Text('name',
@@ -131,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 )).tr(),
                             subtitle: Text(user.displayName!),
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                     user.phoneNumber != null && user.phoneNumber != ''
                         ? ListTile(
                             title: const Text('phone',
@@ -140,7 +136,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 )).tr(),
                             subtitle: Text(user.phoneNumber!),
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                     user.metadata.creationTime != null
                         ? ListTile(
                             title: const Text('created_on',
@@ -150,7 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             subtitle:
                                 Text(user.metadata.creationTime.toString()),
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                     user.metadata.lastSignInTime != null
                         ? ListTile(
                             title: const Text('last_sign_in',
@@ -160,15 +156,14 @@ class _ProfilePageState extends State<ProfilePage> {
                             subtitle:
                                 Text(user.metadata.lastSignInTime.toString()),
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   ],
                 ),
               ),
-              Container(
-                child: Text(
-                  'profile_page_terms'.tr(),
-                  style: TextStyle(fontSize: 12, color: kSecondaryTextColor),
-                ),
+              Text(
+                'profile_page_terms'.tr(),
+                style:
+                    const TextStyle(fontSize: 12, color: kSecondaryTextColor),
               )
             ],
           ),

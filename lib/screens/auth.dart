@@ -438,7 +438,7 @@ class _AuthGateState extends State<AuthGate> {
                 ),
               );
             } on FirebaseAuthException catch (e) {
-              print(e.message);
+              debugPrint(e.message);
             }
           }
         },
