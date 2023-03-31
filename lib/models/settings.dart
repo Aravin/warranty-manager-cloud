@@ -5,24 +5,29 @@ import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
 
 const collectionName = 'settings';
-final userId = FirebaseAuth.instance.currentUser!.uid.toString();
+final loggedInUserId = FirebaseAuth.instance.currentUser!.uid.toString();
+final currentUser = FirebaseAuth.instance.currentUser!;
 
 class Settings {
+  bool isAnonymous = currentUser.isAnonymous;
+  DateTime? lastSignInTime = currentUser.metadata.lastSignInTime;
   String locale = 'en_GB';
   bool allowExpiryNotification = true;
   bool allowRemainderNotification = true;
 
   toMap() {
     return {
+      'isAnonymous': isAnonymous,
+      'lastSignInTime': lastSignInTime,
       'langCode': locale,
       'allowExpiryNotification': allowExpiryNotification,
-      'allowRemainderNotification': allowRemainderNotification
+      'allowRemainderNotification': allowRemainderNotification,
     };
   }
 
   save() async {
     try {
-      await db.collection(collectionName).doc(userId).set(toMap());
+      await db.collection(collectionName).doc(loggedInUserId).set(toMap());
     } catch (err) {
       debugPrint('Failed to save setting - $err');
       rethrow;
@@ -31,12 +36,19 @@ class Settings {
 
   Stream<Settings> get() {
     try {
-      final userData = db.collection(collectionName).doc(userId).snapshots();
+      final userData =
+          db.collection(collectionName).doc(loggedInUserId).snapshots();
 
       return userData.map((element) {
         final settings = Settings();
-        final data = element.data();
 
+        if (!element.exists) {
+          return settings;
+        }
+
+        final data = element.data();
+        settings.isAnonymous = currentUser.isAnonymous;
+        settings.lastSignInTime = currentUser.metadata.lastSignInTime;
         settings.locale = data!['langCode'] ?? 'en_GB';
         settings.allowExpiryNotification =
             data['allowExpiryNotification'] ?? true;
@@ -46,7 +58,7 @@ class Settings {
         return settings;
       });
     } catch (err) {
-      debugPrint('Failed to save setting - $err');
+      debugPrint('Failed to get setting - $err');
       rethrow;
     }
   }
