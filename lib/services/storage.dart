@@ -22,6 +22,16 @@ Future<void> storeImage(String filename, File file) async {
   await File(tempImgPath).delete();
 }
 
+Future<String> getProductImage(String productId) async {
+  if (productId.isEmpty) {
+    return '';
+  }
+  final pathReference =
+      storageRef.child('${auth.currentUser!.uid}/$productId/productImage');
+
+  return await pathReference.getDownloadURL();
+}
+
 Future<Map<String, String>> getImages(
     String productId, List<String> imageList) async {
   final Map<String, String> images = {};
