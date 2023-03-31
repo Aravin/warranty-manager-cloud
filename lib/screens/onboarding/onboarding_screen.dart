@@ -48,7 +48,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
           gravity: ToastGravity.CENTER,
         );
       } catch (err) {
-        // debugPrint(formKey.currentState?.value.toString());
+        // debugPrint(err.toString());
         Fluttertoast.showToast(
           msg: 'toast.settings_save_failure'.tr(),
           toastLength: Toast.LENGTH_LONG,
@@ -86,8 +86,8 @@ class OnBoardingPageState extends State<OnBoardingPage> {
       child: IntroductionScreen(
         key: introKey,
         globalBackgroundColor: Colors.white,
-        allowImplicitScrolling: true,
-        autoScrollDuration: 30000,
+        // allowImplicitScrolling: true,
+        // autoScrollDuration: 30000,
         // globalHeader: Align(
         //   alignment: Alignment.topRight,
         //   child: SafeArea(
