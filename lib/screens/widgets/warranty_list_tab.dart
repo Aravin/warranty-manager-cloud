@@ -93,7 +93,7 @@ class WarrantyListTabWidget extends StatelessWidget {
                     );
                   },
                   label: const Text('add_new').tr(),
-                  icon: const Icon(Icons.new_label),
+                  icon: const Icon(Icons.add_circle),
                   backgroundColor: kAccentColor,
                 ),
               ),
