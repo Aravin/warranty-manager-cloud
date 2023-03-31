@@ -14,7 +14,7 @@ class WarrantyListTabScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('saved_warranty').tr()),
       body: Padding(
-        padding: kAppPaddingSmall,
+        padding: kAppPaddingTiny,
         child: Column(
           children: [
             StreamBuilder<WarrantyList>(

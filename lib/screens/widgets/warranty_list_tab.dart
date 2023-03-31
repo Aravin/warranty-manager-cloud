@@ -80,9 +80,10 @@ class WarrantyListTabWidget extends StatelessWidget {
                                   )),
                             )
                           : Center(
-                              child: const Text('no_expired_warranty').tr()),
+                              child: const Text('no_expired_warranty').tr(),
+                            ),
                     ],
-                  ).py8(),
+                  ).py2(),
                 ),
                 floatingActionButton: FloatingActionButton.extended(
                   onPressed: () {

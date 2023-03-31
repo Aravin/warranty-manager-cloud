@@ -4,6 +4,7 @@ const kAppPadding = 12.5;
 const kAppEdgeInsets = EdgeInsets.all(kAppPadding);
 const kAppPaddingSmall = EdgeInsets.all(7.5);
 const kAppPaddingLarge = EdgeInsets.all(15);
+const kAppPaddingTiny = EdgeInsets.all(5);
 
 var kWarrantyPeriods = [
   '1 Month',

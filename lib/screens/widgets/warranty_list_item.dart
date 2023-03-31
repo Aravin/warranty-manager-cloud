@@ -50,7 +50,7 @@ class WarrantyListItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Padding(
-        padding: kAppPaddingSmall,
+        padding: kAppPaddingTiny,
         child: SizedBox(
           height: 125,
           child: Card(
