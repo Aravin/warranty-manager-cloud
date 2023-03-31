@@ -65,6 +65,7 @@ dependencies:
   easy_localization: ^3.0.1
   introduction_screen: ^3.1.4
   shared_preferences: ^2.0.20
+  step_progress_indicator: ^1.0.2
 
 dev_dependencies:
   flutter_test:
