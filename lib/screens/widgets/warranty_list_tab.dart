@@ -51,7 +51,7 @@ class WarrantyListTabWidget extends StatelessWidget {
                               itemCount: warrantyList.active.length,
                               itemBuilder: ((context, index) =>
                                   WarrantyListItemWidget(
-                                    product: warrantyList.active[index],
+                                    product: warrantyList.active[index].product,
                                     color: Colors.green,
                                   )),
                             )
@@ -63,7 +63,8 @@ class WarrantyListTabWidget extends StatelessWidget {
                               itemCount: warrantyList.expiring.length,
                               itemBuilder: ((context, index) =>
                                   WarrantyListItemWidget(
-                                    product: warrantyList.expiring[index],
+                                    product:
+                                        warrantyList.expiring[index].product,
                                     color: Colors.orange,
                                   )),
                             )
@@ -75,7 +76,8 @@ class WarrantyListTabWidget extends StatelessWidget {
                               itemCount: warrantyList.expired.length,
                               itemBuilder: ((context, index) =>
                                   WarrantyListItemWidget(
-                                    product: warrantyList.expired[index],
+                                    product:
+                                        warrantyList.expired[index].product,
                                     color: Colors.red,
                                   )),
                             )

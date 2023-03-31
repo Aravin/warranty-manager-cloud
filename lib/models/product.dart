@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:warranty_manager_cloud/models/warranty_list.dart';
 import 'package:warranty_manager_cloud/models/warranty_with_images.dart';
 // import 'package:share_plus/share_plus.dart';
 import 'package:warranty_manager_cloud/services/db.dart';
@@ -183,7 +181,7 @@ class Product {
     }
   }
 
-  Stream<WarrantyList> list() {
+  Stream<List<Product>> list() {
     try {
       final dbStream = db
           .collection(COLLECTION_NAME)
@@ -192,8 +190,8 @@ class Product {
           .snapshots();
 
       final productStream = dbStream.map((event) {
-        final WarrantyList productObject =
-            WarrantyList(active: [], expiring: [], expired: []);
+        // final <WarrantyList> productObject =
+        //     WarrantyList(active: [], expiring: [], expired: []);
         final List<Product> productList = [];
 
         event.docs.forEach((doc) {
@@ -203,23 +201,23 @@ class Product {
           product = firebaseToMap(product, data);
           product.id = doc.id;
 
-          if (product.warrantyEndDate!.isAfter(DateTime.now())) {
-            productObject.active.add(product);
-          }
+          // if (product.warrantyEndDate!.isAfter(DateTime.now())) {
+          //   productObject.active.add(product);
+          // }
 
-          if (product.warrantyEndDate!.isAfter(DateTime.now()) &&
-              product.warrantyEndDate!
-                  .isBefore(DateTime.now().add(const Duration(days: 28)))) {
-            productObject.expiring.add(product);
-          }
+          // if (product.warrantyEndDate!.isAfter(DateTime.now()) &&
+          //     product.warrantyEndDate!
+          //         .isBefore(DateTime.now().add(const Duration(days: 28)))) {
+          //   productObject.expiring.add(product);
+          // }
 
-          if (product.warrantyEndDate!.isBefore(DateTime.now())) {
-            productObject.expired.add(product);
-          }
-          // productList.add(product);
+          // if (product.warrantyEndDate!.isBefore(DateTime.now())) {
+          //   productObject.expired.add(product);
+          // }
+          productList.add(product);
         });
 
-        return productObject;
+        return productList;
       });
 
       return productStream;
