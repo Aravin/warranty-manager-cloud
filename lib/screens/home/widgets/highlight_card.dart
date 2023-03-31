@@ -26,33 +26,30 @@ class HighlightCard extends StatelessWidget {
           decoration: BoxDecoration(
               color: kPrimaryColorLight,
               borderRadius: BorderRadius.circular(4)),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Icon(icon, color: kPrimaryColor),
-                const SizedBox(height: 5),
-                Text(
-                  cardName.capitalized,
-                  softWrap: false,
-                  overflow: TextOverflow.fade,
-                  style: const TextStyle(
-                    color: kPrimaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 10,
-                  ),
+          child: Column(
+            children: [
+              Icon(icon, color: kPrimaryColor),
+              const SizedBox(height: 5),
+              Text(
+                cardName.capitalized,
+                softWrap: false,
+                overflow: TextOverflow.fade,
+                style: const TextStyle(
+                  color: kPrimaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 10,
                 ),
-                const SizedBox(height: 7.5),
-                Text(
-                  count,
-                  style: const TextStyle(
-                    color: kPrimaryColor,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 25.0,
-                  ),
+              ),
+              const SizedBox(height: 7.5),
+              Text(
+                count,
+                style: const TextStyle(
+                  color: kPrimaryColor,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 25.0,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         onTap: () => Navigator.push(
