@@ -6,7 +6,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/models/settings.dart';
-import 'package:warranty_manager_cloud/screens/auth.dart';
 import 'package:warranty_manager_cloud/screens/home/widgets/highlight_card.dart';
 import 'package:warranty_manager_cloud/screens/profile.dart';
 import 'package:warranty_manager_cloud/screens/settings_screen/settings_screen.dart';

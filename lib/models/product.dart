@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/warranty_with_images.dart';
@@ -8,7 +9,7 @@ import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:cross_file/cross_file.dart';
 
-const COLLECTION_NAME = 'warranty';
+const collectionName = 'warranty';
 
 // remove (?) optional fields in future
 class Product {
@@ -107,7 +108,7 @@ class Product {
       isWarrantyCopy = (warrantyCopy != null);
       isAdditionalImage = (additionalImage != null);
 
-      final addResponse = await db.collection(COLLECTION_NAME).add(toMap());
+      final addResponse = await db.collection(collectionName).add(toMap());
       final productId = addResponse.id;
 
       if (isProductImage) {
@@ -136,7 +137,7 @@ class Product {
       isWarrantyCopy = warrantyCopy != null;
       isAdditionalImage = additionalImage != null;
 
-      await db.collection(COLLECTION_NAME).doc(id).update(toMap());
+      await db.collection(collectionName).doc(id).update(toMap());
       final productId = id;
 
       if (isProductImage && productImage is XFile) {
@@ -163,7 +164,7 @@ class Product {
       Product product = Product();
       product.id = productId;
 
-      final doc = await db.collection(COLLECTION_NAME).doc(productId).get();
+      final doc = await db.collection(collectionName).doc(productId).get();
       product = firebaseToMap(product, doc.data()!);
 
       List<String> imageList = [];
@@ -184,7 +185,7 @@ class Product {
   Stream<List<Product>> list() {
     try {
       final dbStream = db
-          .collection(COLLECTION_NAME)
+          .collection(collectionName)
           .where('userId',
               isEqualTo: FirebaseAuth.instance.currentUser!.uid.toString())
           .snapshots();
@@ -194,8 +195,8 @@ class Product {
         //     WarrantyList(active: [], expiring: [], expired: []);
         final List<Product> productList = [];
 
-        event.docs.forEach((doc) {
-          dynamic product = Product();
+        for (QueryDocumentSnapshot<Map<String, dynamic>> doc in event.docs) {
+          Product product = Product();
           final data = doc.data();
 
           product = firebaseToMap(product, data);
@@ -215,7 +216,7 @@ class Product {
           //   productObject.expired.add(product);
           // }
           productList.add(product);
-        });
+        }
 
         return productList;
       });
@@ -244,7 +245,7 @@ class Product {
         await deleteImage('$productId/additionalImage');
       }
 
-      await db.collection(COLLECTION_NAME).doc(product.id).delete();
+      await db.collection(collectionName).doc(product.id).delete();
     } catch (err) {
       debugPrint('Saved to save product - $err');
       rethrow;
@@ -253,7 +254,7 @@ class Product {
 
   Future<int> getProductCount() async {
     return db
-        .collection(COLLECTION_NAME)
+        .collection(collectionName)
         .where('userId',
             isEqualTo: FirebaseAuth.instance.currentUser!.uid.toString())
         .snapshots()
