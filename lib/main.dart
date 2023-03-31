@@ -83,8 +83,9 @@ Future<void> main() async {
       EasyLocalization(
         supportedLocales: supportedLocales,
         path: 'assets/translations',
-        fallbackLocale: const Locale('en'),
-        useOnlyLangCode: true,
+        fallbackLocale: defaultLocale,
+        useFallbackTranslations: true,
+        // useOnlyLangCode: true,
         child: const WarrantyManagerApp(),
       ),
     );
