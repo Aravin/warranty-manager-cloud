@@ -83,7 +83,7 @@ flutter {
 }
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:31.2.2')
+    implementation platform('com.google.firebase:firebase-bom:31.4.0')
     implementation ('com.google.firebase:firebase-auth-ktx') {
         exclude module: "play-services-safetynet" // temp: to ignore playstore warning
     }
