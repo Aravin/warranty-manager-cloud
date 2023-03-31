@@ -22,6 +22,8 @@ class AuthWidget extends StatelessWidget {
               if (snapshot.hasData) {
                 context.setLocale(snapshot.data!.locale.toLocale());
                 return HomeScreen();
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Failed to load the page!'));
               }
               return appLoader;
             },
