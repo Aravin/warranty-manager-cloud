@@ -98,6 +98,8 @@
     "toast": {
         "delete_success": "削除が成功しました！",
         "save_success": "製品が正常に保存されました！",
-        "failed_to_save": "製品の保存に失敗しました！"
+        "failed_to_save": "製品の保存に失敗しました！",
+        "settings_save_success": "設定が正常に更新されました！",
+        "settings_save_failure": "設定の更新に失敗しました！"
     }
 }

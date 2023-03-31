@@ -98,6 +98,8 @@
     "toast": {
         "delete_success": "Supprimé avec succès!",
         "save_success": "Produit enregistré avec succès!",
-        "failed_to_save": "Impossible d'enregistrer le produit!"
+        "failed_to_save": "Impossible d'enregistrer le produit!",
+        "settings_save_success": "Paramètres mis à jour avec succès!",
+        "settings_save_failure": "Impossible de mettre à jour les paramètres!"
     }
 }

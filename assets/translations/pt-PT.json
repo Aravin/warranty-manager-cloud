@@ -98,6 +98,8 @@
     "toast": {
         "delete_success": "Excluído com sucesso!",
         "save_success": "Produto salvo com sucesso!",
-        "failed_to_save": "Falha ao salvar o produto!"
+        "failed_to_save": "Falha ao salvar o produto!",
+        "settings_save_success": "Definições atualizadas com sucesso!",
+        "settings_save_failure": "Falha ao atualizar as definições!"
     }
 }

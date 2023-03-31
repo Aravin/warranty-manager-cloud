@@ -98,6 +98,8 @@
     "toast": {
         "delete_success": "Успешно удалено!",
         "save_success": "Продукт успешно сохранен!",
-        "failed_to_save": "Не удалось сохранить продукт!"
+        "failed_to_save": "Не удалось сохранить продукт!",
+        "settings_save_success": "Настройки успешно обновлены!",
+        "settings_save_failure": "Не удалось обновить настройки!"
     }
 }
