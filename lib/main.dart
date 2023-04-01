@@ -12,10 +12,11 @@ import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/services/remote_config.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_performance/firebase_performance.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/foundation.dart' show PlatformDispatcher, kDebugMode;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:warranty_manager_cloud/shared/locales.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'firebase_options.dart';
 
@@ -67,6 +68,7 @@ Future<void> main() async {
   await remoteConfig.fetchAndActivate();
 
   FirebasePerformance performance = FirebasePerformance.instance;
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   // Obtain shared preferences.
   final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -78,6 +80,16 @@ Future<void> main() async {
     await Firebase.initializeApp();
     // The following lines are the same as previously explained in "Handling uncaught errors"
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
+    FlutterError.onError = (errorDetails) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    };
+
+    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
 
     runApp(
       EasyLocalization(
