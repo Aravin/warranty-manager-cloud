@@ -67,6 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1044405617102',
     projectId: 'warranty-manager-cloud',
     storageBucket: 'warranty-manager-cloud.appspot.com',
+    androidClientId: '1044405617102-6ts8pquso00e7j44pr5mb92bsp03utmh.apps.googleusercontent.com',
     iosClientId: '1044405617102-fgu1heqs64ac9l3jdi3lmnfkbaj2botv.apps.googleusercontent.com',
     iosBundleId: 'net.aravin.warrantyManagerCloud',
   );
@@ -77,6 +78,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1044405617102',
     projectId: 'warranty-manager-cloud',
     storageBucket: 'warranty-manager-cloud.appspot.com',
+    androidClientId: '1044405617102-6ts8pquso00e7j44pr5mb92bsp03utmh.apps.googleusercontent.com',
     iosClientId: '1044405617102-fgu1heqs64ac9l3jdi3lmnfkbaj2botv.apps.googleusercontent.com',
     iosBundleId: 'net.aravin.warrantyManagerCloud',
   );

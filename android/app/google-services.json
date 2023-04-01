@@ -14,6 +14,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "1044405617102-6ts8pquso00e7j44pr5mb92bsp03utmh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.aravin.warranty_manager_cloud",
+            "certificate_hash": "cd4e22f1299c244dabe64800c2f125a6a0487ec8"
+          }
+        },
+        {
+          "client_id": "1044405617102-9s8esoboj6nq7avvopgkfnhejrrp89dv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.aravin.warranty_manager_cloud",
+            "certificate_hash": "fe41b7cfda05030bde4436726953ccb3960e2774"
+          }
+        },
+        {
+          "client_id": "1044405617102-diq64l28t8edkg94v8blh751ql68b11d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.aravin.warranty_manager_cloud",
+            "certificate_hash": "3a023d511783bfd1b4c60cd0746a6d42834bbb08"
+          }
+        },
+        {
           "client_id": "1044405617102-fngnokgg90cvvh8iekigm9te507eo1sc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

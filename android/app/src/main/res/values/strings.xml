@@ -2,4 +2,7 @@
 <resources>
     <string name="facebook_app_id">1585374078647722</string>
     <string name="facebook_client_token">884344c40052b48252b34d8cac8744f1</string>
+    <string name="notification_title">Hello world</string>
+    <string name="notification_message">This is a message</string>
+    <string name="default_notification_channel_id">Push/Remainder Notification</string>
 </resources>
