@@ -51,9 +51,8 @@ class WarrantyListTabWidget extends StatelessWidget {
                               itemCount: warrantyList.active.length,
                               itemBuilder: ((context, index) =>
                                   WarrantyListItemWidget(
-                                    product: warrantyList.active[index],
-                                    cardColor: Colors.green.shade200,
-                                    cardShadow: Colors.green.shade100,
+                                    product: warrantyList.active[index].product,
+                                    color: Colors.green,
                                   )),
                             )
                           : Center(
@@ -64,9 +63,9 @@ class WarrantyListTabWidget extends StatelessWidget {
                               itemCount: warrantyList.expiring.length,
                               itemBuilder: ((context, index) =>
                                   WarrantyListItemWidget(
-                                    product: warrantyList.expiring[index],
-                                    cardColor: Colors.orange.shade200,
-                                    cardShadow: Colors.orange.shade100,
+                                    product:
+                                        warrantyList.expiring[index].product,
+                                    color: Colors.orange,
                                   )),
                             )
                           : Center(
@@ -77,15 +76,16 @@ class WarrantyListTabWidget extends StatelessWidget {
                               itemCount: warrantyList.expired.length,
                               itemBuilder: ((context, index) =>
                                   WarrantyListItemWidget(
-                                    product: warrantyList.expired[index],
-                                    cardColor: Colors.red.shade200,
-                                    cardShadow: Colors.red.shade100,
+                                    product:
+                                        warrantyList.expired[index].product,
+                                    color: Colors.red,
                                   )),
                             )
                           : Center(
-                              child: const Text('no_expired_warranty').tr()),
+                              child: const Text('no_expired_warranty').tr(),
+                            ),
                     ],
-                  ).py8(),
+                  ).py2(),
                 ),
                 floatingActionButton: FloatingActionButton.extended(
                   onPressed: () {
@@ -96,7 +96,7 @@ class WarrantyListTabWidget extends StatelessWidget {
                     );
                   },
                   label: const Text('add_new').tr(),
-                  icon: const Icon(Icons.new_label),
+                  icon: const Icon(Icons.add_circle),
                   backgroundColor: kAccentColor,
                 ),
               ),

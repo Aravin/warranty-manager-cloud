@@ -6,7 +6,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/models/settings.dart';
-import 'package:warranty_manager_cloud/screens/auth.dart';
 import 'package:warranty_manager_cloud/screens/home/widgets/highlight_card.dart';
 import 'package:warranty_manager_cloud/screens/profile.dart';
 import 'package:warranty_manager_cloud/screens/settings_screen/settings_screen.dart';
@@ -16,6 +15,7 @@ import 'package:warranty_manager_cloud/screens/static/privacy_policy.dart';
 
 import 'package:warranty_manager_cloud/screens/warranty_list_tab_screen.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
+import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 
@@ -135,13 +135,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
-              title: Text('settings').tr(),
-              leading: Icon(Icons.settings),
+              title: const Text('settings').tr(),
+              leading: const Icon(Icons.settings),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (ctx) => SettingsScreen()),
+                  MaterialPageRoute(builder: (ctx) => const SettingsScreen()),
                 );
               },
             ),
@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (ctx) => PrivacyPolicyScreen(),
+                    builder: (ctx) => const PrivacyPolicyScreen(),
                   ),
                 );
               },
@@ -236,33 +236,43 @@ class _HomeScreenState extends State<HomeScreen> {
         stream: Product().list(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    HighlightCard(
-                      cardName: tr('in_warranty'),
-                      count: snapshot.data!.active.length.toString(),
-                      icon: Icons.security,
-                    ),
-                    HighlightCard(
-                      cardName: tr('expiring_soon'),
-                      count: snapshot.data!.expiring.length.toString(),
-                      icon: Icons.timelapse,
-                    ),
-                    HighlightCard(
-                      cardName: tr('expired'),
-                      count: snapshot.data!.expired.length.toString(),
-                      icon: Icons.dangerous,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                WarrantyListTabWidget(warrantyList: snapshot.data!),
-              ],
-            );
+            return FutureBuilder(
+                future: getProductListByProduct(snapshot.data!),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            HighlightCard(
+                              cardName: tr('in_warranty'),
+                              count: snapshot.data!.active.length.toString(),
+                              icon: Icons.security,
+                            ),
+                            HighlightCard(
+                              cardName: tr('expiring_soon'),
+                              count: snapshot.data!.expiring.length.toString(),
+                              icon: Icons.timelapse,
+                            ),
+                            HighlightCard(
+                              cardName: tr('expired'),
+                              count: snapshot.data!.expired.length.toString(),
+                              icon: Icons.dangerous,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        WarrantyListTabWidget(warrantyList: snapshot.data!),
+                      ],
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                        child: const Text('failed_to_load_warranty').tr());
+                  }
+                  return appLoader;
+                });
           } else if (snapshot.hasError) {
             return Center(child: const Text('failed_to_load_warranty').tr());
           }

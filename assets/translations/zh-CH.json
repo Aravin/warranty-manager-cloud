@@ -98,6 +98,8 @@
     "toast": {
         "delete_success": "删除成功！",
         "save_success": "成功保存产品！",
-        "failed_to_save": "无法保存产品！"
+        "failed_to_save": "无法保存产品！",
+        "settings_save_success": "设置已成功更新！",
+        "settings_save_failure": "设置更新失败！"
     }
 }

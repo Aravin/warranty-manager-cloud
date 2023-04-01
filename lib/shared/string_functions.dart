@@ -6,7 +6,7 @@ bool isEmptyString(String input) {
 }
 
 String emptyStringPlaceholder(String input, String returnTxt) {
-  if (input != null || input == '' || input.isEmpty) {
+  if (input == '' || input.isEmpty) {
     return returnTxt ?? 'na';
   }
   return input;

@@ -73,6 +73,8 @@ class _AuthGateState extends State<AuthGate> {
   bool isLoading = false;
 
   void setIsLoading() {
+    if (!mounted) return;
+
     setState(() {
       isLoading = !isLoading;
     });
@@ -384,10 +386,12 @@ class _AuthGateState extends State<AuthGate> {
     try {
       await _auth.signInAnonymously();
     } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
       setState(() {
         error = '${e.message}';
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         error = '$e';
       });
@@ -403,6 +407,7 @@ class _AuthGateState extends State<AuthGate> {
     try {
       await authFunction();
     } on FirebaseAuthMultiFactorException catch (e) {
+      if (!mounted) return;
       setState(() {
         error = '${e.message}';
       });
@@ -433,17 +438,19 @@ class _AuthGateState extends State<AuthGate> {
                 ),
               );
             } on FirebaseAuthException catch (e) {
-              print(e.message);
+              debugPrint(e.message);
             }
           }
         },
         codeAutoRetrievalTimeout: print,
       );
     } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
       setState(() {
         error = '${e.message}';
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         error = '$e';
       });

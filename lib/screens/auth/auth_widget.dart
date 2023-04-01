@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/settings.dart';
 import 'package:warranty_manager_cloud/screens/auth.dart';
 import 'package:warranty_manager_cloud/screens/home/home.dart';
-import 'package:warranty_manager_cloud/screens/onboarding/onboarding_screen.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 
 class AuthWidget extends StatelessWidget {
@@ -21,7 +20,10 @@ class AuthWidget extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 context.setLocale(snapshot.data!.locale.toLocale());
+                // ignore: prefer_const_constructors
                 return HomeScreen();
+              } else if (snapshot.hasError) {
+                return const Center(child: Text('Failed to load the page!'));
               }
               return appLoader;
             },
