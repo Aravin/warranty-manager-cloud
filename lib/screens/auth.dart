@@ -204,7 +204,7 @@ class _AuthGateState extends State<AuthGate> {
                                   controller: emailController,
                                   decoration: InputDecoration(
                                     hintText: 'email'.tr(),
-                                    border: OutlineInputBorder(),
+                                    border: const OutlineInputBorder(),
                                   ),
                                   validator: (value) =>
                                       value != null && value.isNotEmpty
@@ -217,7 +217,7 @@ class _AuthGateState extends State<AuthGate> {
                                   obscureText: true,
                                   decoration: InputDecoration(
                                     hintText: 'password'.tr(),
-                                    border: OutlineInputBorder(),
+                                    border: const OutlineInputBorder(),
                                   ),
                                   validator: (value) =>
                                       value != null && value.isNotEmpty

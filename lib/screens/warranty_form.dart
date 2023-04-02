@@ -73,7 +73,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
               skipDisabled: true,
               child: Stepper(
                 type: StepperType.vertical,
-                currentStep: currentStep ?? 0,
+                currentStep: currentStep,
                 onStepContinue: next,
                 onStepTapped: (step) => goTo(step),
                 onStepCancel: cancel,

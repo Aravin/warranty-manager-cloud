@@ -114,7 +114,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
             body: "Choose your language you are going to use this application.",
             image: _buildImage('undraw_lang.png'),
             footer: Container(
-              margin: kAppPaddingSmall,
+              margin: kAppPaddingLarge,
               child: FormBuilderDropdown<String>(
                 name: 'locale',
                 initialValue: context.locale.toString() == 'en'
@@ -123,8 +123,11 @@ class OnBoardingPageState extends State<OnBoardingPage> {
                 items: supportedLocales
                     .map((locale) => DropdownMenuItem(
                           value: '${locale.languageCode}_${locale.countryCode}',
-                          child: Text(localeLanguageMap[
-                              '${locale.languageCode}_${locale.countryCode}']!),
+                          child: Text(
+                            localeLanguageMap[
+                                '${locale.languageCode}_${locale.countryCode}']!,
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
                         ))
                     .toList(),
               ),

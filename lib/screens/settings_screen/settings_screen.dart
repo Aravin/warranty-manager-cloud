@@ -27,27 +27,28 @@ class SettingsScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 5),
-                    FormBuilderDropdown<String>(
-                      name: 'locale',
-                      initialValue: context.locale.toString(),
-                      decoration: InputDecoration(
-                        labelText: 'display_lang'.tr(),
-                        suffix: IconButton(
-                          icon: const Icon(Icons.close),
-                          onPressed: () {
-                            formKey.currentState!.reset();
-                          },
+                    Container(
+                      margin: kAppPaddingTiny,
+                      child: FormBuilderDropdown<String>(
+                        name: 'locale',
+                        initialValue: context.locale.toString(),
+                        decoration: InputDecoration(
+                          labelText: 'display_lang'.tr(),
+                          hintText: 'Select Display Language',
                         ),
-                        hintText: 'Select Display Language',
+                        items: supportedLocales
+                            .map((locale) => DropdownMenuItem(
+                                  value:
+                                      '${locale.languageCode}_${locale.countryCode}',
+                                  child: Text(
+                                    localeLanguageMap[
+                                        '${locale.languageCode}_${locale.countryCode}']!,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ))
+                            .toList(),
                       ),
-                      items: supportedLocales
-                          .map((locale) => DropdownMenuItem(
-                                value:
-                                    '${locale.languageCode}_${locale.countryCode}',
-                                child: Text(localeLanguageMap[
-                                    '${locale.languageCode}_${locale.countryCode}']!),
-                              ))
-                          .toList(),
                     ),
                     const SizedBox(height: 5),
                     FormBuilderCheckbox(
