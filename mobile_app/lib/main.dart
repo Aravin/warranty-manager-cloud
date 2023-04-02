@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:isolate';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -131,7 +130,7 @@ Future<void> main() async {
 
   // Obtain shared preferences.
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.clear(); //only for testing
+  // await prefs.clear(); //only for testing
   isFirstLaunch = await prefs.getBool('isFirstLaunch') ?? true;
 
   runZonedGuarded<Future<void>>(() async {
