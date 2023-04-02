@@ -1,0 +1,78 @@
+[debug] [2023-04-02T04:35:41.395Z] ----------------------------------------------------------------------
+[debug] [2023-04-02T04:35:41.397Z] Command:       /Users/aravin/.nvm/versions/node/v16.18.1/bin/node /Users/aravin/.nvm/versions/node/v16.18.1/bin/firebase init
+[debug] [2023-04-02T04:35:41.398Z] CLI Version:   11.25.2
+[debug] [2023-04-02T04:35:41.398Z] Platform:      darwin
+[debug] [2023-04-02T04:35:41.398Z] Node Version:  v16.18.1
+[debug] [2023-04-02T04:35:41.405Z] Time:          Sun Apr 02 2023 10:05:41 GMT+0530 (India Standard Time)
+[debug] [2023-04-02T04:35:41.405Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-04-02T04:35:41.414Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-04-02T04:35:41.415Z] > authorizing via signed-in user (aravin.it@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/aravin/Documents/Personal/Projects/warranty_manager_cloud/functions
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2023-04-02T04:36:03.782Z] > refreshing access token with scopes: []
+[debug] [2023-04-02T04:36:03.786Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-04-02T04:36:03.786Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-04-02T04:36:03.958Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-04-02T04:36:03.958Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-04-02T04:36:04.005Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2023-04-02T04:36:04.849Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2023-04-02T04:36:04.849Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project warranty-manager-cloud (warranty-manager-cloud) 
+[info] 
+=== Functions Setup
+[debug] [2023-04-02T04:36:12.652Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-04-02T04:36:12.652Z] > authorizing via signed-in user (aravin.it@gmail.com)
+[debug] [2023-04-02T04:36:12.652Z] [iam] checking project warranty-manager-cloud for permissions ["firebase.projects.get"]
+[debug] [2023-04-02T04:36:12.653Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/warranty-manager-cloud:testIamPermissions [none]
+[debug] [2023-04-02T04:36:12.653Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/warranty-manager-cloud:testIamPermissions x-goog-quota-user=projects/warranty-manager-cloud
+[debug] [2023-04-02T04:36:12.653Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/warranty-manager-cloud:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-04-02T04:36:14.065Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/warranty-manager-cloud:testIamPermissions 200
+[debug] [2023-04-02T04:36:14.065Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/warranty-manager-cloud:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-04-02T04:36:14.066Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/cloudfunctions.googleapis.com [none]
+[debug] [2023-04-02T04:36:14.067Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/warranty-manager-cloud
+[debug] [2023-04-02T04:36:14.070Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/runtimeconfig.googleapis.com [none]
+[debug] [2023-04-02T04:36:14.070Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/warranty-manager-cloud
+[debug] [2023-04-02T04:36:15.806Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/cloudfunctions.googleapis.com 200
+[debug] [2023-04-02T04:36:15.807Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/cloudfunctions.googleapis.com [omitted]
+[debug] [2023-04-02T04:36:15.807Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/cloudfunctions.googleapis.com:enable [none]
+[debug] [2023-04-02T04:36:15.807Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/cloudfunctions.googleapis.com:enable x-goog-quota-user=projects/warranty-manager-cloud
+[debug] [2023-04-02T04:36:15.816Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/runtimeconfig.googleapis.com 200
+[debug] [2023-04-02T04:36:15.816Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2023-04-02T04:36:17.803Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/cloudfunctions.googleapis.com:enable 200
+[debug] [2023-04-02T04:36:17.803Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/cloudfunctions.googleapis.com:enable [omitted]
+[debug] [2023-04-02T04:36:27.805Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/cloudfunctions.googleapis.com [none]
+[debug] [2023-04-02T04:36:27.806Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/warranty-manager-cloud
+[debug] [2023-04-02T04:36:29.539Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/cloudfunctions.googleapis.com 200
+[debug] [2023-04-02T04:36:29.539Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/warranty-manager-cloud/services/cloudfunctions.googleapis.com [omitted]
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[info] ✔  Wrote functions/package.json 
+[info] ✔  Wrote functions/.eslintrc.js 
+[info] ✔  Wrote functions/tsconfig.json 
+[info] ✔  Wrote functions/tsconfig.dev.json 
+[info] ✔  Wrote functions/src/index.ts 
+[info] ✔  Wrote functions/.gitignore 
