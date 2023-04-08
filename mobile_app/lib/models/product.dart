@@ -188,6 +188,7 @@ class Product {
           .collection(collectionName)
           .where('userId',
               isEqualTo: FirebaseAuth.instance.currentUser!.uid.toString())
+          .orderBy('warrantyEndDate')
           .snapshots();
 
       final productStream = dbStream.map((event) {
