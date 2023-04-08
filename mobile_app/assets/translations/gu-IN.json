@@ -94,6 +94,12 @@
     "remainder_to_story_notification": "નવા ઉત્પાદો / સેવાઓ સંગ્રહિત કરવા માટે પુશ સૂચનાઓને યાદ કરવા મંજૂરી આપો",
     "write_review": "સમીક્ષા લખો",
     "rate_app": "એપ દર્શાવો",
+    "contact": "સંપર્ક",
+    "contact_reason": "સંપર્ક કારણ",
+    "message": "સંદેશ",
+    "feedback": "પ્રતિસાદ",
+    "complaint": "ફરિયાદ",
+    "feature_request": "લક્ષ્ય વિનંતી",
     "tooltip": {
         "add_edit_delete_warranty": "વૉરન્ટી ઉમેરો, સંપાદિત કરો અથવા કાઢી નાંખો"
     },
@@ -102,6 +108,8 @@
         "save_success": "ઉત્પાદન સફળતાપૂર્વક સંગ્રહિત કર્યું!",
         "failed_to_save": "ઉત્પાદન સંગ્રહિત કરવામાં નિષ્ફળ!",
         "settings_save_success": "સેટિંગ્સ સફળતાપૂર્વક અપડેટ થઈ!",
-        "settings_save_failure": "સેટિંગ્સ અપડેટ કરવામાં અસફળ હતું!"
+        "settings_save_failure": "સેટિંગ્સ અપડેટ કરવામાં અસફળ હતું!",
+        "contact_request_sent_success": "સંપર્ક વિનંતી સફળતાપૂર્વક મોકલવામાં આવી છે, અમારી ટીમ તમારે પહોંચશે!",
+        "contact_request_sent_failure": "સંપર્ક વિનંતી મોકલવામાં અસફળ રહી હતી, કૃપા કરીને પુનઃ મોકલો!"
     }
 }

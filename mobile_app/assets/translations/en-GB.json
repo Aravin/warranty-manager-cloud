@@ -68,7 +68,7 @@
     "or": "Or",
     "continue_as_guest": "continue as guest",
     "enter_your_email": "Enter your email",
-    "send": "send",
+    "send": "Send",
     "pass_reset_mail_sent": "Password reset email is sent",
     "user_not_found": "User not found!",
     "error_reset": "Error resetting",
@@ -94,6 +94,12 @@
     "remainder_to_story_notification": "Allow Push Notification to remind to store new products/services",
     "write_review": "Write Review",
     "rate_app": "Rate App",
+    "contact": "Contact",
+    "contact_reason": "Contact Reason",
+    "message": "Message",
+    "feedback": "Feedback",
+    "complaint": "Complaint",
+    "feature_request": "Feature Request",
     "tooltip": {
         "add_edit_delete_warranty": "Add, Edit or Delete the warranty"
     },
@@ -102,6 +108,8 @@
         "save_success": "Saved Product Successfully!",
         "failed_to_save": "Failed to save Product!",
         "settings_save_success": "Settings updated successfully!",
-        "settings_save_failure": "Failed to update settings!"
+        "settings_save_failure": "Failed to update settings!",
+        "contact_request_sent_success": "Contact Request sent successfully, our team will reach you!",
+        "contact_request_sent_failure": "Contact Request failed to send, please resend!"
     }
 }

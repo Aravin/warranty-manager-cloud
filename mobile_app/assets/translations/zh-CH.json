@@ -94,6 +94,12 @@
     "remainder_to_story_notification": "允许推送通知，提醒您存储新产品/服务",
     "write_review": "撰写评论",
     "rate_app": "评价应用",
+    "contact": "联系我们",
+    "contact_reason": "联系原因",
+    "message": "信息",
+    "feedback": "反馈",
+    "complaint": "投诉",
+    "feature_request": "功能请求",
     "tooltip": {
         "add_edit_delete_warranty": "添加、编辑或删除保修"
     },
@@ -102,6 +108,8 @@
         "save_success": "成功保存产品！",
         "failed_to_save": "无法保存产品！",
         "settings_save_success": "设置已成功更新！",
-        "settings_save_failure": "设置更新失败！"
+        "settings_save_failure": "设置更新失败！",
+        "contact_request_sent_success": "聯繫請求已成功發送，我們的團隊將會聯繫您！",
+        "contact_request_sent_failure": "聯繫請求發送失敗，請重新發送！"
     }
 }

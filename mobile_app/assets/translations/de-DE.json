@@ -94,6 +94,12 @@
     "remainder_to_story_notification": "Erlaube Push-Benachrichtigungen, um an das Speichern neuer Produkte/Dienstleistungen zu erinnern",
     "write_review": "Rezension schreiben",
     "rate_app": "App bewerten",
+    "contact": "Kontakt",
+    "contact_reason": "Kontaktgrund",
+    "message": "Nachricht",
+    "feedback": "Feedback",
+    "complaint": "Beschwerde",
+    "feature_request": "Funktionsanfrage",
     "tooltip": {
         "add_edit_delete_warranty": "Garantie hinzufügen, bearbeiten oder löschen"
     },
@@ -102,6 +108,8 @@
         "save_success": "Produkt erfolgreich gespeichert!",
         "failed_to_save": "Produkt konnte nicht gespeichert werden!",
         "settings_save_success": "Einstellungen erfolgreich aktualisiert!",
-        "settings_save_failure": "Aktualisierung der Einstellungen fehlgeschlagen!"
+        "settings_save_failure": "Aktualisierung der Einstellungen fehlgeschlagen!",
+        "contact_request_sent_success": "Kontaktanfrage erfolgreich gesendet, unser Team wird Sie erreichen!",
+        "contact_request_sent_failure": "Kontaktanfrage konnte nicht gesendet werden, bitte erneut senden!"
     }
 }

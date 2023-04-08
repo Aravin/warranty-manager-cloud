@@ -94,6 +94,12 @@
     "remainder_to_story_notification": "Permitir notificaciones push para recordar almacenar nuevos productos/servicios",
     "write_review": "Escribir reseña",
     "rate_app": "Calificar aplicación",
+    "contact": "Contacto",
+    "contact_reason": "Motivo de contacto",
+    "message": "Mensaje",
+    "feedback": "Comentarios",
+    "complaint": "Queja",
+    "feature_request": "Solicitud de función",
     "tooltip": {
         "add_edit_delete_warranty": "Agregar, editar o eliminar la garantía"
     },
@@ -102,6 +108,8 @@
         "save_success": "¡Producto guardado correctamente!",
         "failed_to_save": "¡No se pudo guardar el producto!",
         "settings_save_success": "¡Configuración actualizada correctamente!",
-        "settings_save_failure": "¡Error al actualizar la configuración!"
+        "settings_save_failure": "¡Error al actualizar la configuración!",
+        "contact_request_sent_success": "La solicitud de contacto se ha enviado correctamente, ¡nuestro equipo se pondrá en contacto contigo!",
+        "contact_request_sent_failure": "No se pudo enviar la solicitud de contacto, ¡vuelve a enviarla!"
     }
 }

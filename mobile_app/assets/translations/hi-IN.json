@@ -94,6 +94,12 @@
     "remainder_to_story_notification": "नए उत्पाद / सेवाओं को संग्रहित करने के लिए पुश अधिसूचना की अनुमति दें",
     "write_review": "समीक्षा लिखें",
     "rate_app": "ऐप को रेट करें",
+    "contact": "संपर्क",
+    "contact_reason": "संपर्क का कारण",
+    "message": "संदेश",
+    "feedback": "प्रतिक्रिया",
+    "complaint": "शिकायत",
+    "feature_request": "विशेषता अनुरोध",
     "tooltip": {
         "add_edit_delete_warranty": "वारंटी जोड़ें, संपादित करें या हटाएं"
     },
@@ -102,6 +108,8 @@
         "save_success": "उत्पाद सफलतापूर्वक सहेजा गया!",
         "failed_to_save": "उत्पाद को सहेजने में विफल!",
         "settings_save_success": "सेटिंग्स सफलतापूर्वक अपडेट हुए!",
-        "settings_save_failure": "सेटिंग्स को अपडेट करने में विफल रहा!"
+        "settings_save_failure": "सेटिंग्स को अपडेट करने में विफल रहा!",
+        "contact_request_sent_success": "संपर्क अनुरोध सफलतापूर्वक भेजा गया है, हमारी टीम आपसे संपर्क करेगी!",
+        "contact_request_sent_failure": "संपर्क अनुरोध भेजने में विफल हुआ, कृपया पुन: भेजें!"
     }
 }

@@ -94,6 +94,12 @@
     "remainder_to_story_notification": "新しい製品/サービスをストアするようにリマインドするためのプッシュ通知を許可する",
     "write_review": "レビューを書く",
     "rate_app": "アプリを評価する",
+    "contact": "連絡先",
+    "contact_reason": "連絡理由",
+    "message": "メッセージ",
+    "feedback": "フィードバック",
+    "complaint": "苦情",
+    "feature_request": "機能リクエスト",
     "tooltip": {
         "add_edit_delete_warranty": "保証を追加、編集、または削除する"
     },
@@ -102,6 +108,8 @@
         "save_success": "製品が正常に保存されました！",
         "failed_to_save": "製品の保存に失敗しました！",
         "settings_save_success": "設定が正常に更新されました！",
-        "settings_save_failure": "設定の更新に失敗しました！"
+        "settings_save_failure": "設定の更新に失敗しました！",
+        "contact_request_sent_success": "お問い合わせは送信されました。弊社のチームから連絡があります。",
+        "contact_request_sent_failure": "お問い合わせが送信できませんでした。再度送信してください。"
     }
 }

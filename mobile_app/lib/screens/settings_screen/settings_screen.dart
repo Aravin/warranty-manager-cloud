@@ -21,7 +21,9 @@ class SettingsScreen extends StatelessWidget {
         padding: kAppEdgeInsets,
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Image.asset('assets/undraw_settings.png'),
               FormBuilder(
                 key: formKey,
                 child: Column(
@@ -69,6 +71,20 @@ class SettingsScreen extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Expanded(
+                    child: OutlinedButton(
+                      onPressed: () {
+                        formKey.currentState?.reset();
+                      },
+                      // color: Theme.of(context).colorScheme.secondary,
+                      child: Text(
+                        'reset'.tr(),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
                     child: ElevatedButton(
                       onPressed: () async {
                         if (formKey.currentState?.saveAndValidate() ?? false) {
@@ -91,7 +107,6 @@ class SettingsScreen extends StatelessWidget {
                               gravity: ToastGravity.CENTER,
                             );
                           } catch (err) {
-                            debugPrint(formKey.currentState?.value.toString());
                             Fluttertoast.showToast(
                               msg: 'toast.settings_save_failure'.tr(),
                               toastLength: Toast.LENGTH_LONG,
@@ -102,25 +117,10 @@ class SettingsScreen extends StatelessWidget {
                                 .then((value) => Navigator.pop(context));
                           }
                         } else {
-                          debugPrint(formKey.currentState?.value.toString());
                           debugPrint('validation failed');
                         }
                       },
                       child: Text('save'.tr()),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () {
-                        formKey.currentState?.reset();
-                      },
-                      // color: Theme.of(context).colorScheme.secondary,
-                      child: Text(
-                        'reset'.tr(),
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary),
-                      ),
                     ),
                   ),
                 ],

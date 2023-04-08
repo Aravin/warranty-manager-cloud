@@ -94,6 +94,12 @@
     "remainder_to_story_notification": "নতুন পণ্য / সেবা স্টোর করার জন্য পুশ বিজ্ঞপ্তি পেতে অনুমতি দিন",
     "write_review": "পর্যালোচনা লিখুন",
     "rate_app": "রেট অ্যাপ",
+    "contact": "যোগাযোগ",
+    "contact_reason": "যোগাযোগের কারণ",
+    "message": "বার্তা",
+    "feedback": "প্রতিক্রিয়া",
+    "complaint": "অভিযোগ",
+    "feature_request": "বৈশিষ্ট্য অনুরোধ",
     "tooltip": {
         "add_edit_delete_warranty": "ওয়ারেন্টি যুক্ত, সম্পাদনা করুন বা মুছুন"
     },
@@ -102,6 +108,8 @@
         "save_success": "পণ্য সফলভাবে সংরক্ষিত হয়েছে!",
         "failed_to_save": "পণ্য সংরক্ষণ করতে ব্যর্থ হয়েছে!",
         "settings_save_success": "সেটিংস সফলভাবে আপডেট করা হয়েছে!",
-        "settings_save_failure": "সেটিংস আপডেট করা ব্যর্থ হয়েছে!"
+        "settings_save_failure": "সেটিংস আপডেট করা ব্যর্থ হয়েছে!",
+        "contact_request_sent_success": "যোগাযোগ অনুরোধ সফলভাবে পাঠানো হয়েছে, আমাদের দল আপনার সাথে যোগাযোগ করবে!",
+        "contact_request_sent_failure": "যোগাযোগ অনুরোধ পাঠানো ব্যর্থ হয়েছে, দয়া করে পুনরায় পাঠান!"
     }
 }

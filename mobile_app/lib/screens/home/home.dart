@@ -8,6 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/models/settings.dart';
+import 'package:warranty_manager_cloud/screens/contact/contact_screen.dart';
 import 'package:warranty_manager_cloud/screens/home/widgets/highlight_card.dart';
 import 'package:warranty_manager_cloud/screens/profile.dart';
 import 'package:warranty_manager_cloud/screens/settings_screen/settings_screen.dart';
@@ -59,6 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
           _availability = isAvailable && !Platform.isAndroid
               ? Availability.available
               : Availability.unavailable;
+
+          if (_availability == Availability.available) {
+            _inAppReview.requestReview();
+          }
         });
       } catch (_) {
         setState(() => _availability = Availability.unavailable);
@@ -166,6 +171,53 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
+            !(FirebaseAuth.instance.currentUser!.isAnonymous)
+                ? ListTile(
+                    title: const Text('profile').tr(),
+                    leading: const Icon(Icons.account_box),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) => const ProfilePage(),
+                        ),
+                      );
+                    },
+                  )
+                : const SizedBox(),
+            ListTile(
+              title: const Text('contact').tr(),
+              leading: const Icon(Icons.email),
+              onTap: () async {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (ctx) => const ContactScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('write_review').tr(),
+              leading: const Icon(Icons.thumbs_up_down),
+              onTap: () async {
+                Navigator.pop(context);
+                _inAppReview.openStoreListing();
+              },
+            ),
+            _availability == Availability.available
+                ? ListTile(
+                    title: const Text('rate_app').tr(),
+                    leading: const Icon(Icons.star),
+                    onTap: () async {
+                      Navigator.pop(context);
+                      _inAppReview.requestReview();
+                    },
+                  )
+                : SizedBox(),
+            const Divider(),
             ListTile(
               title: const Text('terms_policy').tr(),
               leading: const Icon(Icons.description),
@@ -192,42 +244,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
-            ListTile(
-              title: const Text('write_review').tr(),
-              leading: const Icon(Icons.thumbs_up_down),
-              onTap: () async {
-                Navigator.pop(context);
-                _inAppReview.openStoreListing();
-              },
-            ),
-            _availability == Availability.available
-                ? ListTile(
-                    title: const Text('rate_app').tr(),
-                    leading: const Icon(Icons.star),
-                    onTap: () async {
-                      Navigator.pop(context);
-                      _inAppReview.requestReview();
-                    },
-                  )
-                : SizedBox(),
-            !(FirebaseAuth.instance.currentUser!.isAnonymous)
-                ? ListTile(
-                    title: const Text('profile').tr(),
-                    leading: const Icon(Icons.account_box),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (ctx) => const ProfilePage(),
-                        ),
-                      );
-                    },
-                  )
-                : const SizedBox(),
+            const Divider(),
             ListTile(
               title: const Text('logout').tr(),
-              leading: const Icon(Icons.logout),
+              leading: const Icon(Icons.logout, color: Colors.red),
               onTap: () => showDialog<void>(
                 context: context,
                 builder: (BuildContext context) {

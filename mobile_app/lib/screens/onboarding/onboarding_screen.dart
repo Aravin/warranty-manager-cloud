@@ -60,7 +60,6 @@ class OnBoardingPageState extends State<OnBoardingPage> {
             MaterialPageRoute(builder: (_) => const AuthWidget()));
       }
     } else {
-      debugPrint(formKey.currentState?.value.toString());
       debugPrint('validation failed');
     }
   }
