@@ -29,7 +29,7 @@ class _ContactScreenState extends State<ContactScreen> {
     return md5.convert(utf8.encode(input)).toString();
   }
 
-  Future<bool> sendEmail(String message) async {
+  Future<bool> sendEmail(String message, String reason) async {
     final apiSecret = dotenv.get('API_SECRET');
     final currentTime =
         DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateTime.now());
@@ -51,7 +51,7 @@ class _ContactScreenState extends State<ContactScreen> {
         body: jsonEncode({
           'to': 'aravin.it@gmail.com',
           'from': 'Warranty Manager <aravin@epix.io>',
-          'subject': 'Contact from Warranty Manager Cloud',
+          'subject': '$reason from Warranty Manager Cloud',
           'text':
               'Hi, $message from ${FirebaseAuth.instance.currentUser!.email}'
         }),
@@ -110,15 +110,11 @@ class _ContactScreenState extends State<ContactScreen> {
                       decoration: InputDecoration(
                         labelText: 'message'.tr(),
                       ),
-                      // valueTransformer: (text) => num.tryParse(text),
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                         FormBuilderValidators.max(500),
                       ]),
                       maxLines: 5,
-                      // initialValue: '12',
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
                     )
                   ],
                 ),
@@ -151,7 +147,10 @@ class _ContactScreenState extends State<ContactScreen> {
                             final formData = formKey.currentState?.value;
                             debugPrint(formData.toString());
 
-                            await sendEmail(formData!['message']);
+                            await sendEmail(
+                              formData!['message'],
+                              formData['contactReason'],
+                            );
 
                             Fluttertoast.showToast(
                               msg: 'toast.contact_request_sent_success'.tr(),
