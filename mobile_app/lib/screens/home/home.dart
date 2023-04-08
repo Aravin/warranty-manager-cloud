@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,7 @@ import 'package:warranty_manager_cloud/models/settings.dart';
 import 'package:warranty_manager_cloud/screens/home/widgets/highlight_card.dart';
 import 'package:warranty_manager_cloud/screens/profile.dart';
 import 'package:warranty_manager_cloud/screens/settings_screen/settings_screen.dart';
-// import 'package:in_app_review/in_app_review.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:warranty_manager_cloud/screens/static/about.dart';
 import 'package:warranty_manager_cloud/screens/static/privacy_policy.dart';
 
@@ -19,6 +21,8 @@ import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 
+enum Availability { loading, available, unavailable }
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -27,6 +31,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final InAppReview _inAppReview = InAppReview.instance;
+  Availability _availability = Availability.loading;
+
   saveOnboardingSettings() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -43,6 +50,20 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     saveOnboardingSettings();
     super.initState();
+
+    (<T>(T? o) => o!)(WidgetsBinding.instance).addPostFrameCallback((_) async {
+      try {
+        final isAvailable = await _inAppReview.isAvailable();
+
+        setState(() {
+          _availability = isAvailable && !Platform.isAndroid
+              ? Availability.available
+              : Availability.unavailable;
+        });
+      } catch (_) {
+        setState(() => _availability = Availability.unavailable);
+      }
+    });
   }
 
   @override
@@ -171,6 +192,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
+            ListTile(
+              title: const Text('write_review').tr(),
+              leading: const Icon(Icons.thumbs_up_down),
+              onTap: () async {
+                Navigator.pop(context);
+                _inAppReview.openStoreListing();
+              },
+            ),
+            _availability == Availability.available
+                ? ListTile(
+                    title: const Text('rate_app').tr(),
+                    leading: const Icon(Icons.star),
+                    onTap: () async {
+                      Navigator.pop(context);
+                      _inAppReview.requestReview();
+                    },
+                  )
+                : SizedBox(),
             !(FirebaseAuth.instance.currentUser!.isAnonymous)
                 ? ListTile(
                     title: const Text('profile').tr(),
@@ -219,16 +258,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
-            // ListTile(
-            //   title: Text('Rate Us'),
-            //   leading: Icon(Icons.thumbs_up_down),
-            //   onTap: () async {
-            //     Navigator.pop(context);
-            //     final InAppReview inAppReview = InAppReview.instance;
-
-            //     inAppReview.openStoreListing();
-            //   },
-            // ),
           ],
         ),
       ),

@@ -2,7 +2,7 @@ bn-IN
 de-DE
 en-GB
 es-ES
-fr-FR 
+fr-FR
 gu-IN
 ja-JP
 hi-IN

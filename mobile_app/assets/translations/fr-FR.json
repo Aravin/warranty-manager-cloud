@@ -92,6 +92,8 @@
     "display_lang": "Langue d'affichage",
     "expiry_warranty_notification": "Autoriser les notifications push pour rappeler 30 jours avant l'expiration du produit/service",
     "remainder_to_story_notification": "Autoriser les notifications push pour rappeler de stocker de nouveaux produits/services",
+    "write_review": "Écrire un avis",
+    "rate_app": "Noter l'application",
     "tooltip": {
         "add_edit_delete_warranty": "Ajouter, modifier ou supprimer la garantie"
     },

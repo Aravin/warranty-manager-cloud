@@ -92,6 +92,8 @@
     "display_lang": "प्रदर्शित भाषा",
     "expiry_warranty_notification": "उत्पाद / सेवा समाप्ति से 30 दिन पहले याद दिलाने के लिए पुश अधिसूचना की अनुमति दें",
     "remainder_to_story_notification": "नए उत्पाद / सेवाओं को संग्रहित करने के लिए पुश अधिसूचना की अनुमति दें",
+    "write_review": "समीक्षा लिखें",
+    "rate_app": "ऐप को रेट करें",
     "tooltip": {
         "add_edit_delete_warranty": "वारंटी जोड़ें, संपादित करें या हटाएं"
     },

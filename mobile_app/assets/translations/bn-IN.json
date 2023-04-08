@@ -92,6 +92,8 @@
     "display_lang": "প্রদর্শন ভাষা",
     "expiry_warranty_notification": "পণ্য / সেবা মেয়াদ শেষ হওয়ার ৩০ দিন পূর্বে পুশ বিজ্ঞপ্তি পেতে অনুমতি দিন",
     "remainder_to_story_notification": "নতুন পণ্য / সেবা স্টোর করার জন্য পুশ বিজ্ঞপ্তি পেতে অনুমতি দিন",
+    "write_review": "পর্যালোচনা লিখুন",
+    "rate_app": "রেট অ্যাপ",
     "tooltip": {
         "add_edit_delete_warranty": "ওয়ারেন্টি যুক্ত, সম্পাদনা করুন বা মুছুন"
     },

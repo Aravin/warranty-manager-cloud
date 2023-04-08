@@ -92,6 +92,8 @@
     "display_lang": "Display Language",
     "expiry_warranty_notification": "Allow Push Notification to remind 30 days before product/service expiry",
     "remainder_to_story_notification": "Allow Push Notification to remind to store new products/services",
+    "write_review": "Write Review",
+    "rate_app": "Rate App",
     "tooltip": {
         "add_edit_delete_warranty": "Add, Edit or Delete the warranty"
     },

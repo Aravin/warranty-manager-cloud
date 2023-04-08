@@ -92,6 +92,8 @@
     "display_lang": "显示语言",
     "expiry_warranty_notification": "允许推送通知，在产品/服务到期前提前30天提醒",
     "remainder_to_story_notification": "允许推送通知，提醒您存储新产品/服务",
+    "write_review": "撰写评论",
+    "rate_app": "评价应用",
     "tooltip": {
         "add_edit_delete_warranty": "添加、编辑或删除保修"
     },

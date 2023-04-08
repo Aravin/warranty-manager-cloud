@@ -92,6 +92,8 @@
     "display_lang": "Idioma de pantalla",
     "expiry_warranty_notification": "Permitir notificaciones push para recordar 30 días antes del vencimiento del producto/servicio",
     "remainder_to_story_notification": "Permitir notificaciones push para recordar almacenar nuevos productos/servicios",
+    "write_review": "Escribir reseña",
+    "rate_app": "Calificar aplicación",
     "tooltip": {
         "add_edit_delete_warranty": "Agregar, editar o eliminar la garantía"
     },
