@@ -88,11 +88,11 @@ class _ContactScreenState extends State<ContactScreen> {
                     const SizedBox(height: 5),
                     FormBuilderDropdown<String>(
                       name: 'contactReason',
-                      decoration: const InputDecoration(
-                        labelText: 'Contact Reason',
+                      decoration: InputDecoration(
+                        labelText: 'contact_reason'.tr(),
                         hintText: 'Select contact reason',
                       ),
-                      initialValue: 'Feedback'.tr(),
+                      initialValue: 'feedback'.tr(),
                       items: [
                         'feedback'.tr(),
                         'complaint'.tr(),
