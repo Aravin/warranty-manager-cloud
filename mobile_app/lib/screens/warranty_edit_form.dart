@@ -412,11 +412,22 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                           // added later
                           _product.category = formValue['category'];
                           // images
-                          _product.productImage = formValue['productImage']?[0];
-                          _product.purchaseCopy = formValue['imgBill']?[0];
-                          _product.warrantyCopy = formValue['imgWarranty']?[0];
+                          _product.productImage =
+                              formValue['productImage']?.length > 0
+                                  ? formValue['productImage'][0]
+                                  : null;
+                          _product.purchaseCopy =
+                              formValue['imgBill']?.length > 0
+                                  ? formValue['imgBill'][0]
+                                  : null;
+                          _product.warrantyCopy =
+                              formValue['imgWarranty']?.length > 0
+                                  ? formValue['imgWarranty'][0]
+                                  : null;
                           _product.additionalImage =
-                              formValue['imgAdditional']?[0];
+                              formValue['imgAdditional']?.length > 0
+                                  ? formValue['imgAdditional'][0]
+                                  : null;
 
                           await _product.update();
                           Fluttertoast.showToast(
