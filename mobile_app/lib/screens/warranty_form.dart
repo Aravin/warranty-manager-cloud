@@ -171,24 +171,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                                   ))
                               .toList(),
                         ),
-                        FormBuilderTextField(
-                          name: 'price',
-                          // focusNode: priceFocus,
-                          keyboardType: TextInputType.number,
-                          textInputAction: TextInputAction.next,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(),
-                            FormBuilderValidators.min(1),
-                            FormBuilderValidators.max(9999999)
-                          ]),
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.monetization_on),
-                            hintText: 'price'.tr(),
-                            labelText: 'price'.tr(),
-                          ),
-                          // onEditingComplete: () =>
-                          //     FocusScope.of(context).requestFocus(companyFocus),
-                        ),
                         FormBuilderDropdown(
                           name: 'category',
                           // focusNode: categoryFocus,
@@ -211,6 +193,24 @@ class _WarrantyFormState extends State<WarrantyForm> {
                     title: const Text('optional').tr(),
                     content: Column(
                       children: [
+                        FormBuilderTextField(
+                          name: 'price',
+                          // focusNode: priceFocus,
+                          initialValue: '0',
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.min(0),
+                            FormBuilderValidators.max(9999999)
+                          ]),
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.monetization_on),
+                            hintText: 'price'.tr(),
+                            labelText: 'price'.tr(),
+                          ),
+                          // onEditingComplete: () =>
+                          //     FocusScope.of(context).requestFocus(companyFocus),
+                        ),
                         FormBuilderTextField(
                           name: 'purchasedAt',
                           // focusNode: purchasedAtFocus,
