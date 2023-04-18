@@ -39,6 +39,10 @@
     "upload_purchase_bill_image": "Kaufrechnungsbild hochladen",
     "upload_warranty_image": "Garantiebild hochladen",
     "other_image": "Laden Sie jedes andere zusätzliche Bild hoch",
+    "product_image_title": "Produktbild",
+    "purchase_bill_image_title": "Kaufrechnungsbild",
+    "warranty_image_title": "Garantiebild",
+    "other_image_title": "Weiteres zusätzliches Bild",
     "where_did_you_purchase": "Wo hast du es gekauft?",
     "do_you_know_contact_person_name": "Erinnerst du dich an den Namen der Kontaktperson?",
     "customer_care_phone": "Kontaktnummer, d.h. Kundenbetreuungsnummer",
@@ -100,6 +104,7 @@
     "feedback": "Feedback",
     "complaint": "Beschwerde",
     "feature_request": "Funktionsanfrage",
+    "no_saved_images": "Keine gespeicherten Bilder, bitte bearbeiten und Bilder hochladen",
     "tooltip": {
         "add_edit_delete_warranty": "Garantie hinzufügen, bearbeiten oder löschen"
     },

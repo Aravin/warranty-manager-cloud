@@ -36,9 +36,13 @@
     "brand_company": "برانڈ / کمپنی",
     "price": "قیمت",
     "upload_product_image": "مصنوع کی تصویر اپلوڈ کریں",
-    "upload_purchase_bill_image": "خریداری کی بل کی تصویر اپلوڈ کریں",
+    "upload_purchase_bill_image": "خریداری کے بل کی تصویر اپ لوڈ کریں",
     "upload_warranty_image": "ورانٹی کی تصویر اپلوڈ کریں",
     "other_image": "کسی اور اضافی تصویر کو اپلوڈ کریں",
+    "product_image_title": "پروڈکٹ کی تصویر",
+    "purchase_bill_image_title": "خریداری کا بل تصویر",
+    "warranty_image_title": "وارنٹی کی تصویر",
+    "other_image_title": "دیگر اضافی تصویر",
     "where_did_you_purchase": "آپ کہاں سے خریداری کریں؟",
     "do_you_know_contact_person_name": "کیا آپ رابطہ شخص کا نام یاد ہے؟",
     "customer_care_phone": "رابطہ نمبر، یعنی کسٹمر کیئر نمبر",
@@ -100,6 +104,7 @@
     "feedback": "آراء",
     "complaint": "شکایت",
     "feature_request": "خصوصیت کی درخواست",
+    "no_saved_images": "کوئی محفوظ شدہ تصاویر نہیں، براہ کرم ترمیم کریں اور تصاویر اپ لوڈ کریں",
     "tooltip": {
         "add_edit_delete_warranty": "ضم، ترمیم یا حذف وارانٹی کریں"
     },

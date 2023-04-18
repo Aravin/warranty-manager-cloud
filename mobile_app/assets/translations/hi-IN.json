@@ -39,6 +39,10 @@
     "upload_purchase_bill_image": "खरीद बिल छवि अपलोड करें",
     "upload_warranty_image": "वारंटी छवि अपलोड करें",
     "other_image": "कोई भी अन्य अतिरिक्त छवि अपलोड करें",
+    "product_image_title": "उत्पाद छवि",
+    "purchase_bill_image_title": "खरीद बिल छवि",
+    "warranty_image_title": "वारंटी छवि",
+    "other_image_title": "अन्य अतिरिक्त छवि",
     "where_did_you_purchase": "कहाँ से खरीदा है?",
     "do_you_know_contact_person_name": "क्या आप संपर्क व्यक्ति का नाम याद है?",
     "customer_care_phone": "संपर्क नंबर, अर्थात् ग्राहक सेवा का नंबर",
@@ -100,6 +104,7 @@
     "feedback": "प्रतिक्रिया",
     "complaint": "शिकायत",
     "feature_request": "विशेषता अनुरोध",
+    "no_saved_images": "कोई सहेजी गई छवियां नहीं हैं, कृपया संपादित करें और छवियां अपलोड करें",
     "tooltip": {
         "add_edit_delete_warranty": "वारंटी जोड़ें, संपादित करें या हटाएं"
     },

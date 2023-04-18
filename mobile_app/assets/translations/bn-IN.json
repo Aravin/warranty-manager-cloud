@@ -36,9 +36,13 @@
     "brand_company": "ব্র্যান্ড / কোম্পানি",
     "price": "মূল্য",
     "upload_product_image": "পণ্যের ছবি আপলোড করুন",
-    "upload_purchase_bill_image": "ক্রয়কৃত বিলের ছবি আপলোড করুন",
+    "upload_purchase_bill_image": "ক্রয় বিল ছবি আপলোড করুন",
     "upload_warranty_image": "গ্যারান্টির ছবি আপলোড করুন",
     "other_image": "অতিরিক্ত কোনও ছবি আপলোড করুন",
+    "product_image_title": "পণ্যের চিত্র",
+    "purchase_bill_image_title": "ক্রয় বিল চিত্র",
+    "warranty_image_title": "ওয়ারেন্টি চিত্র",
+    "other_image_title": "অন্যান্য অতিরিক্ত চিত্র",
     "where_did_you_purchase": "আপনি কোথায় ক্রয় করেছিলেন?",
     "do_you_know_contact_person_name": "আপনি কি যোগাযোগ ব্যক্তির নাম মনে করছেন?",
     "customer_care_phone": "যোগাযোগ নম্বর, যার মাধ্যমে গ্রাহক যত্ন নম্বর",
@@ -100,6 +104,7 @@
     "feedback": "প্রতিক্রিয়া",
     "complaint": "অভিযোগ",
     "feature_request": "বৈশিষ্ট্য অনুরোধ",
+    "no_saved_images": "কোনো ছবি সংরক্ষিত নেই, সম্পাদনা করুন এবং ছবি আপলোড করুন",
     "tooltip": {
         "add_edit_delete_warranty": "ওয়ারেন্টি যুক্ত, সম্পাদনা করুন বা মুছুন"
     },

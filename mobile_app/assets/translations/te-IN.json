@@ -36,9 +36,13 @@
     "brand_company": "బ్రాండ్/కంపెనీ",
     "price": "ధర",
     "upload_product_image": "ఉత్పాదన చిత్రం అప్‌లోడ్ చేయండి",
-    "upload_purchase_bill_image": "కొన్ని చిత్రం అప్‌లోడ్ చేయండి",
+    "upload_purchase_bill_image": "కొన్ని బిల్ చిత్రం అప్‌లోడ్ చేయండి",
     "upload_warranty_image": "వారంటీ చిత్రం అప్‌లోడ్ చేయండి",
     "other_image": "ఇతర చిత్రం అప్‌లోడ్ చేయండి",
+    "product_image_title": "ఉత్పత్తి చిత్రం",
+    "purchase_bill_image_title": "కొనుగోలు బిల్లు చిత్రం",
+    "warranty_image_title": "వారంటీ చిత్రం",
+    "other_image_title": "ఇతర అదనపు చిత్రం",
     "where_did_you_purchase": "మీరు ఎక్కడ కొన్నారు?",
     "do_you_know_contact_person_name": "మీకు కాంటాక్ట్ పర్సన్ పేరు గుర్తుందా?",
     "customer_care_phone": "కస్టమర్ కేర్ ఫోన్ నంబర్",
@@ -100,6 +104,7 @@
     "feedback": "అభిప్రాయం",
     "complaint": "ఫీడ్‌బ్యాక్",
     "feature_request": "ఫీచర్ అభ్యర్థన",
+    "no_saved_images": "సేవ్ చేయబడిన చిత్రాలు లేవు, దయచేసి సవరించి అప్‌లోడ్ చేయండి",
     "tooltip": {
         "add_edit_delete_warranty": "వారంటీని జోడించండి, మార్చండి లేదా తొలగించండి"
     },

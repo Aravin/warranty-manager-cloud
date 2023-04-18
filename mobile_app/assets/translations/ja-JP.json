@@ -36,9 +36,13 @@
     "brand_company": "ブランド/企業",
     "price": "価格",
     "upload_product_image": "商品画像のアップロード",
-    "upload_purchase_bill_image": "購入証明書画像のアップロード",
+    "upload_purchase_bill_image": "購入請求書画像をアップロードする",
     "upload_warranty_image": "保証書画像のアップロード",
     "other_image": "その他の追加画像のアップロード",
+    "product_image_title": "商品画像",
+    "purchase_bill_image_title": "購入明細書画像",
+    "warranty_image_title": "保証書画像",
+    "other_image_title": "その他の追加画像",
     "where_did_you_purchase": "どこで購入しましたか？",
     "do_you_know_contact_person_name": "担当者名を覚えていますか？",
     "customer_care_phone": "連絡先の電話番号、例えばカスタマーケア番号",
@@ -100,6 +104,7 @@
     "feedback": "フィードバック",
     "complaint": "苦情",
     "feature_request": "機能リクエスト",
+    "no_saved_images": "保存された画像はありません。編集して画像をアップロードしてください。",
     "tooltip": {
         "add_edit_delete_warranty": "保証を追加、編集、または削除する"
     },

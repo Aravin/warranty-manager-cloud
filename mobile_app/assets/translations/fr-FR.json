@@ -39,6 +39,10 @@
     "upload_purchase_bill_image": "Télécharger l'image de la facture d'achat",
     "upload_warranty_image": "Télécharger l'image de la garantie",
     "other_image": "Télécharger toute autre image supplémentaire",
+    "product_image_title": "Image du produit",
+    "purchase_bill_image_title": "Image de la facture d'achat",
+    "warranty_image_title": "Image de garantie",
+    "other_image_title": "Autre image supplémentaire",
     "where_did_you_purchase": "Où avez-vous acheté?",
     "do_you_know_contact_person_name": "Vous souvenez-vous du nom de la personne à contacter?",
     "customer_care_phone": "Numéro de contact, c'est-à-dire le numéro de service clientèle",
@@ -100,6 +104,7 @@
     "feedback": "Retour d'information",
     "complaint": "Plainte",
     "feature_request": "Demande de fonctionnalité",
+    "no_saved_images": "Aucune image enregistrée, veuillez éditer et télécharger des images",
     "tooltip": {
         "add_edit_delete_warranty": "Ajouter, modifier ou supprimer la garantie"
     },

@@ -36,9 +36,13 @@
     "brand_company": "பிராண்ட்/நிறுவனம்",
     "price": "விலை",
     "upload_product_image": "தயாரிப்பு படத்தை பதிவேற்றவும்",
-    "upload_purchase_bill_image": "உத்தரவாதப் படத்தைப் பதிவேற்றவும்",
+    "upload_purchase_bill_image": "வாங்க பில் படத்தை பதிவேற்றுங்கள்",
     "upload_warranty_image": "உத்தரவாதப் படத்தைப் பதிவேற்றவும்",
     "other_image": "வேறு ஏதேனும் கூடுதல் படத்தைப் பதிவேற்றவும்",
+    "product_image_title": "தயாரிப்பு படம்",
+    "purchase_bill_image_title": "கொள்முதல் பில் படம்",
+    "warranty_image_title": "உத்தரவு படம்",
+    "other_image_title": "மற்ற கூடுதல் படம்",
     "where_did_you_purchase": "எங்கே வாங்கினீர்கள்?",
     "do_you_know_contact_person_name": "தொடர்பு கொண்டவரின் பெயர் உங்களுக்கு நினைவிருக்கிறதா?",
     "customer_care_phone": "தொடர்பு எண், அதாவது வாடிக்கையாளர் பராமரிப்பு எண்",
@@ -100,6 +104,7 @@
     "feedback": "கருத்து",
     "complaint": "புகார்",
     "feature_request": "அம்ச கோரிக்கை",
+    "no_saved_images": "சேமிக்கப்பட்ட படங்கள் எதுவும் இல்லை, தயவுசெய்து திருத்தவும் படங்களை பதிவேற்றவும்",
     "tooltip": {
         "add_edit_delete_warranty": "வாரண்டி சேர்க்க, திருத்தம் அல்லது நீக்கு"
     },

@@ -36,9 +36,13 @@
     "brand_company": "品牌/公司",
     "price": "价格",
     "upload_product_image": "上传产品图片",
-    "upload_purchase_bill_image": "上传购买单据图片",
+    "upload_purchase_bill_image": "上传购买发票图片",
     "upload_warranty_image": "上传保修图片",
     "other_image": "上传其他附加图片",
+    "product_image_title": "产品图片",
+    "purchase_bill_image_title": "购买发票图片",
+    "warranty_image_title": "保修卡图片",
+    "other_image_title": "其他附加图片",
     "where_did_you_purchase": "您在哪里购买？",
     "do_you_know_contact_person_name": "您还记得联系人的名字吗？",
     "customer_care_phone": "联系电话，例如客服电话",
@@ -100,6 +104,7 @@
     "feedback": "反馈",
     "complaint": "投诉",
     "feature_request": "功能请求",
+    "no_saved_images": "没有保存的图像，请编辑并上传图像",
     "tooltip": {
         "add_edit_delete_warranty": "添加、编辑或删除保修"
     },

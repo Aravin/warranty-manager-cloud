@@ -261,37 +261,45 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                           ],
                         ),
                       )
-                    : Expanded(
-                        flex: 1,
-                        child: GridView.count(
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 20,
-                          crossAxisCount: 2,
-                          children: [
-                            data.product.isProductImage
-                                ? ImageThumbnailWidget(
-                                    image: data.images['productImage']!,
-                                    imageName: 'upload_product_image'.tr())
-                                : const SizedBox(),
-                            data.product.isPurchaseCopy
-                                ? ImageThumbnailWidget(
-                                    image: data.images['purchaseCopy']!,
-                                    imageName:
-                                        'upload_purchase_bill_image'.tr())
-                                : const SizedBox(),
-                            data.product.isWarrantyCopy
-                                ? ImageThumbnailWidget(
-                                    image: data.images['warrantyCopy']!,
-                                    imageName: 'upload_warranty_image'.tr())
-                                : const SizedBox(),
-                            data.product.isAdditionalImage
-                                ? ImageThumbnailWidget(
-                                    image: data.images['additionalImage']!,
-                                    imageName: 'other_image'.tr())
-                                : const SizedBox(),
-                          ],
-                        ),
-                      )
+                    : (data.product.isProductImage ||
+                            data.product.isPurchaseCopy ||
+                            data.product.isWarrantyCopy ||
+                            data.product.isAdditionalImage)
+                        ? Expanded(
+                            flex: 1,
+                            child: GridView.count(
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 20,
+                              crossAxisCount: 2,
+                              children: [
+                                data.product.isProductImage
+                                    ? ImageThumbnailWidget(
+                                        image: data.images['productImage']!,
+                                        imageName: 'product_image_title'.tr())
+                                    : const SizedBox(),
+                                data.product.isPurchaseCopy
+                                    ? ImageThumbnailWidget(
+                                        image: data.images['purchaseCopy']!,
+                                        imageName:
+                                            'purchase_bill_image_title'.tr())
+                                    : const SizedBox(),
+                                data.product.isWarrantyCopy
+                                    ? ImageThumbnailWidget(
+                                        image: data.images['warrantyCopy']!,
+                                        imageName: 'warranty_image_title'.tr())
+                                    : const SizedBox(),
+                                data.product.isAdditionalImage
+                                    ? ImageThumbnailWidget(
+                                        image: data.images['additionalImage']!,
+                                        imageName: 'other_image_title'.tr())
+                                    : const SizedBox(),
+                              ],
+                            ),
+                          )
+                        : Text(
+                            'No Saved Images'.tr(),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
               ],
             ),
           );

@@ -36,9 +36,13 @@
     "brand_company": "ബ്രാന്റ് / കമ്പനി",
     "price": "വില",
     "upload_product_image": "ഉൽപ്പന്നത്തിന്റെ ചിത്രം അപ്ലോഡ് ചെയ്യുക",
-    "upload_purchase_bill_image": "വാരന്റി ചിത്രം അപ്ലോഡ് ചെയ്യുക",
+    "upload_purchase_bill_image": "വാങ്ങിയതിന്റെ ബില്ല് ചിത്രം അപ്‌ലോഡ് ചെയ്യുക",
     "upload_warranty_image": "വാരന്റി ചിത്രം അപ്ലോഡ് ചെയ്യുക",
     "other_image": "മറ്റു പൂരക ചിത്രം അപ്ലോഡ് ചെയ്യുക",
+    "product_image_title": "ഉത്പന്നം ചിത്രം",
+    "purchase_bill_image_title": "കാര്യം ബിൽ ചിത്രം",
+    "warranty_image_title": "വാരന്റി ചിത്രം",
+    "other_image_title": "മറ്റ് അധിക ചിത്രം",
     "where_did_you_purchase": "നിങ്ങൾ എങ്ങിനെ വാങ്ങി?",
     "do_you_know_contact_person_name": "നിങ്ങൾ കോൺടാക്റ്റ് പേരിനെന്നു നിങ്ങൾ ഓർക്കുന്നുണ്ടോ?",
     "customer_care_phone": "കൺടാക്റ്റ് നമ്പർ, അത് പോലെ കസ്റ്റമർ കേർ നമ്പർ",
@@ -100,6 +104,7 @@
     "feedback": "പ്രതികരണം",
     "complaint": "ഫീസ്റ്റ്",
     "feature_request": "സവിശേഷത അഭ്യർത്ഥന",
+    "no_saved_images": "സംരക്ഷിക്കപ്പെട്ട ചിത്രങ്ങൾ ഇല്ല, ദയവായി തിരുത്തുക അപ്ലോഡുചെയ്യുക",
     "tooltip": {
         "add_edit_delete_warranty": "വാരന്റി ചേർക്കുക, തിരുത്തുക അല്ലെങ്കിൽ മാറ്റുക"
     },

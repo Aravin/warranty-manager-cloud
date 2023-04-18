@@ -36,9 +36,13 @@
     "brand_company": "Marca/Compañía",
     "price": "Precio",
     "upload_product_image": "Cargar imagen del producto",
-    "upload_purchase_bill_image": "Cargar imagen de la factura de compra",
+    "upload_purchase_bill_image": "Cargar imagen de factura de compra",
     "upload_warranty_image": "Cargar imagen de la garantía",
     "other_image": "Cargar cualquier otra imagen adicional",
+    "product_image_title": "Imagen del producto",
+    "purchase_bill_image_title": "Imagen de la factura de compra",
+    "warranty_image_title": "Imagen de garantía",
+    "other_image_title": "Otra imagen adicional",
     "where_did_you_purchase": "¿Dónde compraste?",
     "do_you_know_contact_person_name": "¿Recuerdas el nombre de la persona de contacto?",
     "customer_care_phone": "Número de contacto, es decir, número de atención al cliente",
@@ -100,6 +104,7 @@
     "feedback": "Comentarios",
     "complaint": "Queja",
     "feature_request": "Solicitud de función",
+    "no_saved_images": "No hay imágenes guardadas, por favor edite y suba las imágenes",
     "tooltip": {
         "add_edit_delete_warranty": "Agregar, editar o eliminar la garantía"
     },

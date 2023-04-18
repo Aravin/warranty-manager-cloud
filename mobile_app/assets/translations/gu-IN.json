@@ -36,9 +36,13 @@
     "brand_company": "બ્રાન્ડ / કંપની",
     "price": "કિંમત",
     "upload_product_image": "ઉત્પાદન છબી અપલોડ કરો",
-    "upload_purchase_bill_image": "ખરીદની બીલ છબી અપલોડ કરો",
+    "upload_purchase_bill_image": "ખરીદની બીલ છબિ અપલોડ કરો",
     "upload_warranty_image": "વૉરન્ટી છબી અપલોડ કરો",
     "other_image": "કોઈ બીજી અતિરિક્ત છબી અપલોડ કરો",
+    "product_image_title": "ઉત્પાદન છબી",
+    "purchase_bill_image_title": "ખરીદની બીલ છબી",
+    "warranty_image_title": "વૉરન્ટી છબી",
+    "other_image_title": "અન્ય વધારાના છબિઓ",
     "where_did_you_purchase": "ક્યાં ખરીદ્યું હતું?",
     "do_you_know_contact_person_name": "ક્યારેય સંપર્ક વ્યક્તિનું નામ યાદ છે?",
     "customer_care_phone": "સંપર્ક નંબર, અર્થાત ગ્રાહક સેવા નંબર",
@@ -100,6 +104,7 @@
     "feedback": "પ્રતિસાદ",
     "complaint": "ફરિયાદ",
     "feature_request": "લક્ષ્ય વિનંતી",
+    "no_saved_images": "કોઈ સંગ્રહીત ચિત્રો નથી, કૃપા કરીને સંપાદન કરો અને ચિત્રો અપલોડ કરો",
     "tooltip": {
         "add_edit_delete_warranty": "વૉરન્ટી ઉમેરો, સંપાદિત કરો અથવા કાઢી નાંખો"
     },

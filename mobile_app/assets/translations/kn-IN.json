@@ -36,9 +36,13 @@
     "brand_company": "ಬ್ರ್ಯಾಂಡ್/ಕಂಪೆನಿ",
     "price": "ಬೆಲೆ",
     "upload_product_image": "ಉತ್ಪನ್ನ ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ",
-    "upload_purchase_bill_image": "ಖರೀದಿದ ಬಿಲ್ ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ",
+    "upload_purchase_bill_image": "ಖರೀದಿ ಬಿಲ್ಲು ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ",
     "upload_warranty_image": "ವಾರಂಟಿ ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ",
     "other_image": "ಯಾವುದೇ ಇತರ ಹೆಚ್ಚಿನ ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ",
+    "product_image_title": "ಉತ್ಪನ್ನ ಚಿತ್ರ",
+    "purchase_bill_image_title": "ಖರೀದಿ ಬಿಲ್ ಚಿತ್ರ",
+    "warranty_image_title": "ವಾರಂಟಿ ಚಿತ್ರ",
+    "other_image_title": "ಇತರ ಹೆಚ್ಚುವರಿ ಚಿತ್ರ",
     "where_did_you_purchase": "ನೀವು ಯಾವಾಗ ಖರೀದಿ ಮಾಡಿದಿರಿ?",
     "do_you_know_contact_person_name": "ನೀವು ಸಂಪರ್ಕವಾದ ವ್ಯಕ್ತಿಯ ಹೆಸರು ನೆನಪಿದೆಯೇ?",
     "customer_care_phone": "ಕಸ್ಟಮರ್ ಕೇರ್ ಫೋನ್ ನಂಬರ್ ಮತ್ತು ಸಹಾಯ ನೆನಪಿದೆಯೇ?",
@@ -100,6 +104,7 @@
     "feedback": "ಪ್ರತಿಕ್ರಿಯೆ",
     "complaint": "ತಿರುತು",
     "feature_request": "ವೈಶಿಷ್ಟ್ಯ ವಿನಂತಿ",
+    "no_saved_images": "ಯಾವುದೇ ಉಳಿದಿರುವ ಚಿತ್ರಗಳಿಲ್ಲ, ದಯವಿಟ್ಟು ಸಂಪಾದಿಸಿ ಮತ್ತು ಚಿತ್ರಗಳನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ",
     "tooltip": {
         "add_edit_delete_warranty": "ವಾರಂಟಿಯನ್ನು ಸೇರಿಸಿ, ಬದಲಾಯಿಸಿ ಅಥವಾ ಅಳಿಸಿ"
     },

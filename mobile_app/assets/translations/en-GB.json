@@ -36,9 +36,13 @@
     "brand_company": "Brand/Company",
     "price": "Price",
     "upload_product_image": "Upload Product Image",
-    "upload_purchase_bill_image": "Upload Warranty Image",
+    "upload_purchase_bill_image": "Upload Purchase Bill Image",
     "upload_warranty_image": "Upload Warranty Image",
     "other_image": "Upload any other Additional Image",
+    "product_image_title": "Product Image",
+    "purchase_bill_image_title": "Purchase Bill Image",
+    "warranty_image_title": "Warranty Image",
+    "other_image_title": "Other Additional Image",
     "where_did_you_purchase": "Where did you purchase?",
     "do_you_know_contact_person_name": "Do you remember contact person name?",
     "customer_care_phone": "Contact number, i.e customer care number",
@@ -100,6 +104,7 @@
     "feedback": "Feedback",
     "complaint": "Complaint",
     "feature_request": "Feature Request",
+    "no_saved_images": "No saved images, please edit and upload images",
     "tooltip": {
         "add_edit_delete_warranty": "Add, Edit or Delete the warranty"
     },

@@ -36,9 +36,13 @@
     "brand_company": "Бренд/Компания",
     "price": "Цена",
     "upload_product_image": "Загрузить изображение продукта",
-    "upload_purchase_bill_image": "Загрузить изображение чека",
+    "upload_purchase_bill_image": "Загрузить изображение чека на покупку",
     "upload_warranty_image": "Загрузить изображение гарантии",
     "other_image": "Загрузить любое другое изображение",
+    "product_image_title": "Изображение продукта",
+    "purchase_bill_image_title": "Изображение чека покупки",
+    "warranty_image_title": "Изображение гарантии",
+    "other_image_title": "Другое дополнительное изображение",
     "where_did_you_purchase": "Где вы купили?",
     "do_you_know_contact_person_name": "Вы помните имя контактного лица?",
     "customer_care_phone": "Номер телефона службы поддержки",
@@ -100,6 +104,7 @@
     "feedback": "Обратная связь",
     "complaint": "Жалоба",
     "feature_request": "Запрос функциональности",
+    "no_saved_images": "Нет сохраненных изображений, пожалуйста, отредактируйте и загрузите изображения",
     "tooltip": {
         "add_edit_delete_warranty": "Добавить, изменить или удалить гарантию"
     },
