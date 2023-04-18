@@ -297,7 +297,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                             ),
                           )
                         : Text(
-                            'No Saved Images'.tr(),
+                            'no_saved_images'.tr(),
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
               ],
