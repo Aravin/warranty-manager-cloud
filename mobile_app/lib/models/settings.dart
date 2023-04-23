@@ -14,8 +14,8 @@ class Settings {
   String locale = 'en_GB';
   bool allowExpiryNotification = true;
   bool allowRemainderNotification = true;
-  String? email = currentUser.email!;
-  String? displayName = currentUser.displayName!;
+  String? email = currentUser.email;
+  String? displayName = currentUser.displayName;
 
   toMap() {
     return {
