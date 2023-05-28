@@ -18,8 +18,8 @@ Future<void> storeImage(String filename, File file) async {
     file.absolute.path,
     tempImgPath,
     format: CompressFormat.jpeg,
-    minHeight: 720,
-    minWidth: 720,
+    minHeight: 2048,
+    minWidth: 2048,
   );
   await imgRef.putFile(compressedFile!);
   await File(tempImgPath).delete();
