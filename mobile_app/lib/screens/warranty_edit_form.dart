@@ -99,7 +99,7 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                     _formKey.currentState!.save();
                     debugPrint(_formKey.currentState!.value.toString());
                   },
-                  autoFocusOnValidationFailure: true,
+                  // autoFocusOnValidationFailure: true,
                   autovalidateMode: AutovalidateMode.disabled,
                   initialValue: _formInitialValues,
                   skipDisabled: true,

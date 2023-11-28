@@ -90,7 +90,7 @@ Future<void> main() async {
   flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()!
-      .requestPermission();
+      .requestNotificationsPermission();
 
   // NotificationSettings settings = await messaging.requestPermission(
   //   alert: true,

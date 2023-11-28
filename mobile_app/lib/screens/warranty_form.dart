@@ -67,7 +67,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                 _formKey.currentState!.save();
                 debugPrint(_formKey.currentState!.value.toString());
               },
-              autoFocusOnValidationFailure: true,
+              // autoFocusOnValidationFailure: true,
               autovalidateMode: AutovalidateMode.disabled,
               initialValue: const {},
               skipDisabled: true,
@@ -378,12 +378,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                               formValue['imgAdditional']?[0];
 
                           await _product.save();
-                          Fluttertoast.showToast(
-                            msg: 'toast.save_success'.tr(),
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER,
-                            fontSize: 16.0,
-                          );
                         } catch (err) {
                           Fluttertoast.showToast(
                             msg: 'toast.failed_to_save'.tr(),
@@ -393,6 +387,12 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           );
                         } finally {
                           await EasyLoading.dismiss();
+                          Fluttertoast.showToast(
+                            msg: 'toast.save_success'.tr(),
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            fontSize: 16.0,
+                          );
                           setState(() => Navigator.pop(context, true));
                         }
                       } else {

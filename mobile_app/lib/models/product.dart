@@ -29,10 +29,10 @@ class Product {
   DateTime? warrantyEndDate;
 
   // images XFile or string
-  dynamic productImage;
-  dynamic purchaseCopy;
-  dynamic warrantyCopy;
-  dynamic additionalImage;
+  XFile? productImage;
+  XFile? purchaseCopy;
+  XFile? warrantyCopy;
+  XFile? additionalImage;
 
   // bool
   bool isProductImage = false;
@@ -125,7 +125,7 @@ class Product {
             '$productId/additionalImage', File(additionalImage!.path));
       }
     } catch (err) {
-      debugPrint('Saved to save product - $err');
+      debugPrint('Failed to save product - $err');
       rethrow;
     }
   }

@@ -5,7 +5,7 @@ bool isEmptyString(String input) {
   return false;
 }
 
-String emptyStringPlaceholder(String input, String returnTxt) {
+String emptyStringPlaceholder(String input, String? returnTxt) {
   if (input == '' || input.isEmpty) {
     return returnTxt ?? 'na';
   }
