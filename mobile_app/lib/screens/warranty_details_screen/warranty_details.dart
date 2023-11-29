@@ -63,6 +63,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
           );
         },
         backgroundColor: kAccentColor,
+        foregroundColor: Colors.white,
         child: const Icon(Icons.edit),
       ),
       body: FutureBuilder(

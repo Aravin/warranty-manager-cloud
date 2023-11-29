@@ -14,6 +14,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/foundation.dart' show PlatformDispatcher, kDebugMode;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:warranty_manager_cloud/shared/locales.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -162,10 +163,22 @@ class WarrantyManagerApp extends StatelessWidget {
       locale: context.locale,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          // useMaterial3: true,
-          primarySwatch: Colors.deepPurple,
-          textTheme: Typography.blackCupertino,
-          scaffoldBackgroundColor: Colors.grey.shade200),
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurple,
+          brightness: Brightness.light,
+        ),
+        secondaryHeaderColor: kSecondaryTextColor,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: Typography.blackCupertino,
+        scaffoldBackgroundColor: Colors.grey.shade200,
+        appBarTheme: const AppBarTheme(
+          color: kPrimaryColor,
+          titleTextStyle: TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
+      ),
       home: Scaffold(
         body: LayoutBuilder(
           builder: (context, constraints) {

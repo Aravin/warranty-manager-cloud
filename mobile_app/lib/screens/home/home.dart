@@ -341,6 +341,7 @@ class _HomeScreenState extends State<HomeScreen> {
         label: const Text('add_new').tr(),
         icon: const Icon(Icons.add_circle),
         backgroundColor: kAccentColor,
+        foregroundColor: Colors.white,
       ),
     );
   }
