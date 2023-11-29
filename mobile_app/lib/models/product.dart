@@ -101,15 +101,15 @@ class Product {
     return product;
   }
 
-  Future<void> save() async {
+  Future<String> save() async {
     try {
       isProductImage = (productImage != null);
       isPurchaseCopy = (purchaseCopy != null);
       isWarrantyCopy = (warrantyCopy != null);
       isAdditionalImage = (additionalImage != null);
 
-      final addResponse = await db.collection(collectionName).add(toMap());
-      final productId = addResponse.id;
+      final productDoc = db.collection(collectionName).doc(); //.add(toMap());
+      final productId = productDoc.id;
 
       if (isProductImage) {
         await storeImage('$productId/productImage', File(productImage!.path));
@@ -124,6 +124,10 @@ class Product {
         await storeImage(
             '$productId/additionalImage', File(additionalImage!.path));
       }
+
+      productDoc.set(toMap());
+
+      return productId;
     } catch (err) {
       debugPrint('Failed to save product - $err');
       rethrow;
@@ -137,22 +141,23 @@ class Product {
       isWarrantyCopy = warrantyCopy != null;
       isAdditionalImage = additionalImage != null;
 
-      await db.collection(collectionName).doc(id).update(toMap());
       final productId = id;
 
-      if (isProductImage && productImage is XFile) {
+      if (isProductImage && !productImage!.path.contains('https')) {
         await storeImage('$productId/productImage', File(productImage!.path));
       }
-      if (isPurchaseCopy && purchaseCopy is XFile) {
+      if (isPurchaseCopy && !purchaseCopy!.path.contains('https')) {
         await storeImage('$productId/purchaseCopy', File(purchaseCopy!.path));
       }
-      if (isWarrantyCopy && warrantyCopy is XFile) {
+      if (isWarrantyCopy && !warrantyCopy!.path.contains('https')) {
         await storeImage('$productId/warrantyCopy', File(warrantyCopy!.path));
       }
-      if (isAdditionalImage && additionalImage is XFile) {
+      if (isAdditionalImage && !additionalImage!.path.contains('https')) {
         await storeImage(
             '$productId/additionalImage', File(additionalImage!.path));
       }
+
+      await db.collection(collectionName).doc(id).update(toMap());
     } catch (err) {
       debugPrint('Saved to save product - $err');
       rethrow;

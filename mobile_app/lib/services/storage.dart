@@ -29,6 +29,9 @@ Future<void> storeImage(String filename, File file) async {
     // Caught an exception from Firebase.
     debugPrint("Failed with error '${e.code}': ${e.message}");
     rethrow;
+  } on Exception catch (e) {
+    debugPrint("Failed with error '${e}");
+    rethrow;
   }
 }
 
