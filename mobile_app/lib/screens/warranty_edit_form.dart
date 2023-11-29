@@ -84,7 +84,7 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                   'purchaseDate': _product.purchaseDate,
                   'warranty': _product.warrantyPeriod,
                   'name': _product.name,
-                  'price': _product.price!.toString(),
+                  'price': _product.price?.toString(),
                   'company': _product.company,
                   'purchasedAt': _product.purchasedAt,
                   'salesPerson': _product.salesPerson,
@@ -397,8 +397,10 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                           dynamic formValue = _formKey.currentState!.value;
                           debugPrint(_formKey.currentState?.value.toString());
                           _product.name = formValue['name']!.toString().trim();
-                          _product.price =
-                              double.parse(formValue['price']); // todo
+                          _product.price = (formValue['price'] != null &&
+                                  formValue['price'] != '')
+                              ? double.parse(formValue['price'])
+                              : null;
                           _product.purchaseDate =
                               formValue['purchaseDate'] as DateTime;
                           _product.warrantyPeriod =

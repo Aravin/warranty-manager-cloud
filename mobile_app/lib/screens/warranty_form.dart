@@ -197,7 +197,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                         FormBuilderTextField(
                           name: 'price',
                           // focusNode: priceFocus,
-                          initialValue: '0',
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                           validator: FormBuilderValidators.compose([
@@ -357,8 +356,9 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           dynamic formValue = _formKey.currentState!.value;
                           debugPrint(_formKey.currentState?.value.toString());
                           _product.name = formValue['name'];
-                          _product.price =
-                              double.parse(formValue['price']); // todo
+                          _product.price = (formValue['price'] != null)
+                              ? double.parse(formValue['price'])
+                              : null;
                           _product.purchaseDate =
                               formValue['purchaseDate'] as DateTime;
                           _product.warrantyPeriod =

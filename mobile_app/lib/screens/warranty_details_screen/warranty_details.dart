@@ -54,7 +54,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(
+          Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => WarrantyEditForm(
                 productId: widget.productId,
@@ -193,7 +193,7 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                                 style: const TextStyle(color: kPrimaryColor),
                               ),
                               subtitle: Text(
-                                data.product.price!.toString(),
+                                data.product.price?.toString() ?? '-',
                                 style: const TextStyle(
                                     color: kSecondaryTextColor,
                                     fontWeight: FontWeight.bold),
