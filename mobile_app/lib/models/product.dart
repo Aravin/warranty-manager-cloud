@@ -192,10 +192,9 @@ class Product {
           .snapshots();
 
       final productStream = dbStream.map((event) {
-        // final <WarrantyList> productObject =
-        //     WarrantyList(active: [], expiring: [], expired: []);
         final List<Product> productList = [];
 
+        // if (!event.metadata.hasPendingWrites && !event.metadata.isFromCache) {
         for (QueryDocumentSnapshot<Map<String, dynamic>> doc in event.docs) {
           Product product = Product();
           final data = doc.data();
@@ -203,19 +202,12 @@ class Product {
           product = firebaseToMap(product, data);
           product.id = doc.id;
 
-          // if (product.warrantyEndDate!.isAfter(DateTime.now())) {
-          //   productObject.active.add(product);
+          // ignore recently saved doc from list
+          // if (doc.id == event.docChanges.first.doc.id && !firstTimeDoc) {
+          //   firstTimeDoc = true;
+          //   continue;
           // }
 
-          // if (product.warrantyEndDate!.isAfter(DateTime.now()) &&
-          //     product.warrantyEndDate!
-          //         .isBefore(DateTime.now().add(const Duration(days: 28)))) {
-          //   productObject.expiring.add(product);
-          // }
-
-          // if (product.warrantyEndDate!.isBefore(DateTime.now())) {
-          //   productObject.expired.add(product);
-          // }
           productList.add(product);
         }
 

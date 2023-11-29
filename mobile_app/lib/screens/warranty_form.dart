@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
+import 'package:warranty_manager_cloud/screens/warranty_list_tab_screen.dart';
 import 'package:warranty_manager_cloud/shared/categories.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -377,8 +378,17 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           _product.additionalImage =
                               formValue['imgAdditional']?[0];
 
-                          await _product.save();
+                          await _product.save().then((value) async => {
+                                await EasyLoading.dismiss(),
+                                Fluttertoast.showToast(
+                                  msg: 'toast.save_success'.tr(),
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  fontSize: 16.0,
+                                )
+                              });
                         } catch (err) {
+                          debugPrint(err.toString());
                           Fluttertoast.showToast(
                             msg: 'toast.failed_to_save'.tr(),
                             toastLength: Toast.LENGTH_SHORT,
@@ -386,14 +396,14 @@ class _WarrantyFormState extends State<WarrantyForm> {
                             fontSize: 16.0,
                           );
                         } finally {
-                          await EasyLoading.dismiss();
-                          Fluttertoast.showToast(
-                            msg: 'toast.save_success'.tr(),
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER,
-                            fontSize: 16.0,
-                          );
-                          setState(() => Navigator.pop(context, true));
+                          setState(() {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const WarrantyListTabScreen(),
+                              ),
+                            );
+                          });
                         }
                       } else {
                         debugPrint(_formKey.currentState?.value.toString());

@@ -12,7 +12,7 @@ import 'package:warranty_manager_cloud/shared/loader.dart';
 import 'package:warranty_manager_cloud/shared/locales.dart';
 
 class OnBoardingPage extends StatefulWidget {
-  const OnBoardingPage({Key? key}) : super(key: key);
+  const OnBoardingPage({super.key});
 
   @override
   OnBoardingPageState createState() => OnBoardingPageState();

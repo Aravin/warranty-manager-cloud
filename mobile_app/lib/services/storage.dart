@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/models/warranty_list.dart';
@@ -12,27 +13,42 @@ final auth = FirebaseAuth.instance;
 final storageRef = storage.ref();
 
 Future<void> storeImage(String filename, File file) async {
-  final imgRef = storageRef.child('${auth.currentUser!.uid}/$filename');
-  final tempImgPath = '${file.absolute.parent.path}/temp.jpg';
-  final compressedFile = await FlutterImageCompress.compressAndGetFile(
-    file.absolute.path,
-    tempImgPath,
-    format: CompressFormat.jpeg,
-    minHeight: 2048,
-    minWidth: 2048,
-  );
-  await imgRef.putFile(compressedFile!);
-  await File(tempImgPath).delete();
+  try {
+    final imgRef = storageRef.child('${auth.currentUser!.uid}/$filename');
+    final tempImgPath = '${file.absolute.parent.path}/temp.jpg';
+    final compressedFile = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      tempImgPath,
+      format: CompressFormat.jpeg,
+      minHeight: 2048,
+      minWidth: 2048,
+    );
+    await imgRef.putFile(File(compressedFile!.path));
+    await File(tempImgPath).delete();
+  } on FirebaseException catch (e) {
+    // Caught an exception from Firebase.
+    debugPrint("Failed with error '${e.code}': ${e.message}");
+    rethrow;
+  }
 }
 
 Future<String> getProductImage(String productId) async {
   if (productId.isEmpty) {
     return '';
   }
-  final pathReference =
-      storageRef.child('${auth.currentUser!.uid}/$productId/productImage');
 
-  return await pathReference.getDownloadURL();
+  try {
+    debugPrint('${auth.currentUser!.uid}/$productId/productImage');
+    return storageRef
+        .child('${auth.currentUser!.uid}/$productId/productImage')
+        .getDownloadURL();
+
+    // return await pathReference.getDownloadURL();
+  } on FirebaseException catch (e) {
+    // Caught an exception from Firebase.
+    debugPrint("Failed with error '${e.code}': ${e.message}");
+    rethrow;
+  }
 }
 
 Future<WarrantyList> getProductListByProduct(List<Product> warrantyList) async {
@@ -73,17 +89,29 @@ Future<Map<String, String>> getImages(
     return images;
   }
 
-  for (String imageName in imageList) {
-    final pathReference =
-        storageRef.child('${auth.currentUser!.uid}/$productId/$imageName');
+  try {
+    for (String imageName in imageList) {
+      final pathReference =
+          storageRef.child('${auth.currentUser!.uid}/$productId/$imageName');
 
-    images[imageName] = await pathReference.getDownloadURL();
+      images[imageName] = await pathReference.getDownloadURL();
+    }
+
+    return images;
+  } on FirebaseException catch (e) {
+    // Caught an exception from Firebase.
+    debugPrint("Failed with error '${e.code}': ${e.message}");
+    rethrow;
   }
-
-  return images;
 }
 
 Future<void> deleteImage(String filename) async {
-  final imgRef = storageRef.child('${auth.currentUser!.uid}/$filename');
-  await imgRef.delete();
+  try {
+    final imgRef = storageRef.child('${auth.currentUser!.uid}/$filename');
+    await imgRef.delete();
+  } on FirebaseException catch (e) {
+    // Caught an exception from Firebase.
+    debugPrint("Failed with error '${e.code}': ${e.message}");
+    rethrow;
+  }
 }

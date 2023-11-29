@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:isolate';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -32,40 +31,26 @@ Future<void> main() async {
     'TEST_VAR': '5',
   });
 
-  Isolate.current.addErrorListener(RawReceivePort((pair) async {
-    final List<dynamic> errorAndStacktrace = pair;
-    await FirebaseCrashlytics.instance.recordError(
-      errorAndStacktrace.first,
-      errorAndStacktrace.last,
-    );
-  }).sendPort);
-
   WidgetsFlutterBinding.ensureInitialized();
-  // We're using the manual installation on non-web platforms since Google sign in plugin doesn't yet support Dart initialization.
-  // See related issue: https://github.com/flutter/flutter/issues/96391
+
+  await Firebase.initializeApp();
+
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
 
   await EasyLocalization.ensureInitialized();
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
   if (shouldUseFirebaseEmulator) {
     await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   }
   if (shouldUseFirestoreEmulator) {
     db.useFirestoreEmulator('localhost', 8080);
-  }
-
-  // Pass all uncaught errors from the framework to Crashlytics.
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  if (kDebugMode) {
-    // Force disable Crashlytics collection while doing every day development.
-    // Temporarily toggle this to true if you want to test crash reporting in your app.
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-  } else {
-    // Handle Crashlytics enabled status when not in Debug,
-    // e.g. allow your users to opt-in to crash reporting.
   }
 
   await remoteConfig.setConfigSettings(RemoteConfigSettings(
@@ -102,14 +87,15 @@ Future<void> main() async {
   //   sound: true,
   // );
 
-  // print('User granted permission: ${settings.authorizationStatus}');
+  // debugPrint('User granted permission: ${settings.authorizationStatus}');
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-    print('Got a message whilst in the foreground!');
-    print('Message data: ${message.data}');
+    debugPrint('Got a message whilst in the foreground!');
+    debugPrint('Message data: ${message.data}');
 
     if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
+      debugPrint(
+          'Message also contained a notification: ${message.notification}');
 
       const AndroidNotificationDetails androidNotificationDetails =
           AndroidNotificationDetails(
@@ -138,34 +124,17 @@ Future<void> main() async {
   // await prefs.clear(); //only for testing
   isFirstLaunch = await prefs.getBool('isFirstLaunch') ?? true;
 
-  runZonedGuarded<Future<void>>(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-    // The following lines are the same as previously explained in "Handling uncaught errors"
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-
-    FlutterError.onError = (errorDetails) {
-      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-    };
-
-    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
-    PlatformDispatcher.instance.onError = (error, stack) {
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      return true;
-    };
-
-    runApp(
-      EasyLocalization(
-        supportedLocales: supportedLocales,
-        path: 'assets/translations',
-        fallbackLocale: defaultLocale,
-        useFallbackTranslations: true,
-        // useOnlyLangCode: true,
-        child: const WarrantyManagerApp(),
-      ),
-    );
-    configLoading();
-  }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
+  runApp(
+    EasyLocalization(
+      supportedLocales: supportedLocales,
+      path: 'assets/translations',
+      fallbackLocale: defaultLocale,
+      useFallbackTranslations: true,
+      // useOnlyLangCode: true,
+      child: const WarrantyManagerApp(),
+    ),
+  );
+  configLoading();
 }
 
 // loader
@@ -181,7 +150,7 @@ void configLoading() {
 }
 
 class WarrantyManagerApp extends StatelessWidget {
-  const WarrantyManagerApp({Key? key}) : super(key: key);
+  const WarrantyManagerApp({super.key});
 
   @override
   Widget build(BuildContext context) {

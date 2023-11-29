@@ -15,6 +15,7 @@ import 'package:warranty_manager_cloud/screens/settings_screen/settings_screen.d
 import 'package:in_app_review/in_app_review.dart';
 import 'package:warranty_manager_cloud/screens/static/about.dart';
 import 'package:warranty_manager_cloud/screens/static/privacy_policy.dart';
+import 'package:warranty_manager_cloud/screens/warranty_form.dart';
 
 import 'package:warranty_manager_cloud/screens/warranty_list_tab_screen.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
@@ -216,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       _inAppReview.requestReview();
                     },
                   )
-                : SizedBox(),
+                : const SizedBox(),
             const Divider(),
             ListTile(
               title: const Text('terms_policy').tr(),
@@ -284,49 +285,62 @@ class _HomeScreenState extends State<HomeScreen> {
       body: StreamBuilder(
         stream: Product().list(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return FutureBuilder(
-                future: getProductListByProduct(snapshot.data!),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            HighlightCard(
-                              cardName: tr('in_warranty'),
-                              count: snapshot.data!.active.length.toString(),
-                              icon: Icons.security,
-                            ),
-                            HighlightCard(
-                              cardName: tr('expiring_soon'),
-                              count: snapshot.data!.expiring.length.toString(),
-                              icon: Icons.timelapse,
-                            ),
-                            HighlightCard(
-                              cardName: tr('expired'),
-                              count: snapshot.data!.expired.length.toString(),
-                              icon: Icons.dangerous,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        WarrantyListTabWidget(warrantyList: snapshot.data!),
-                      ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                        child: const Text('failed_to_load_warranty').tr());
-                  }
-                  return appLoader;
-                });
-          } else if (snapshot.hasError) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return appLoader;
+          }
+
+          if (snapshot.hasError) {
             return Center(child: const Text('failed_to_load_warranty').tr());
           }
-          return appLoader;
+
+          return FutureBuilder(
+            future: getProductListByProduct(snapshot.data!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        HighlightCard(
+                          cardName: tr('in_warranty'),
+                          count: snapshot.data!.active.length.toString(),
+                          icon: Icons.security,
+                        ),
+                        HighlightCard(
+                          cardName: tr('expiring_soon'),
+                          count: snapshot.data!.expiring.length.toString(),
+                          icon: Icons.timelapse,
+                        ),
+                        HighlightCard(
+                          cardName: tr('expired'),
+                          count: snapshot.data!.expired.length.toString(),
+                          icon: Icons.dangerous,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    WarrantyListTabWidget(warrantyList: snapshot.data!),
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                    child: const Text('failed_to_load_warranty').tr());
+              }
+              return appLoader;
+            },
+          );
         },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const WarrantyForm()),
+        ),
+        label: const Text('add_new').tr(),
+        icon: const Icon(Icons.add_circle),
+        backgroundColor: kAccentColor,
       ),
     );
   }

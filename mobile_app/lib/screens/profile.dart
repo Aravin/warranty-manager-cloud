@@ -16,7 +16,7 @@ const placeholderImage =
 /// Profile page shows after sign in or registerationg
 class ProfilePage extends StatefulWidget {
   // ignore: public_member_api_docs
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api

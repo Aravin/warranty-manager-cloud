@@ -87,18 +87,6 @@ class WarrantyListTabWidget extends StatelessWidget {
                     ],
                   ).py2(),
                 ),
-                floatingActionButton: FloatingActionButton.extended(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const WarrantyForm(),
-                      ),
-                    );
-                  },
-                  label: const Text('add_new').tr(),
-                  icon: const Icon(Icons.add_circle),
-                  backgroundColor: kAccentColor,
-                ),
               ),
             ),
           )

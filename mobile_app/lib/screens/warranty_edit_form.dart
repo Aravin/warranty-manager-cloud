@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/models/warranty_with_images.dart';
-import 'package:warranty_manager_cloud/screens/home/home.dart';
+import 'package:warranty_manager_cloud/screens/warranty_list_tab_screen.dart';
 import 'package:warranty_manager_cloud/shared/categories.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -69,10 +70,10 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
             child: FutureBuilder(
               future: _warrantyWithImages,
               builder: (context, snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return appLoader;
                 }
-                if (!snapshot.hasData) {
+                if (snapshot.hasError) {
                   return Center(
                       child:
                           const Text('failed_to_load_warranty_details').tr());
@@ -413,19 +414,19 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                           // images
                           _product.productImage =
                               formValue['productImage']?.length > 0
-                                  ? formValue['productImage'][0]
+                                  ? XFile(formValue['productImage'][0])
                                   : null;
                           _product.purchaseCopy =
                               formValue['imgBill']?.length > 0
-                                  ? formValue['imgBill'][0]
+                                  ? XFile(formValue['imgBill'][0])
                                   : null;
                           _product.warrantyCopy =
                               formValue['imgWarranty']?.length > 0
-                                  ? formValue['imgWarranty'][0]
+                                  ? XFile(formValue['imgWarranty'][0])
                                   : null;
                           _product.additionalImage =
                               formValue['imgAdditional']?.length > 0
-                                  ? formValue['imgAdditional'][0]
+                                  ? XFile(formValue['imgAdditional'][0])
                                   : null;
 
                           await _product.update();
@@ -445,9 +446,10 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                         } finally {
                           await EasyLoading.dismiss();
                           setState(() {
-                            Navigator.of(context).push(
+                            Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                builder: (context) => const HomeScreen(),
+                                builder: (context) =>
+                                    const WarrantyListTabScreen(),
                               ),
                             );
                           });
