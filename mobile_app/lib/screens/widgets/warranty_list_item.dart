@@ -39,8 +39,8 @@ class WarrantyListItemWidget extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/noimage.jpg'),
-          fit: BoxFit.fill,
+          image: AssetImage('assets/noimage.png'),
+          fit: BoxFit.scaleDown,
         ),
       ),
     );

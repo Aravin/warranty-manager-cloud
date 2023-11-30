@@ -100,9 +100,9 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
                           : Container(
                               padding: kAppPaddingSmall,
                               decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(2)),
-                              child: Image.asset('assets/noimage.jpg'),
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                              child: Image.asset('assets/noimage.png'),
                             ),
                     ),
                     const Expanded(flex: 1, child: SizedBox()),

@@ -141,7 +141,6 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                           children: [
                             FormBuilderTextField(
                               name: 'name',
-                              // focusNode: productFocus,
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(),
                                 FormBuilderValidators.minLength(3),
@@ -152,27 +151,26 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                                 prefixIcon: const Icon(Icons.shopping_basket),
                                 hintText: 'product_service_name'.tr(),
                                 labelText: 'product_service_name'.tr(),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
-                              // onEditingComplete: () =>
-                              //     FocusScope.of(context).requestFocus(priceFocus),
                             ),
                             FormBuilderTextField(
                               name: 'company',
-                              // focusNode: companyFocus,
                               textInputAction: TextInputAction.next,
                               decoration: InputDecoration(
                                 prefixIcon:
                                     const Icon(Icons.branding_watermark),
                                 hintText: 'brand_company'.tr(),
                                 labelText: 'brand_company'.tr(),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(),
                                 FormBuilderValidators.minLength(2),
                                 FormBuilderValidators.maxLength(24)
                               ]),
-                              // onEditingComplete: () => FocusScope.of(context)
-                              //     .requestFocus(categoryFocus),
                             ),
                             FormBuilderDateTimePicker(
                               name: "purchaseDate",
@@ -186,6 +184,8 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               decoration: InputDecoration(
                                 labelText: 'purchase_date'.tr(),
                                 prefixIcon: const Icon(Icons.calendar_today),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
                             ),
                             FormBuilderDropdown(
@@ -195,6 +195,8 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                                 prefixIcon: const Icon(Icons.timer),
                                 labelText: 'warranty_period'.tr(),
                                 hintText: 'warranty_period'.tr(),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required()]),
@@ -207,11 +209,12 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                             ),
                             FormBuilderDropdown(
                               name: 'category',
-                              // focusNode: categoryFocus,
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(Icons.category),
                                 hintText: 'category'.tr(),
                                 labelText: 'category'.tr(),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
                               initialValue: 'Other',
                               items: categoryList
@@ -229,7 +232,6 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                           children: [
                             FormBuilderTextField(
                               name: 'price',
-                              // focusNode: priceFocus,
                               keyboardType: TextInputType.number,
                               textInputAction: TextInputAction.next,
                               validator: FormBuilderValidators.compose([
@@ -240,62 +242,57 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                                 prefixIcon: const Icon(Icons.monetization_on),
                                 hintText: 'price'.tr(),
                                 labelText: 'price'.tr(),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
-                              // onEditingComplete: () =>
-                              //     FocusScope.of(context).requestFocus(companyFocus),
                             ),
                             FormBuilderTextField(
                               name: 'purchasedAt',
-                              // focusNode: purchasedAtFocus,
                               textInputAction: TextInputAction.next,
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(Icons.add_location),
                                 hintText: 'where_did_you_purchase'.tr(),
                                 labelText: 'purchased_at'.tr(),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
-                              // onEditingComplete: () => FocusScope.of(context)
-                              //     .requestFocus(salesPersonFocus),
                             ),
                             FormBuilderTextField(
                               name: 'salesPerson',
-                              // focusNode: salesPersonFocus,
                               textInputAction: TextInputAction.next,
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(Icons.people),
                                 hintText:
                                     'do_you_know_contact_person_name'.tr(),
                                 labelText: 'contact_person_name'.tr(),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
-                              // onEditingComplete: () =>
-                              //     FocusScope.of(context).requestFocus(phoneFocus),
                             ),
                             FormBuilderTextField(
                               name: 'phone',
                               keyboardType: TextInputType.number,
-                              // focusNode: phoneFocus,
                               textInputAction: TextInputAction.next,
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(Icons.phone),
                                 hintText: 'customer_care_phone'.tr(),
                                 labelText: 'support_phone'.tr(),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
-                              // onEditingComplete: () =>
-                              //     FocusScope.of(context).requestFocus(emailFocus),
                             ),
                             FormBuilderTextField(
                               name: 'email',
-                              // focusNode: emailFocus,
                               textInputAction: TextInputAction.next,
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(Icons.email),
                                 hintText: 'customer_care_email'.tr(),
                                 labelText: 'support_email'.tr(),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
-                              // onEditingComplete: () =>
-                              //     FocusScope.of(context).requestFocus(notesFocus),
                             ),
                             FormBuilderTextField(
-                              // focusNode: notesFocus,
                               maxLines: null,
                               keyboardType: TextInputType.multiline,
                               name: 'notes',
@@ -304,6 +301,8 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                                 prefixIcon: const Icon(Icons.note_add),
                                 hintText: 'additional_information'.tr(),
                                 labelText: 'quick_note'.tr(),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
                             ),
                           ],
@@ -320,6 +319,8 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               name: 'productImage',
                               decoration: InputDecoration(
                                 labelText: 'upload_product_image'.tr(),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
                               maxImages: 1,
                               imageQuality: 80,
@@ -331,6 +332,8 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               name: 'imgBill',
                               decoration: InputDecoration(
                                 labelText: 'upload_purchase_bill_image'.tr(),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
                               maxImages: 1,
                               imageQuality: 80,
@@ -342,6 +345,8 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               name: 'imgWarranty',
                               decoration: InputDecoration(
                                 labelText: 'upload_warranty_image'.tr(),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
                               maxImages: 1,
                               imageQuality: 80,
@@ -353,6 +358,8 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               name: 'imgAdditional',
                               decoration: InputDecoration(
                                 labelText: 'other_image'.tr(),
+                                prefixIconColor: kPrimaryColor,
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
                               maxImages: 1,
                               imageQuality: 80,
