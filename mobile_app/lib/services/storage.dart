@@ -30,7 +30,7 @@ Future<void> storeImage(String filename, File file) async {
     debugPrint("Failed with error '${e.code}': ${e.message}");
     rethrow;
   } on Exception catch (e) {
-    debugPrint("Failed with error '${e}");
+    debugPrint("Failed with error '$e");
     rethrow;
   }
 }

@@ -107,8 +107,6 @@ class _HomeScreenState extends State<HomeScreen> {
           // padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              margin: EdgeInsets.only(bottom: 8.0),
-              padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
               decoration: const BoxDecoration(
                 color: kPrimaryColor,
               ),
@@ -343,32 +341,35 @@ class _HomeScreenState extends State<HomeScreen> {
             future: getProductListByProduct(snapshot.data!),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        HighlightCard(
-                          cardName: tr('in_warranty'),
-                          count: snapshot.data!.active.length.toString(),
-                          icon: Icons.security,
-                        ),
-                        HighlightCard(
-                          cardName: tr('expiring_soon'),
-                          count: snapshot.data!.expiring.length.toString(),
-                          icon: Icons.timelapse,
-                        ),
-                        HighlightCard(
-                          cardName: tr('expired'),
-                          count: snapshot.data!.expired.length.toString(),
-                          icon: Icons.dangerous,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    WarrantyListTabWidget(warrantyList: snapshot.data!),
-                  ],
+                return Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          HighlightCard(
+                            cardName: tr('in_warranty'),
+                            count: snapshot.data!.active.length.toString(),
+                            icon: Icons.security,
+                          ),
+                          HighlightCard(
+                            cardName: tr('expiring_soon'),
+                            count: snapshot.data!.expiring.length.toString(),
+                            icon: Icons.timelapse,
+                          ),
+                          HighlightCard(
+                            cardName: tr('expired'),
+                            count: snapshot.data!.expired.length.toString(),
+                            icon: Icons.dangerous,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      WarrantyListTabWidget(warrantyList: snapshot.data!),
+                    ],
+                  ),
                 );
               } else if (snapshot.hasError) {
                 return Center(

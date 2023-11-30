@@ -24,8 +24,9 @@ class HighlightCard extends StatelessWidget {
           padding: const EdgeInsets.all(4.0),
           margin: const EdgeInsets.all(4.0),
           decoration: BoxDecoration(
-              color: kPrimaryColorLight,
-              borderRadius: BorderRadius.circular(4)),
+            color: kPrimaryColorLight,
+            borderRadius: BorderRadius.circular(8),
+          ),
           child: Column(
             children: [
               Icon(icon, color: kPrimaryColor),

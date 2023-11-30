@@ -12,7 +12,7 @@ import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/services/remote_config.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_performance/firebase_performance.dart';
-import 'package:flutter/foundation.dart' show PlatformDispatcher, kDebugMode;
+import 'package:flutter/foundation.dart' show PlatformDispatcher;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:warranty_manager_cloud/shared/locales.dart';
@@ -73,7 +73,7 @@ Future<void> main() async {
   // firebase messaging
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   final fcmToken = await FirebaseMessaging.instance.getToken();
-  debugPrint(fcmToken);
+  // debugPrint(fcmToken);
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -133,7 +133,7 @@ Future<void> main() async {
   // shared preferences.
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   // await prefs.clear(); //only for testing
-  isFirstLaunch = await prefs.getBool('isFirstLaunch') ?? true;
+  isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
 
   runApp(
     EasyLocalization(
@@ -206,7 +206,7 @@ class WarrantyManagerApp extends StatelessWidget {
                           children: [
                             Text(
                               'Desktop Login',
-                              style: Theme.of(context).textTheme.headline4,
+                              style: Theme.of(context).textTheme.headlineMedium,
                             ),
                           ],
                         ),
