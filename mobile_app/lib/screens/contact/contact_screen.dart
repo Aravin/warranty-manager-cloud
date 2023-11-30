@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -14,6 +12,7 @@ import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
+import 'package:package_info_plus/package_info_plus.dart';
 
 class ContactScreen extends StatefulWidget {
   const ContactScreen({super.key});
@@ -30,6 +29,10 @@ class _ContactScreenState extends State<ContactScreen> {
   }
 
   Future<bool> sendEmail(String message, String reason) async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String version = packageInfo.version;
+    String buildNumber = packageInfo.buildNumber;
+
     final apiSecret = dotenv.get('API_SECRET');
     final currentTime =
         DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateTime.now());
@@ -48,13 +51,15 @@ class _ContactScreenState extends State<ContactScreen> {
       var response = await client.post(
         Uri.https('api-v1-epix.web.app', '/v1/email'),
         headers: headers,
-        body: jsonEncode({
-          'to': 'aravin.it@gmail.com',
-          'from': 'Warranty Manager <aravin@epix.io>',
-          'subject': '$reason from Warranty Manager Cloud',
-          'text':
-              'Hi, $message from ${FirebaseAuth.instance.currentUser!.email}'
-        }),
+        body: jsonEncode(
+          {
+            'to': 'aravin.it@gmail.com',
+            'from': 'Warranty Manager <aravin@epix.io>',
+            'subject': '$reason from Warranty Manager Cloud',
+            'html':
+                'Hi, $message from ${FirebaseAuth.instance.currentUser} - Version: $version - Build: $buildNumber'
+          },
+        ),
       );
 
       if (response.statusCode != 200) {

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:velocity_x/velocity_x.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/models/settings.dart';
 import 'package:warranty_manager_cloud/screens/contact/contact_screen.dart';
@@ -22,6 +23,7 @@ import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
 import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 enum Availability { loading, available, unavailable }
 
@@ -36,6 +38,15 @@ class _HomeScreenState extends State<HomeScreen> {
   final InAppReview _inAppReview = InAppReview.instance;
   Availability _availability = Availability.loading;
 
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+    buildSignature: 'Unknown',
+    installerStore: 'Unknown',
+  );
+
   saveOnboardingSettings() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -48,9 +59,17 @@ class _HomeScreenState extends State<HomeScreen> {
     settings.save();
   }
 
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
+
   @override
   void initState() {
     saveOnboardingSettings();
+    _initPackageInfo();
     super.initState();
 
     (<T>(T? o) => o!)(WidgetsBinding.instance).addPostFrameCallback((_) async {
@@ -84,17 +103,17 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('warranty_manager').tr(),
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
+          // padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
+              margin: EdgeInsets.only(bottom: 8.0),
+              padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
               decoration: const BoxDecoration(
                 color: kPrimaryColor,
               ),
               child: FirebaseAuth.instance.currentUser!.isAnonymous
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  ? ListView(
                       children: [
                         const CircleAvatar(
                           backgroundColor: kAccentColor,
@@ -109,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text(
                           'anonymous_user'.tr(),
                           style: const TextStyle(color: Colors.white),
-                        ),
+                        ).centered(),
                         const SizedBox(height: 5),
                         Text(
                           'create_account_with_email'.tr(),
@@ -117,11 +136,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(color: Colors.white),
-                        ),
+                        ).centered(),
                       ],
                     )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                  : ListView(
                       children: [
                         CircleAvatar(
                           backgroundColor: kAccentColor,
@@ -141,13 +159,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     .toString()
                                     .toUpperCase(),
                                 style: const TextStyle(color: Colors.white),
-                              )
+                              ).centered()
                             : const SizedBox(),
                         const SizedBox(height: 5),
                         Text(
                           FirebaseAuth.instance.currentUser!.email.toString(),
                           style: const TextStyle(color: Colors.white),
-                        ),
+                        ).centered(),
                       ],
                     ),
             ),
@@ -280,6 +298,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
+            ),
+            const Spacer(),
+            ListTile(
+              title: Text(
+                'version ${_packageInfo.version}-${_packageInfo.buildNumber}',
+              ),
+              leading: const Icon(Icons.build_circle_outlined),
             ),
           ],
         ),
