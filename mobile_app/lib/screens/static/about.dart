@@ -26,7 +26,7 @@ class AboutScreen extends StatelessWidget {
                 height: 20,
               ),
               const Text(
-                'This is Free & open source Application. You can store the warranty information of any of your product / service. All your information are stored in your device locally.',
+                'This is Free & open source Application. You can store the warranty information of any of your product / service. All your information are stored in your google cloud securely.',
               ),
               const SizedBox(height: 20),
               const Text('Logo Credit:').text.bold.make(),
