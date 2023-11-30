@@ -317,7 +317,26 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           if (snapshot.hasError) {
-            return Center(child: const Text('failed_to_load_warranty').tr());
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('failed_to_load_warranty').tr(),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => const ContactScreen(),
+                        ),
+                      );
+                    },
+                    // TODO: not yet translated
+                    child: const Text('Report the issue'),
+                  ),
+                ],
+              ),
+            );
           }
 
           return FutureBuilder(
@@ -353,7 +372,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               } else if (snapshot.hasError) {
                 return Center(
-                    child: const Text('failed_to_load_warranty').tr());
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('failed_to_load_warranty').tr(),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                                builder: (context) => const ContactScreen()),
+                          );
+                        },
+                        // TODO: not yet translated
+                        child: const Text('Report the issue'),
+                      ),
+                    ],
+                  ),
+                );
               }
               return appLoader;
             },

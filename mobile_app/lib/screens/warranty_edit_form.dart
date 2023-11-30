@@ -6,6 +6,7 @@ import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/models/warranty_with_images.dart';
+import 'package:warranty_manager_cloud/screens/contact/contact_screen.dart';
 import 'package:warranty_manager_cloud/screens/warranty_details_screen/warranty_details.dart';
 import 'package:warranty_manager_cloud/shared/categories.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
@@ -75,8 +76,24 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                 }
                 if (snapshot.hasError) {
                   return Center(
-                      child:
-                          const Text('failed_to_load_warranty_details').tr());
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('failed_to_load_warranty_details').tr(),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => const ContactScreen()),
+                            );
+                          },
+                          // TODO: not yet translated
+                          child: const Text('Report the issue'),
+                        ),
+                      ],
+                    ),
+                  );
                 }
                 final data = snapshot.data;
                 _product = data!.product;

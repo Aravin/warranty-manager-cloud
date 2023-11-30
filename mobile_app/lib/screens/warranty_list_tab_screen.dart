@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
+import 'package:warranty_manager_cloud/screens/contact/contact_screen.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
 import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
@@ -28,18 +29,52 @@ class WarrantyListTabScreen extends StatelessWidget {
                           return WarrantyListTabWidget(
                               warrantyList: snapshot.data!);
                         }
-                        if (snapshot.hasData) {
+                        if (snapshot.hasError) {
                           return Center(
-                              child:
-                                  const Text('failed_to_load_warranty_details')
-                                      .tr());
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text('failed_to_load_warranty_details')
+                                    .tr(),
+                                const SizedBox(height: 10),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ContactScreen(),
+                                      ),
+                                    );
+                                  },
+                                  // TODO: not yet translated
+                                  child: const Text('Report the issue'),
+                                ),
+                              ],
+                            ),
+                          );
                         }
                         return appLoader;
                       });
                 } else if (snapshot.hasError) {
                   return Center(
-                      child:
-                          const Text('failed_to_load_warranty_details').tr());
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('failed_to_load_warranty_details').tr(),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const ContactScreen(),
+                            ),
+                          );
+                        },
+                        // TODO: not yet translated
+                        child: const Text('Report the issue'),
+                      ),
+                    ],
+                  ));
                 }
                 return appLoader;
               },

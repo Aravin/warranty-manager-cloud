@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:warranty_manager_cloud/models/product.dart';
 import 'package:warranty_manager_cloud/models/warranty_with_images.dart';
+import 'package:warranty_manager_cloud/screens/contact/contact_screen.dart';
 import 'package:warranty_manager_cloud/screens/warranty_details_screen/image_thumbnail.dart';
 import 'package:warranty_manager_cloud/screens/warranty_edit_form.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
@@ -73,7 +74,24 @@ class _WarrantyDetailsScreenState extends State<WarrantyDetailsScreen> {
             return appLoader;
           }
           if (!snapshot.hasData) {
-            return Center(child: Text('failed_to_load_warranty_details'.tr()));
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('failed_to_load_warranty_details'.tr()),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                          builder: (context) => const ContactScreen()),
+                    );
+                  },
+                  // TODO: not yet translated
+                  child: const Text('Report the issue'),
+                ),
+              ],
+            ));
           }
           final data = snapshot.data;
           return Padding(
