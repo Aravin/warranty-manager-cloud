@@ -135,12 +135,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Text(
-                          FirebaseAuth.instance.currentUser!.displayName
-                              .toString()
-                              .toUpperCase(),
-                          style: const TextStyle(color: Colors.white),
-                        ),
+                        FirebaseAuth.instance.currentUser!.displayName != null
+                            ? Text(
+                                FirebaseAuth.instance.currentUser!.displayName
+                                    .toString()
+                                    .toUpperCase(),
+                                style: const TextStyle(color: Colors.white),
+                              )
+                            : const SizedBox(),
                         const SizedBox(height: 5),
                         Text(
                           FirebaseAuth.instance.currentUser!.email.toString(),
