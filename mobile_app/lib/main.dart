@@ -34,8 +34,20 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
+  // firebase initialize
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
+  // firebase emulators
+  if (shouldUseFirebaseEmulator) {
+    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  }
+  if (shouldUseFirestoreEmulator) {
+    db.useFirestoreEmulator('localhost', 8080);
+  }
+
+  // firebase crash analytics
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
@@ -45,23 +57,20 @@ Future<void> main() async {
     return true;
   };
 
-  await EasyLocalization.ensureInitialized();
+  // firebase analytics
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
-  if (shouldUseFirebaseEmulator) {
-    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-  }
-  if (shouldUseFirestoreEmulator) {
-    db.useFirestoreEmulator('localhost', 8080);
-  }
+  // firebase performance
+  FirebasePerformance performance = FirebasePerformance.instance;
 
+  // firebase remote config
   await remoteConfig.setConfigSettings(RemoteConfigSettings(
     fetchTimeout: const Duration(seconds: 30),
     minimumFetchInterval: const Duration(hours: 1),
   ));
   await remoteConfig.fetchAndActivate();
 
-  FirebasePerformance performance = FirebasePerformance.instance;
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  // firebase messaging
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   final fcmToken = await FirebaseMessaging.instance.getToken();
   debugPrint(fcmToken);
@@ -87,8 +96,6 @@ Future<void> main() async {
   //   provisional: false,
   //   sound: true,
   // );
-
-  // debugPrint('User granted permission: ${settings.authorizationStatus}');
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     debugPrint('Got a message whilst in the foreground!');
@@ -120,7 +127,10 @@ Future<void> main() async {
     }
   });
 
-  // Obtain shared preferences.
+  // localization
+  await EasyLocalization.ensureInitialized();
+
+  // shared preferences.
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   // await prefs.clear(); //only for testing
   isFirstLaunch = await prefs.getBool('isFirstLaunch') ?? true;
