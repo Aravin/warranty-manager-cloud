@@ -4,6 +4,7 @@ import 'package:warranty_manager_cloud/shared/loader.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:warranty_manager_cloud/services/remote_config.dart';
 
 class PrivacyPolicyScreen extends StatefulWidget {
   const PrivacyPolicyScreen({super.key});
@@ -14,12 +15,14 @@ class PrivacyPolicyScreen extends StatefulWidget {
 
 class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
   late final WebViewController _controller;
-  final privacyPolicyUrl = 'https://www.epix.io/terms-policy';
+  late var privacyPolicyUrl = 'https://tnc.aravin.net/docs/terms/';
   late bool pageLoading = true;
 
   @override
   void initState() {
     super.initState();
+
+    privacyPolicyUrl = remoteConfig.getString('policy_link');
 
     // #docregion platform_features
     late final PlatformWebViewControllerCreationParams params;

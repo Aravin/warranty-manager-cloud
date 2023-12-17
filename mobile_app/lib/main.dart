@@ -66,13 +66,13 @@ Future<void> main() async {
   // firebase remote config
   await remoteConfig.setConfigSettings(RemoteConfigSettings(
     fetchTimeout: const Duration(seconds: 30),
-    minimumFetchInterval: const Duration(hours: 1),
+    minimumFetchInterval: const Duration(hours: 12),
   ));
   await remoteConfig.fetchAndActivate();
 
   // firebase messaging
   FirebaseMessaging messaging = FirebaseMessaging.instance;
-  final fcmToken = await FirebaseMessaging.instance.getToken();
+  // final fcmToken = await messaging.getToken();
   // debugPrint(fcmToken);
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
