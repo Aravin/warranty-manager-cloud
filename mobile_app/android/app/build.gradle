@@ -39,7 +39,7 @@ if (flutterTargetSdkVersion == null) {
 android {
     namespace "net.aravin.warranty_manager_cloud"
     compileSdk 36
-    // ndkVersion "25.1.8937393" // Or flutter.ndkVersion if available via plugin
+    ndkVersion "27.0.12077973" // NDK r27 for 16KB page support
 
     compileOptions {
         coreLibraryDesugaringEnabled true
