@@ -38,17 +38,17 @@ if (flutterTargetSdkVersion == null) {
 
 android {
     namespace "net.aravin.warranty_manager_cloud"
-    compileSdkVersion 34
+    compileSdk 36
     ndkVersion "25.1.8937393" // Or flutter.ndkVersion if available via plugin
 
     compileOptions {
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     sourceSets {
@@ -94,14 +94,14 @@ flutter {
 }
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:32.6.0')
+    implementation platform('com.google.firebase:firebase-bom:33.7.0')
     implementation("com.google.firebase:firebase-appcheck-debug")
-    implementation('com.google.firebase:firebase-auth-ktx') {
+    implementation('com.google.firebase:firebase-auth') {
         exclude module: "play-services-safetynet"
     }
-    implementation 'com.google.firebase:firebase-perf-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-perf'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'
     
     // Kotlin stdlib is likely added by plugin, but keeping if specific version/variant needed?
     // Plugin usually handles "implementation org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -112,5 +112,5 @@ dependencies {
     implementation 'androidx.window:window:1.0.0'
     implementation 'androidx.window:window-java:1.0.0'
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2' // Updated version for Java 21 compat if needed, or stick to 1.1.5? 1.2.2 is safer.
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
 }
