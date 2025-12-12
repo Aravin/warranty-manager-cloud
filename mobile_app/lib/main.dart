@@ -19,7 +19,6 @@ import 'package:warranty_manager_cloud/shared/locales.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'firebase_options.dart';
 
@@ -28,10 +27,6 @@ bool shouldUseFirestoreEmulator = false;
 bool isFirstLaunch = true;
 
 Future<void> main() async {
-  await dotenv.load(fileName: "assets/.env", mergeWith: {
-    'TEST_VAR': '5',
-  });
-
   WidgetsFlutterBinding.ensureInitialized();
 
   // firebase initialize
