@@ -33,7 +33,7 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
   int currentStep = 0;
   bool complete = false;
 
-  next() {
+  void next() {
     currentStep + 1 != 3
         ? goTo(currentStep + 1)
         : setState(() {
@@ -41,13 +41,13 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
           });
   }
 
-  cancel() {
+  void cancel() {
     if (currentStep > 0) {
       goTo(currentStep - 1);
     }
   }
 
-  goTo(int step) {
+  void goTo(int step) {
     if (_formKey.currentState!.saveAndValidate()) {
       setState(() {
         currentStep = step;

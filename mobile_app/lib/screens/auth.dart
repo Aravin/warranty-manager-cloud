@@ -479,15 +479,17 @@ class _AuthGateState extends State<AuthGate> {
 
   Future<void> _signInWithGoogle() async {
     // Trigger the authentication flow
-    final googleUser = await GoogleSignIn().signIn();
+    await GoogleSignIn.instance.initialize();
+    final GoogleSignInAccount? googleUser =
+        await GoogleSignIn.instance.authenticate();
 
     // Obtain the auth details from the request
-    final googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
     if (googleAuth != null) {
       // Create a new credential
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
@@ -544,7 +546,7 @@ class _AuthGateState extends State<AuthGate> {
 
     // Create a credential from the access token
     final OAuthCredential facebookAuthCredential =
-        FacebookAuthProvider.credential(loginResult.accessToken!.token);
+        FacebookAuthProvider.credential(loginResult.accessToken!.tokenString);
 
     // Once signed in, return the UserCredential
     return _auth.signInWithCredential(facebookAuthCredential);

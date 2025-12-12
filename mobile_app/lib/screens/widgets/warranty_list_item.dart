@@ -35,7 +35,7 @@ class WarrantyListItemWidget extends StatelessWidget {
     return percent;
   }
 
-  noImageWidget() {
+  Container noImageWidget() {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(

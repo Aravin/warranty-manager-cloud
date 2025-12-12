@@ -17,7 +17,7 @@ class Settings {
   String? email = currentUser.email;
   String? displayName = currentUser.displayName;
 
-  toMap() {
+  Map<String, Object?> toMap() {
     return {
       'isAnonymous': isAnonymous,
       'lastSignInTime': lastSignInTime,
@@ -29,7 +29,7 @@ class Settings {
     };
   }
 
-  save() async {
+  Future<void> save() async {
     try {
       await db.collection(collectionName).doc(loggedInUserId).set(toMap());
     } catch (err) {

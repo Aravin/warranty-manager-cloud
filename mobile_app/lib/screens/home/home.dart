@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
     installerStore: 'Unknown',
   );
 
-  saveOnboardingSettings() async {
+  Future<void> saveOnboardingSettings() async {
     final prefs = await SharedPreferences.getInstance();
 
     Settings settings = Settings();
@@ -412,7 +412,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
-    await GoogleSignIn().signOut();
+    await GoogleSignIn.instance.signOut();
     await FacebookAuth.instance.logOut();
   }
 }
