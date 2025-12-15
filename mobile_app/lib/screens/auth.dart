@@ -498,16 +498,6 @@ class _AuthGateState extends State<AuthGate> {
     }
   }
 
-  Future<void> _signInWithTwitter() async {
-    TwitterAuthProvider twitterProvider = TwitterAuthProvider();
-
-    if (kIsWeb) {
-      await _auth.signInWithPopup(twitterProvider);
-    } else {
-      await _auth.signInWithProvider(twitterProvider);
-    }
-  }
-
   Future<void> _signInWithApple() async {
     final appleProvider = AppleAuthProvider();
     appleProvider.addScope('email');
@@ -527,16 +517,6 @@ class _AuthGateState extends State<AuthGate> {
       await _auth.signInWithPopup(githubProvider);
     } else {
       await _auth.signInWithProvider(githubProvider);
-    }
-  }
-
-  Future<void> _signInWithMicrosoft() async {
-    final microsoftProvider = MicrosoftAuthProvider();
-
-    if (kIsWeb) {
-      await _auth.signInWithPopup(microsoftProvider);
-    } else {
-      await _auth.signInWithProvider(microsoftProvider);
     }
   }
 

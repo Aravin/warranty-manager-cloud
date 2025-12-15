@@ -11,13 +11,11 @@ import 'package:warranty_manager_cloud/screens/onboarding/onboarding_screen.dart
 import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/services/remote_config.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/foundation.dart' show PlatformDispatcher;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:warranty_manager_cloud/shared/locales.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'firebase_options.dart';
@@ -53,10 +51,8 @@ Future<void> main() async {
   };
 
   // firebase analytics
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   // firebase performance
-  FirebasePerformance performance = FirebasePerformance.instance;
 
   // firebase remote config
   await remoteConfig.setConfigSettings(RemoteConfigSettings(
@@ -66,7 +62,6 @@ Future<void> main() async {
   await remoteConfig.fetchAndActivate();
 
   // firebase messaging
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
   // final fcmToken = await messaging.getToken();
   // debugPrint(fcmToken);
 
@@ -150,7 +145,7 @@ void configLoading() {
     ..indicatorType = EasyLoadingIndicatorType.chasingDots
     ..loadingStyle = EasyLoadingStyle.light
     ..indicatorSize = 250.0
-    ..maskColor = const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5)
+    ..maskColor = const Color.fromARGB(255, 0, 0, 0).withValues(alpha: 0.5)
     ..userInteractions = false
     ..dismissOnTap = false;
 }
