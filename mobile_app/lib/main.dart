@@ -71,7 +71,9 @@ Future<void> main() async {
       AndroidInitializationSettings('ic_notification');
   const InitializationSettings initializationSettings =
       InitializationSettings(android: initializationSettingsAndroid);
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  await flutterLocalNotificationsPlugin.initialize(
+    settings: initializationSettings,
+  );
   flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()!
@@ -108,10 +110,10 @@ Future<void> main() async {
       const NotificationDetails notificationDetails =
           NotificationDetails(android: androidNotificationDetails);
       await flutterLocalNotificationsPlugin.show(
-        0,
-        message.notification!.title,
-        message.notification!.body,
-        notificationDetails,
+        id: 0,
+        title: message.notification!.title,
+        body: message.notification!.body,
+        notificationDetails: notificationDetails,
         // payload: 'item x',
       );
     }
