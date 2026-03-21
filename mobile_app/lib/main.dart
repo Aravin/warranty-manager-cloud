@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -54,12 +53,8 @@ Future<void> main() async {
 
   // firebase performance
 
-  // firebase remote config
-  await remoteConfig.setConfigSettings(RemoteConfigSettings(
-    fetchTimeout: const Duration(seconds: 30),
-    minimumFetchInterval: const Duration(hours: 12),
-  ));
-  await remoteConfig.fetchAndActivate();
+  // firebase remote config (failures use defaults; see services/remote_config.dart)
+  await initializeRemoteConfig();
 
   // firebase messaging
   // final fcmToken = await messaging.getToken();

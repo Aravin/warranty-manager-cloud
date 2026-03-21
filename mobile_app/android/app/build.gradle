@@ -27,7 +27,7 @@ if (flutterVersionName == null) {
 
 def flutterMinSdkVersion = localProperties.getProperty('flutter.minSdkVersion')
 if (flutterMinSdkVersion == null) {
-    flutterMinSdkVersion = '23' // Default to 23 if not set
+    flutterMinSdkVersion = '24' // Flutter recommends min 24+; override via local.properties if needed
 }
 
 def flutterTargetSdkVersion = localProperties.getProperty('flutter.targetSdkVersion')
