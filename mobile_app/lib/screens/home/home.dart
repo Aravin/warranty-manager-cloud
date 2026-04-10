@@ -49,14 +49,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> saveOnboardingSettings() async {
     final prefs = await SharedPreferences.getInstance();
+    final locale = prefs.getString('locale');
+    if (locale == null) {
+      return;
+    }
 
     Settings settings = Settings();
-    settings.locale = prefs.getString('locale')!;
+    settings.locale = locale;
     settings.allowExpiryNotification =
-        prefs.getBool('allow_expiry_notification')!;
+        prefs.getBool('allow_expiry_notification') ?? true;
     settings.allowRemainderNotification =
-        prefs.getBool('allow_remainder_notification')!;
-    settings.save();
+        prefs.getBool('allow_remainder_notification') ?? true;
+    await settings.save();
   }
 
   Future<void> _initPackageInfo() async {
@@ -412,7 +416,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
-    await GoogleSignIn.instance.signOut();
+    await GoogleSignIn().signOut();
     await FacebookAuth.instance.logOut();
   }
 }

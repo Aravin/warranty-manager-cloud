@@ -12,9 +12,18 @@ final storage = FirebaseStorage.instance;
 final auth = FirebaseAuth.instance;
 final storageRef = storage.ref();
 
+String _currentUserId() {
+  final currentUser = auth.currentUser;
+  if (currentUser == null) {
+    throw StateError('No logged in user available');
+  }
+
+  return currentUser.uid;
+}
+
 Future<void> storeImage(String filename, File file) async {
   try {
-    final imgRef = storageRef.child('${auth.currentUser!.uid}/$filename');
+    final imgRef = storageRef.child('${_currentUserId()}/$filename');
     final tempImgPath = '${file.absolute.parent.path}/temp.jpg';
     final compressedFile = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
@@ -41,9 +50,9 @@ Future<String> getProductImage(String productId) async {
   }
 
   try {
-    debugPrint('${auth.currentUser!.uid}/$productId/productImage');
+    debugPrint('${_currentUserId()}/$productId/productImage');
     return storageRef
-        .child('${auth.currentUser!.uid}/$productId/productImage')
+        .child('${_currentUserId()}/$productId/productImage')
         .getDownloadURL();
 
     // return await pathReference.getDownloadURL();
@@ -95,7 +104,7 @@ Future<Map<String, String>> getImages(
   try {
     for (String imageName in imageList) {
       final pathReference =
-          storageRef.child('${auth.currentUser!.uid}/$productId/$imageName');
+          storageRef.child('${_currentUserId()}/$productId/$imageName');
 
       images[imageName] = await pathReference.getDownloadURL();
     }
@@ -110,11 +119,21 @@ Future<Map<String, String>> getImages(
 
 Future<void> deleteImage(String filename) async {
   try {
-    final imgRef = storageRef.child('${auth.currentUser!.uid}/$filename');
+    final imgRef = storageRef.child('${_currentUserId()}/$filename');
     await imgRef.delete();
   } on FirebaseException catch (e) {
     // Caught an exception from Firebase.
     debugPrint("Failed with error '${e.code}': ${e.message}");
     rethrow;
+  }
+}
+
+Future<void> deleteImageIfExists(String filename) async {
+  try {
+    await deleteImage(filename);
+  } on FirebaseException catch (e) {
+    if (e.code != 'object-not-found') {
+      rethrow;
+    }
   }
 }

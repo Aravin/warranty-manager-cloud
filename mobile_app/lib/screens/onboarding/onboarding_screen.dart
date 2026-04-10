@@ -22,7 +22,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
   final formKey = GlobalKey<FormBuilderState>();
   final introKey = GlobalKey<IntroductionScreenState>();
 
-  void _onIntroEnd(BuildContext context) async {
+  void _onIntroEnd() async {
     if (formKey.currentState?.saveAndValidate() ?? false) {
       try {
         await EasyLoading.show(
@@ -38,9 +38,12 @@ class OnBoardingPageState extends State<OnBoardingPage> {
             formData['allow_expiry_notification'] ?? true);
         await prefs.setBool('allow_remainder_notification',
             formData['allow_remainder_notification'] ?? true);
-
-        await context.setLocale(locale.toLocale());
         await prefs.setBool('isFirstLaunch', false);
+
+        if (!mounted) {
+          return;
+        }
+        await context.setLocale(locale.toLocale());
 
         Fluttertoast.showToast(
           msg: 'toast.settings_save_success'.tr(),
@@ -56,9 +59,13 @@ class OnBoardingPageState extends State<OnBoardingPage> {
         );
       } finally {
         await EasyLoading.dismiss();
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const AuthWidget()));
       }
+
+      if (!mounted) {
+        return;
+      }
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const AuthWidget()));
     } else {
       debugPrint('validation failed');
     }
@@ -104,7 +111,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
               'Let\'s go right away!',
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
-            onPressed: () => _onIntroEnd(context),
+            onPressed: () => _onIntroEnd(),
           ),
         ),
         pages: [
@@ -179,7 +186,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
             ),
           ),
         ],
-        onDone: () => _onIntroEnd(context),
+        onDone: () => _onIntroEnd(),
         //onSkip: () => _onIntroEnd(context), // You can override onSkip callback
         showSkipButton: false,
         skipOrBackFlex: 0,

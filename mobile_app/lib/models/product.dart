@@ -43,6 +43,31 @@ class Product {
   // added later
   String? category;
 
+  static String _currentUserId() {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      throw StateError('No logged in user available');
+    }
+
+    return currentUser.uid;
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> _getOwnedDocument(
+      String productId) async {
+    final doc = await db.collection(collectionName).doc(productId).get();
+    final data = doc.data();
+
+    if (!doc.exists || data == null) {
+      throw StateError('Warranty not found');
+    }
+
+    if (data['userId'] != _currentUserId()) {
+      throw StateError('Unauthorized warranty access');
+    }
+
+    return doc;
+  }
+
   // Convert a Dog into a Map. The keys must correspond to the names of the
   // columns in the database.
   Map<String, dynamic> toMap() {
@@ -69,7 +94,7 @@ class Product {
         'isWarrantyCopy': isWarrantyCopy,
         'isAdditionalImage': isAdditionalImage,
         'category': category,
-        'userId': FirebaseAuth.instance.currentUser!.uid.toString(),
+        'userId': _currentUserId(),
       };
     } catch (err) {
       debugPrint('Saved to save product - $err');
@@ -142,22 +167,36 @@ class Product {
       isAdditionalImage = additionalImage != null;
 
       final productId = id;
+      if (productId == null) {
+        throw StateError('Product id is required for update');
+      }
+
+      final existingProduct = (await getById(productId)).product;
 
       if (isProductImage && !productImage!.path.contains('https')) {
         await storeImage('$productId/productImage', File(productImage!.path));
+      } else if (!isProductImage && existingProduct.isProductImage) {
+        await deleteImageIfExists('$productId/productImage');
       }
       if (isPurchaseCopy && !purchaseCopy!.path.contains('https')) {
         await storeImage('$productId/purchaseCopy', File(purchaseCopy!.path));
+      } else if (!isPurchaseCopy && existingProduct.isPurchaseCopy) {
+        await deleteImageIfExists('$productId/purchaseCopy');
       }
       if (isWarrantyCopy && !warrantyCopy!.path.contains('https')) {
         await storeImage('$productId/warrantyCopy', File(warrantyCopy!.path));
+      } else if (!isWarrantyCopy && existingProduct.isWarrantyCopy) {
+        await deleteImageIfExists('$productId/warrantyCopy');
       }
       if (isAdditionalImage && !additionalImage!.path.contains('https')) {
         await storeImage(
             '$productId/additionalImage', File(additionalImage!.path));
+      } else if (!isAdditionalImage && existingProduct.isAdditionalImage) {
+        await deleteImageIfExists('$productId/additionalImage');
       }
 
-      await db.collection(collectionName).doc(id).update(toMap());
+      await _getOwnedDocument(productId);
+      await db.collection(collectionName).doc(productId).update(toMap());
     } catch (err) {
       debugPrint('Saved to save product - $err');
       rethrow;
@@ -169,7 +208,7 @@ class Product {
       Product product = Product();
       product.id = productId;
 
-      final doc = await db.collection(collectionName).doc(productId).get();
+      final doc = await _getOwnedDocument(productId);
       product = firebaseToMap(product, doc.data()!);
 
       List<String> imageList = [];
@@ -191,8 +230,7 @@ class Product {
     try {
       final dbStream = db
           .collection(collectionName)
-          .where('userId',
-              isEqualTo: FirebaseAuth.instance.currentUser!.uid.toString())
+          .where('userId', isEqualTo: _currentUserId())
           .orderBy('warrantyEndDate')
           .snapshots();
 
@@ -229,6 +267,11 @@ class Product {
   Future<void> delete(Product product) async {
     try {
       final productId = product.id;
+      if (productId == null) {
+        throw StateError('Product id is required for delete');
+      }
+
+      await _getOwnedDocument(productId);
 
       if (product.isProductImage) {
         await deleteImage('$productId/productImage');
@@ -243,7 +286,7 @@ class Product {
         await deleteImage('$productId/additionalImage');
       }
 
-      await db.collection(collectionName).doc(product.id).delete();
+      await db.collection(collectionName).doc(productId).delete();
     } catch (err) {
       debugPrint('Saved to save product - $err');
       rethrow;
@@ -253,8 +296,7 @@ class Product {
   Future<int> getProductCount() async {
     return db
         .collection(collectionName)
-        .where('userId',
-            isEqualTo: FirebaseAuth.instance.currentUser!.uid.toString())
+        .where('userId', isEqualTo: _currentUserId())
         .snapshots()
         .length;
   }

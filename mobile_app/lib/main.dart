@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -22,6 +23,63 @@ import 'firebase_options.dart';
 bool shouldUseFirebaseEmulator = false;
 bool shouldUseFirestoreEmulator = false;
 bool isFirstLaunch = true;
+
+Future<void> _configureNotifications() async {
+  final messaging = FirebaseMessaging.instance;
+  await messaging.setAutoInitEnabled(true);
+
+  final notificationsPlugin = FlutterLocalNotificationsPlugin();
+  const initializationSettingsAndroid =
+      AndroidInitializationSettings('ic_notification');
+  const initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
+
+  await notificationsPlugin.initialize(settings: initializationSettings);
+
+  if (Platform.isAndroid) {
+    await notificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
+  }
+
+  await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    debugPrint('Got a message whilst in the foreground!');
+    debugPrint('Message data: ${message.data}');
+
+    if (message.notification == null) {
+      return;
+    }
+
+    const androidNotificationDetails = AndroidNotificationDetails(
+      'default_notification_channel_id',
+      'Push/Remainder Notification',
+      channelDescription: 'Warranty reminders and push messages',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker',
+      icon: '@drawable/ic_notification',
+    );
+    const notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+    await notificationsPlugin.show(
+      id: 0,
+      title: message.notification!.title,
+      body: message.notification!.body,
+      notificationDetails: notificationDetails,
+    );
+  });
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,63 +114,7 @@ Future<void> main() async {
   // firebase remote config (failures use defaults; see services/remote_config.dart)
   await initializeRemoteConfig();
 
-  // firebase messaging
-  // final fcmToken = await messaging.getToken();
-  // debugPrint(fcmToken);
-
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('ic_notification');
-  const InitializationSettings initializationSettings =
-      InitializationSettings(android: initializationSettingsAndroid);
-  await flutterLocalNotificationsPlugin.initialize(
-    settings: initializationSettings,
-  );
-  flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()!
-      .requestNotificationsPermission();
-
-  // NotificationSettings settings = await messaging.requestPermission(
-  //   alert: true,
-  //   announcement: false,
-  //   badge: true,
-  //   carPlay: false,
-  //   criticalAlert: false,
-  //   provisional: false,
-  //   sound: true,
-  // );
-
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-    debugPrint('Got a message whilst in the foreground!');
-    debugPrint('Message data: ${message.data}');
-
-    if (message.notification != null) {
-      debugPrint(
-          'Message also contained a notification: ${message.notification}');
-
-      const AndroidNotificationDetails androidNotificationDetails =
-          AndroidNotificationDetails(
-        'default_notification_channel_id',
-        'Push/Remainder Notification',
-        channelDescription: 'your channel description',
-        importance: Importance.max,
-        priority: Priority.high,
-        ticker: 'ticker',
-        icon: "@drawable/ic_notification",
-      );
-      const NotificationDetails notificationDetails =
-          NotificationDetails(android: androidNotificationDetails);
-      await flutterLocalNotificationsPlugin.show(
-        id: 0,
-        title: message.notification!.title,
-        body: message.notification!.body,
-        notificationDetails: notificationDetails,
-        // payload: 'item x',
-      );
-    }
-  });
+  await _configureNotifications();
 
   // localization
   await EasyLocalization.ensureInitialized();
@@ -170,7 +172,7 @@ class WarrantyManagerApp extends StatelessWidget {
         textTheme: Typography.blackCupertino,
         scaffoldBackgroundColor: Colors.grey.shade200,
         appBarTheme: const AppBarTheme(
-          color: kPrimaryColor,
+          backgroundColor: kPrimaryColor,
           titleTextStyle: TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           iconTheme: IconThemeData(color: Colors.white),

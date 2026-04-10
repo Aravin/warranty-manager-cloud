@@ -6,8 +6,15 @@ import 'package:warranty_manager_cloud/screens/auth.dart';
 import 'package:warranty_manager_cloud/screens/home/home.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 
-class AuthWidget extends StatelessWidget {
+class AuthWidget extends StatefulWidget {
   const AuthWidget({super.key});
+
+  @override
+  State<AuthWidget> createState() => _AuthWidgetState();
+}
+
+class _AuthWidgetState extends State<AuthWidget> {
+  String? _appliedLocale;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,14 @@ class AuthWidget extends StatelessWidget {
             stream: Settings().get(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                context.setLocale(snapshot.data!.locale.toLocale());
+                final nextLocale = snapshot.data!.locale;
+                if (_appliedLocale != nextLocale) {
+                  _appliedLocale = nextLocale;
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (!mounted) return;
+                    context.setLocale(nextLocale.toLocale());
+                  });
+                }
                 // ignore: prefer_const_constructors
                 return HomeScreen();
               } else if (snapshot.hasError) {

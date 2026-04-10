@@ -10,19 +10,17 @@ const Map<String, dynamic> _kRemoteConfigDefaults = {
   'auth_enable_github': false,
   'auth_enable_fb': true,
   'policy_link': 'https://tnc.aravin.net/docs/terms/',
-  'SENDGRID_API_KEY': '',
-  'SENDGRID_FROM_EMAIL': '',
 };
 
 Future<void> initializeRemoteConfig() async {
   await remoteConfig.setDefaults(_kRemoteConfigDefaults);
   await remoteConfig.setConfigSettings(
     RemoteConfigSettings(
-      fetchTimeout:
-          kDebugMode ? const Duration(seconds: 10) : const Duration(seconds: 30),
-      minimumFetchInterval: kDebugMode
-          ? Duration.zero
-          : const Duration(hours: 12),
+      fetchTimeout: kDebugMode
+          ? const Duration(seconds: 10)
+          : const Duration(seconds: 30),
+      minimumFetchInterval:
+          kDebugMode ? Duration.zero : const Duration(hours: 12),
     ),
   );
   try {

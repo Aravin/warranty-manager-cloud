@@ -366,12 +366,15 @@ class _AuthGateState extends State<AuthGate> {
     if (email != null) {
       try {
         await _auth.sendPasswordResetEmail(email: email!);
+        if (!mounted) return;
         ScaffoldSnackbar.of(context).show('pass_reset_mail_sent'.tr());
       } on FirebaseAuthException catch (e) {
+        if (!mounted) return;
         if (e.code == 'user-not-found') {
           ScaffoldSnackbar.of(context).show('user_not_found'.tr());
         }
       } catch (e) {
+        if (!mounted) return;
         ScaffoldSnackbar.of(context).show('error_reset'.tr());
       }
     }
@@ -458,44 +461,37 @@ class _AuthGateState extends State<AuthGate> {
 
   Future<void> _emailAndPassword() async {
     if (formKey.currentState?.validate() ?? false) {
-      setIsLoading();
-      try {
-        if (mode == AuthMode.login) {
-          await _auth.signInWithEmailAndPassword(
-            email: emailController.text,
-            password: passwordController.text,
-          );
-        } else if (mode == AuthMode.register) {
-          await _auth.createUserWithEmailAndPassword(
-            email: emailController.text,
-            password: passwordController.text,
-          );
-        }
-      } finally {
-        setIsLoading();
+      if (mode == AuthMode.login) {
+        await _auth.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+      } else if (mode == AuthMode.register) {
+        await _auth.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
       }
     }
   }
 
   Future<void> _signInWithGoogle() async {
-    // Trigger the authentication flow
-    await GoogleSignIn.instance.initialize();
-    final GoogleSignInAccount? googleUser =
-        await GoogleSignIn.instance.authenticate();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    if (googleAuth != null) {
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-      );
-
-      // Once signed in, return the UserCredential
-      await _auth.signInWithCredential(credential);
+    final googleSignIn = GoogleSignIn();
+    await googleSignIn.signOut();
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    if (googleUser == null) {
+      return;
     }
+
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    await _auth.signInWithCredential(
+      GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+        accessToken: googleAuth.accessToken,
+      ),
+    );
   }
 
   Future<void> _signInWithApple() async {

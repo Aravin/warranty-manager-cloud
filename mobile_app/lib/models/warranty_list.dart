@@ -5,5 +5,9 @@ class WarrantyList {
   List<WarrantyWithImages> expiring = [];
   List<WarrantyWithImages> expired = [];
 
-  WarrantyList({required active, required expiring, required expired});
+  WarrantyList({
+    required this.active,
+    required this.expiring,
+    required this.expired,
+  });
 }
