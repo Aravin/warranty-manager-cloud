@@ -51,7 +51,9 @@ dependencies:
   webview_flutter: ^4.0.2
   path_provider: ^2.0.13
   flutter_signin_button: ^2.0.0
-  google_sign_in: ^7.2.0
+  # Stay on 6.x: 7.x uses Credential Manager / One Tap on Android, which often hits
+  # "[16] Account reauth failed" on emulators and some devices.
+  google_sign_in: ^6.3.0
   flutter_facebook_auth: ^7.1.2
   flutter_easyloading: ^3.0.5
   cross_file: ^0.3.3+4
