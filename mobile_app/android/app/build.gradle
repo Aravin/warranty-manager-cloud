@@ -71,6 +71,12 @@ android {
         }
     }
 
+    packaging {
+        jniLibs {
+            useLegacyPackaging false
+        }
+    }
+
     signingConfigs {
         release {
             def keystoreProperties = new Properties()
