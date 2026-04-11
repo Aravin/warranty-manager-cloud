@@ -503,19 +503,6 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                           await EasyLoading.dismiss();
                         }
                       } else {
-                          showDialog(
-                            context: context,
-                            builder: (ctx) => AlertDialog(
-                              title: const Text('Validation Failed'),
-                              content: Text('Errors: ${_formKey.currentState?.errors}'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.of(ctx).pop(),
-                                  child: const Text('OK'),
-                                )
-                              ],
-                            ),
-                          );
                         debugPrint(_formKey.currentState?.value.toString());
                       }
                     },

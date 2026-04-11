@@ -47,20 +47,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
         setState(() {
           currentStep = step;
         });
-      } else {
-        showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: const Text('Validation Failed'),
-            content: Text('Errors: ${_formKey.currentState?.errors}'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(ctx).pop(),
-                child: const Text('OK'),
-              )
-            ],
-          ),
-        );
       }
     } catch (e, stack) {
       debugPrint('Validation crashed: $e\n$stack');
@@ -463,19 +449,6 @@ class _WarrantyFormState extends State<WarrantyForm> {
                             await EasyLoading.dismiss();
                           }
                         } else {
-                          showDialog(
-                            context: context,
-                            builder: (ctx) => AlertDialog(
-                              title: const Text('Validation Failed'),
-                              content: Text('Errors: ${_formKey.currentState?.errors}'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.of(ctx).pop(),
-                                  child: const Text('OK'),
-                                )
-                              ],
-                            ),
-                          );
                           debugPrint(_formKey.currentState?.value.toString());
                         }
                       } catch (e, stack) {
