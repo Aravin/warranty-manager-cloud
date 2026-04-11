@@ -51,6 +51,12 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
       setState(() {
         currentStep = step;
       });
+    } else {
+      Fluttertoast.showToast(
+        msg: 'Please fill all required fields correctly',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+      );
     }
   }
 
@@ -116,8 +122,7 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                     _formKey.currentState!.save();
                     debugPrint(_formKey.currentState!.value.toString());
                   },
-                  // autoFocusOnValidationFailure: true,
-                  autovalidateMode: AutovalidateMode.disabled,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   initialValue: _formInitialValues,
                   skipDisabled: true,
                   child: Stepper(
@@ -250,10 +255,14 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               name: 'price',
                               keyboardType: TextInputType.number,
                               textInputAction: TextInputAction.next,
-                              validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.min(0),
-                                FormBuilderValidators.max(9999999),
-                              ]),
+                              validator: (value) {
+                                if (value == null || value.toString().isEmpty) return null;
+                                final number = num.tryParse(value.toString());
+                                if (number == null) return 'Invalid number';
+                                if (number < 0) return 'Min 0';
+                                if (number > 9999999) return 'Max 9999999';
+                                return null;
+                              },
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(Icons.monetization_on),
                                 hintText: 'price'.tr(),
@@ -494,6 +503,19 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                           await EasyLoading.dismiss();
                         }
                       } else {
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: const Text('Validation Failed'),
+                              content: Text('Errors: ${_formKey.currentState?.errors}'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(ctx).pop(),
+                                  child: const Text('OK'),
+                                )
+                              ],
+                            ),
+                          );
                         debugPrint(_formKey.currentState?.value.toString());
                       }
                     },

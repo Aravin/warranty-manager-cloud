@@ -150,7 +150,7 @@ class Product {
             '$productId/additionalImage', File(additionalImage!.path));
       }
 
-      productDoc.set(toMap());
+      await productDoc.set(toMap());
 
       return productId;
     } catch (err) {

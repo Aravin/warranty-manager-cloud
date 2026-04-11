@@ -42,10 +42,33 @@ class _WarrantyFormState extends State<WarrantyForm> {
   }
 
   void goTo(int step) {
-    if (_formKey.currentState!.saveAndValidate()) {
-      setState(() {
-        currentStep = step;
-      });
+    try {
+      if (_formKey.currentState!.saveAndValidate()) {
+        setState(() {
+          currentStep = step;
+        });
+      } else {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('Validation Failed'),
+            content: Text('Errors: ${_formKey.currentState?.errors}'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('OK'),
+              )
+            ],
+          ),
+        );
+      }
+    } catch (e, stack) {
+      debugPrint('Validation crashed: $e\n$stack');
+      Fluttertoast.showToast(
+        msg: 'Crash during validation: $e',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+      );
     }
   }
 
@@ -68,8 +91,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                 _formKey.currentState!.save();
                 debugPrint(_formKey.currentState!.value.toString());
               },
-              // autoFocusOnValidationFailure: true,
-              autovalidateMode: AutovalidateMode.disabled,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               initialValue: const {},
               skipDisabled: true,
               child: Stepper(
@@ -201,10 +223,14 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           name: 'price',
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.min(0),
-                            FormBuilderValidators.max(9999999)
-                          ]),
+                          validator: (value) {
+                            if (value == null || value.toString().isEmpty) return null;
+                            final number = num.tryParse(value.toString());
+                            if (number == null) return 'Invalid number';
+                            if (number < 0) return 'Min 0';
+                            if (number > 9999999) return 'Max 9999999';
+                            return null;
+                          },
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.monetization_on),
                             hintText: 'price'.tr(),
@@ -355,69 +381,110 @@ class _WarrantyFormState extends State<WarrantyForm> {
                     icon: const Icon(Icons.save),
                     label: const Text('save').tr(),
                     onPressed: () async {
-                      if (_formKey.currentState!.saveAndValidate()) {
-                        try {
-                          await EasyLoading.show(
-                            indicator: appLoader,
-                          );
-                          dynamic formValue = _formKey.currentState!.value;
-                          debugPrint(_formKey.currentState?.value.toString());
-                          _product.name = formValue['name'];
-                          _product.price = (formValue['price'] != null)
-                              ? double.parse(formValue['price'])
-                              : null;
-                          _product.purchaseDate =
-                              formValue['purchaseDate'] as DateTime;
-                          _product.warrantyPeriod =
-                              formValue['warrantyPeriod']!;
-                          _product.purchasedAt = formValue['purchasedAt'];
-                          _product.company = formValue['company'];
-                          _product.salesPerson = formValue['salesPerson'];
-                          _product.phone = formValue['phone'];
-                          _product.email = formValue['email'];
-                          _product.notes = formValue['notes'];
-                          // added later
-                          _product.category = formValue['category'];
-                          // images
-                          _product.productImage = formValue['productImage']?[0];
-                          _product.purchaseCopy = formValue['imgBill']?[0];
-                          _product.warrantyCopy = formValue['imgWarranty']?[0];
-                          _product.additionalImage =
-                              formValue['imgAdditional']?[0];
-
-                          final productId = await _product.save();
-
-                          await EasyLoading.dismiss();
-
-                          Fluttertoast.showToast(
-                            msg: 'toast.save_success'.tr(),
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER,
-                            fontSize: 16.0,
-                          );
-
-                          setState(() {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    WarrantyDetailsScreen(productId: productId),
-                              ),
+                      try {
+                        if (_formKey.currentState!.saveAndValidate()) {
+                          try {
+                            await EasyLoading.show(
+                              indicator: appLoader,
                             );
-                          });
-                        } catch (err) {
-                          debugPrint(err.toString());
+                            dynamic formValue = _formKey.currentState!.value;
+                            debugPrint(_formKey.currentState?.value.toString());
+                            _product.name = formValue['name'].toString().trim();
+                            _product.price = (formValue['price'] != null &&
+                                    formValue['price'] != '')
+                                ? double.parse(formValue['price'].toString())
+                                : null;
+                            _product.purchaseDate =
+                                formValue['purchaseDate'] as DateTime;
+                            _product.warrantyPeriod =
+                                formValue['warrantyPeriod']!;
+                            _product.purchasedAt = formValue['purchasedAt'];
+                            _product.company = formValue['company'];
+                            _product.salesPerson = formValue['salesPerson'];
+                            _product.phone = formValue['phone'];
+                            _product.email = formValue['email'];
+                            _product.notes = formValue['notes'];
+                            // added later
+                            _product.category = formValue['category'];
+                            // images
+                            _product.productImage =
+                                formValue['productImage']?.length > 0
+                                    ? (formValue['productImage'][0] is String
+                                        ? XFile(formValue['productImage'][0])
+                                        : formValue['productImage'][0])
+                                    : null;
+                            _product.purchaseCopy = formValue['imgBill']?.length > 0
+                                ? (formValue['imgBill'][0] is String
+                                    ? XFile(formValue['imgBill'][0])
+                                    : formValue['imgBill'][0])
+                                : null;
+                            _product.warrantyCopy =
+                                formValue['imgWarranty']?.length > 0
+                                    ? (formValue['imgWarranty'][0] is String
+                                        ? XFile(formValue['imgWarranty'][0])
+                                        : formValue['imgWarranty'][0])
+                                    : null;
+                            _product.additionalImage =
+                                formValue['imgAdditional']?.length > 0
+                                    ? (formValue['imgAdditional'][0] is String
+                                        ? XFile(formValue['imgAdditional'][0])
+                                        : formValue['imgAdditional'][0])
+                                    : null;
 
-                          Fluttertoast.showToast(
-                            msg: 'toast.failed_to_save'.tr(),
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER,
-                            fontSize: 16.0,
+                            final productId = await _product.save();
+
+                            await EasyLoading.dismiss();
+
+                            Fluttertoast.showToast(
+                              msg: 'toast.save_success'.tr(),
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              fontSize: 16.0,
+                            );
+
+                            setState(() {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      WarrantyDetailsScreen(productId: productId),
+                                ),
+                              );
+                            });
+                          } catch (err) {
+                            debugPrint(err.toString());
+
+                            Fluttertoast.showToast(
+                              msg: 'toast.failed_to_save'.tr(),
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              fontSize: 16.0,
+                            );
+                          } finally {
+                            await EasyLoading.dismiss();
+                          }
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: const Text('Validation Failed'),
+                              content: Text('Errors: ${_formKey.currentState?.errors}'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(ctx).pop(),
+                                  child: const Text('OK'),
+                                )
+                              ],
+                            ),
                           );
-                        } finally {
-                          await EasyLoading.dismiss();
+                          debugPrint(_formKey.currentState?.value.toString());
                         }
-                      } else {
-                        debugPrint(_formKey.currentState?.value.toString());
+                      } catch (e, stack) {
+                        debugPrint('Validation crashed: $e\n$stack');
+                        Fluttertoast.showToast(
+                          msg: 'Crash during validation: $e',
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.CENTER,
+                        );
                       }
                     },
                   ),
