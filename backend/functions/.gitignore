@@ -10,3 +10,4 @@ typings/
 node_modules/
 
 src/firebase_service_account_key.json
+.env
