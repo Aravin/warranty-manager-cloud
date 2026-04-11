@@ -8,6 +8,7 @@ import {onSchedule} from 'firebase-functions/v2/scheduler';
 import {initializeApp} from 'firebase-admin/app';
 import {Timestamp, getFirestore} from 'firebase-admin/firestore';
 import {getAuth} from 'firebase-admin/auth';
+import {getMessaging} from 'firebase-admin/messaging';
 import { setGlobalOptions } from 'firebase-functions/v2/options';
 
 dotenv.config();
@@ -157,5 +158,71 @@ export const cleanupAnonymousUser = onSchedule(
       logger.log(`Total inactive Anonymous used removed ${inactiveAnonymousUserCount}`);
     } catch (err) {
       logger.error(err as Error);
+    }
+  });
+
+export const sendWarrantyReminders = onSchedule(
+  '0 0 * * *',
+  async (event) => {
+    logger.log('sendWarrantyReminders cron job called', event);
+
+    try {
+      const settingsSnapshot = await db.collection('settings')
+        .where('allowExpiryNotification', '==', true)
+        .get();
+
+      const now = new Date();
+      now.setUTCHours(0, 0, 0, 0);
+
+      let notificationCount = 0;
+
+      for (const doc of settingsSnapshot.docs) {
+        const data = doc.data();
+        const fcmToken = data.fcmToken;
+        if (!fcmToken) continue;
+
+        const userId = doc.id;
+        const warrantySnapshot = await db.collection('warranty').where('userId', '==', userId).get();
+
+        for (const wDoc of warrantySnapshot.docs) {
+          const wData = wDoc.data();
+          if (!wData.warrantyEndDate) continue;
+
+          let endDate: Date;
+          if (wData.warrantyEndDate.toDate) {
+            endDate = (wData.warrantyEndDate as Timestamp).toDate();
+          } else {
+            endDate = new Date(wData.warrantyEndDate);
+          }
+          endDate.setUTCHours(0, 0, 0, 0);
+
+          const daysLeft = Math.floor((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+
+          if (daysLeft === 7 || daysLeft === 1) {
+             const message = {
+               notification: {
+                 title: `Warranty Expiring Soon`,
+                 body: `Your warranty for ${wData.name || 'a product'} expires in ${daysLeft} ${daysLeft === 1 ? 'day' : 'days'}.`,
+               },
+               token: fcmToken,
+               data: {
+                 productId: wDoc.id
+               }
+             };
+
+             try {
+               await getMessaging().send(message);
+               notificationCount++;
+               logger.log(`Sent reminder for product ${wDoc.id} to user ${userId}`);
+             } catch (sendErr) {
+               logger.warn(`Failed to send FCM to token ${fcmToken}:`, sendErr);
+             }
+          }
+        }
+      }
+
+      logger.log(`Total reminders sent: ${notificationCount}`);
+    } catch (err) {
+      logger.error('Error dispatching reminders:', err as Error);
     }
   });

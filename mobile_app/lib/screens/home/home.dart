@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:warranty_manager_cloud/models/product.dart';
+import 'package:warranty_manager_cloud/models/warranty_list.dart';
+import 'package:warranty_manager_cloud/repositories/warranty_repository.dart';
 import 'package:warranty_manager_cloud/models/settings.dart';
 import 'package:warranty_manager_cloud/screens/contact/contact_screen.dart';
 import 'package:warranty_manager_cloud/screens/home/widgets/highlight_card.dart';
@@ -20,7 +22,6 @@ import 'package:warranty_manager_cloud/screens/warranty_form.dart';
 
 import 'package:warranty_manager_cloud/screens/warranty_list_tab_screen.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
-import 'package:warranty_manager_cloud/services/storage.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -60,6 +61,15 @@ class _HomeScreenState extends State<HomeScreen> {
         prefs.getBool('allow_expiry_notification') ?? true;
     settings.allowRemainderNotification =
         prefs.getBool('allow_remainder_notification') ?? true;
+
+    try {
+      if (Platform.isAndroid || Platform.isIOS) {
+        settings.fcmToken = await FirebaseMessaging.instance.getToken();
+      }
+    } catch (e) {
+      debugPrint('Failed to fetch FCM token: $e');
+    }
+
     await settings.save();
   }
 
@@ -311,8 +321,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: StreamBuilder(
-        stream: Product().list(),
+      body: StreamBuilder<WarrantyList>(
+        stream: WarrantyRepository().getWarrantyListStream(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return appLoader;
@@ -320,85 +330,73 @@ class _HomeScreenState extends State<HomeScreen> {
 
           if (snapshot.hasError) {
             return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error_outline,
+                        size: 48, color: Colors.red),
+                    const SizedBox(height: 16),
+                    const Text('failed_to_load_warranty',
+                            style: TextStyle(fontWeight: FontWeight.bold))
+                        .tr(),
+                    const SizedBox(height: 8),
+                    Text(snapshot.error.toString(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.grey)),
+                    const SizedBox(height: 16),
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.feedback),
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => const ContactScreen(),
+                          ),
+                        );
+                      },
+                      label: const Text('report_issue').tr(),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+
+          if (snapshot.hasData) {
+            return Padding(
+              padding: const EdgeInsets.all(4.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text('failed_to_load_warranty').tr(),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => const ContactScreen(),
-                        ),
-                      );
-                    },
-                    // TODO: not yet translated
-                    child: const Text('Report the issue'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      HighlightCard(
+                        cardName: tr('in_warranty'),
+                        count: snapshot.data!.active.length.toString(),
+                        icon: Icons.security,
+                      ),
+                      HighlightCard(
+                        cardName: tr('expiring_soon'),
+                        count: snapshot.data!.expiring.length.toString(),
+                        icon: Icons.timelapse,
+                      ),
+                      HighlightCard(
+                        cardName: tr('expired'),
+                        count: snapshot.data!.expired.length.toString(),
+                        icon: Icons.dangerous,
+                      ),
+                    ],
                   ),
+                  const SizedBox(height: 10),
+                  WarrantyListTabWidget(warrantyList: snapshot.data!),
                 ],
               ),
             );
           }
 
-          return FutureBuilder(
-            future: getProductListByProduct(snapshot.data!),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          HighlightCard(
-                            cardName: tr('in_warranty'),
-                            count: snapshot.data!.active.length.toString(),
-                            icon: Icons.security,
-                          ),
-                          HighlightCard(
-                            cardName: tr('expiring_soon'),
-                            count: snapshot.data!.expiring.length.toString(),
-                            icon: Icons.timelapse,
-                          ),
-                          HighlightCard(
-                            cardName: tr('expired'),
-                            count: snapshot.data!.expired.length.toString(),
-                            icon: Icons.dangerous,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      WarrantyListTabWidget(warrantyList: snapshot.data!),
-                    ],
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('failed_to_load_warranty').tr(),
-                      const SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                                builder: (context) => const ContactScreen()),
-                          );
-                        },
-                        // TODO: not yet translated
-                        child: const Text('Report the issue'),
-                      ),
-                    ],
-                  ),
-                );
-              }
-              return appLoader;
-            },
-          );
+          return appLoader;
         },
       ),
       floatingActionButton: FloatingActionButton.extended(

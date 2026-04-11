@@ -11,7 +11,7 @@ import 'package:warranty_manager_cloud/screens/onboarding/onboarding_screen.dart
 import 'package:warranty_manager_cloud/services/db.dart';
 import 'package:warranty_manager_cloud/services/remote_config.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart' show PlatformDispatcher;
+import 'package:flutter/foundation.dart' show PlatformDispatcher, kIsWeb;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
 import 'package:warranty_manager_cloud/shared/locales.dart';
@@ -20,8 +20,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'firebase_options.dart';
 
-bool shouldUseFirebaseEmulator = false;
-bool shouldUseFirestoreEmulator = false;
+const bool shouldUseFirebaseEmulator = bool.fromEnvironment('USE_FIREBASE_EMULATOR', defaultValue: false);
+const bool shouldUseFirestoreEmulator = bool.fromEnvironment('USE_FIREBASE_EMULATOR', defaultValue: false);
 bool isFirstLaunch = true;
 
 Future<void> _configureNotifications() async {
@@ -90,11 +90,17 @@ Future<void> main() async {
   );
 
   // firebase emulators
-  if (shouldUseFirebaseEmulator) {
-    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-  }
-  if (shouldUseFirestoreEmulator) {
-    db.useFirestoreEmulator('localhost', 8080);
+  if (shouldUseFirebaseEmulator || shouldUseFirestoreEmulator) {
+    String emulatorHost = 'localhost';
+    if (!kIsWeb && Platform.isAndroid) {
+      emulatorHost = '10.0.2.2';
+    }
+    if (shouldUseFirebaseEmulator) {
+      await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
+    }
+    if (shouldUseFirestoreEmulator) {
+      db.useFirestoreEmulator(emulatorHost, 8080);
+    }
   }
 
   // firebase crash analytics

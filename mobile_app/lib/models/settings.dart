@@ -14,6 +14,7 @@ class Settings {
   bool allowRemainderNotification = true;
   String? email;
   String? displayName;
+  String? fcmToken;
 
   Settings() {
     final currentUser = FirebaseAuth.instance.currentUser;
@@ -45,6 +46,7 @@ class Settings {
       'allowRemainderNotification': allowRemainderNotification,
       'email': email,
       'displayName': displayName,
+      'fcmToken': fcmToken,
     };
   }
 
@@ -81,6 +83,7 @@ class Settings {
             data['allowRemainderNotification'] ?? true;
         settings.email = data['email'] ?? currentUser?.email;
         settings.displayName = data['displayName'] ?? currentUser?.displayName;
+        settings.fcmToken = data['fcmToken'];
 
         return settings;
       });
