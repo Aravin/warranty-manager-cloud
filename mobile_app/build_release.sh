@@ -26,5 +26,5 @@ echo "🔨 Building APK (.apk)..."
 flutter build apk --release
 
 echo "✅ Build successfully completed for version $NEW_VERSION!"
-echo "📍 APK Location: build/app/outputs/flutter-apk/app-release.apk"
-echo "📍 AAB Location: build/app/outputs/bundle/release/app-release.aab"
+echo "📍 APK Location: $(pwd)/build/app/outputs/flutter-apk/app-release.apk"
+echo "📍 AAB Location: $(pwd)/build/app/outputs/bundle/release/app-release.aab"
