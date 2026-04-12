@@ -93,15 +93,14 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false
-            shrinkResources false
-            // proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             ndk {
                 // 16KB page size support - NDK r27+ handles alignment automatically
                 abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
+                debugSymbolLevel = 'FULL'
             }
-            // debugSymbolLevel = 'FULL' // Moved inside if strictly needed, or keep at bottom
-             // ndk.debugSymbolLevel = 'FULL'
         }
         debug {
             ndk {
