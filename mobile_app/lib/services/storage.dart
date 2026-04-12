@@ -67,26 +67,18 @@ Future<WarrantyList> getProductListByProduct(List<Product> warrantyList) async {
   final productList = WarrantyList(active: [], expiring: [], expired: []);
 
   for (Product product in warrantyList) {
-    List<String> imageList = [];
-    product.isProductImage ? imageList.add('productImage') : null;
-    product.isPurchaseCopy ? imageList.add('purchaseCopy') : null;
-    product.isWarrantyCopy ? imageList.add('warrantyCopy') : null;
-    product.isAdditionalImage ? imageList.add('additionalImage') : null;
-
-    final images = await getImages(product.id!, imageList);
-
     if (product.warrantyEndDate!.isAfter(DateTime.now())) {
-      productList.active.add(WarrantyWithImages(product, images));
+      productList.active.add(WarrantyWithImages(product, {}));
     }
 
     if (product.warrantyEndDate!.isAfter(DateTime.now()) &&
         product.warrantyEndDate!
             .isBefore(DateTime.now().add(const Duration(days: 28)))) {
-      productList.expiring.add(WarrantyWithImages(product, images));
+      productList.expiring.add(WarrantyWithImages(product, {}));
     }
 
     if (product.warrantyEndDate!.isBefore(DateTime.now())) {
-      productList.expired.add(WarrantyWithImages(product, images));
+      productList.expired.add(WarrantyWithImages(product, {}));
     }
   }
 
