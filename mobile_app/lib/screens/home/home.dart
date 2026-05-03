@@ -23,6 +23,10 @@ import 'package:warranty_manager_cloud/screens/warranty_form.dart';
 import 'package:warranty_manager_cloud/screens/warranty_list_tab_screen.dart';
 import 'package:warranty_manager_cloud/screens/widgets/warranty_list_tab.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
+import 'package:warranty_manager_cloud/services/ocr_service.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -399,15 +403,84 @@ class _HomeScreenState extends State<HomeScreen> {
           return appLoader;
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const WarrantyForm()),
-        ),
-        label: const Text('add_new').tr(),
-        icon: const Icon(Icons.add_circle),
+      floatingActionButton: SpeedDial(
+        icon: Icons.add,
+        activeIcon: Icons.close,
         backgroundColor: kAccentColor,
         foregroundColor: Colors.white,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.5,
+        spacing: 12,
+        spaceBetweenChildren: 8,
+        children: [
+          SpeedDialChild(
+            child: const Icon(Icons.edit_document),
+            backgroundColor: kPrimaryColor,
+            foregroundColor: Colors.white,
+            label: 'manual_entry'.tr(),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const WarrantyForm()),
+              );
+            },
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.file_upload),
+            backgroundColor: Colors.blueAccent,
+            foregroundColor: Colors.white,
+            label: 'upload_document'.tr(),
+            onTap: () async {
+              final ocrService = OcrService();
+              final scanResult =
+                  await ocrService.scanDocumentExplorerAndExtract();
+              EasyLoading.dismiss();
+
+              if (scanResult.wasCancelled) return;
+
+              if (scanResult.hasData) {
+                if (!context.mounted) return;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          WarrantyForm(initialData: scanResult.data)),
+                );
+              } else {
+                Fluttertoast.showToast(
+                    msg: scanResult.errorMessage ??
+                        "Failed to scan document or no text found.");
+              }
+            },
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.camera_alt),
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
+            label: 'scan_receipt'.tr(),
+            onTap: () async {
+              final ocrService = OcrService();
+              final scanResult = await ocrService.scanReceiptAndExtract();
+              EasyLoading.dismiss();
+
+              if (scanResult.wasCancelled) return;
+
+              if (scanResult.hasData) {
+                if (!context.mounted) return;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          WarrantyForm(initialData: scanResult.data)),
+                );
+              } else {
+                Fluttertoast.showToast(
+                    msg: scanResult.errorMessage ??
+                        "Failed to scan receipt or no text found.");
+              }
+            },
+          ),
+        ],
       ),
     );
   }

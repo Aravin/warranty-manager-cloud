@@ -12,7 +12,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 
 class WarrantyForm extends StatefulWidget {
-  const WarrantyForm({super.key});
+  final Map<String, dynamic>? initialData;
+  const WarrantyForm({super.key, this.initialData});
 
   @override
   State<WarrantyForm> createState() => _WarrantyFormState();
@@ -78,7 +79,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                 debugPrint(_formKey.currentState!.value.toString());
               },
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              initialValue: const {},
+              initialValue: widget.initialData ?? {},
               skipDisabled: true,
               child: Stepper(
                 type: StepperType.vertical,
