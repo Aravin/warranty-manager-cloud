@@ -24,6 +24,19 @@ class _WarrantyFormState extends State<WarrantyForm> {
   final _formKey = GlobalKey<FormBuilderState>();
   final Product _product = Product();
 
+  XFile? _imageFromFormValue(dynamic value) {
+    if (value is! List || value.isEmpty) {
+      return null;
+    }
+
+    final image = value.first;
+    if (image is String) {
+      return XFile(image);
+    }
+
+    return image is XFile ? image : null;
+  }
+
   // steps
   int currentStep = 0;
   bool complete = false;
@@ -395,28 +408,14 @@ class _WarrantyFormState extends State<WarrantyForm> {
                             _product.category = formValue['category'];
                             // images
                             _product.productImage =
-                                formValue['productImage']?.length > 0
-                                    ? (formValue['productImage'][0] is String
-                                        ? XFile(formValue['productImage'][0])
-                                        : formValue['productImage'][0])
-                                    : null;
-                            _product.purchaseCopy = formValue['imgBill']?.length > 0
-                                ? (formValue['imgBill'][0] is String
-                                    ? XFile(formValue['imgBill'][0])
-                                    : formValue['imgBill'][0])
-                                : null;
+                              _imageFromFormValue(formValue['productImage']);
+                            _product.purchaseCopy =
+                              _imageFromFormValue(formValue['imgBill']);
                             _product.warrantyCopy =
-                                formValue['imgWarranty']?.length > 0
-                                    ? (formValue['imgWarranty'][0] is String
-                                        ? XFile(formValue['imgWarranty'][0])
-                                        : formValue['imgWarranty'][0])
-                                    : null;
-                            _product.additionalImage =
-                                formValue['imgAdditional']?.length > 0
-                                    ? (formValue['imgAdditional'][0] is String
-                                        ? XFile(formValue['imgAdditional'][0])
-                                        : formValue['imgAdditional'][0])
-                                    : null;
+                              _imageFromFormValue(formValue['imgWarranty']);
+                            _product.additionalImage = _imageFromFormValue(
+                              formValue['imgAdditional'],
+                            );
 
                             final productId = await _product.save();
 
