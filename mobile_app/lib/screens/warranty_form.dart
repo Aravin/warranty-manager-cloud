@@ -12,9 +12,23 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 
+typedef SaveWarrantyCallback = Future<String> Function(Product product);
+typedef SaveWarrantySuccessCallback = void Function(
+  BuildContext context,
+  String productId,
+);
+
 class WarrantyForm extends StatefulWidget {
   final Map<String, dynamic>? initialData;
-  const WarrantyForm({super.key, this.initialData});
+  final SaveWarrantyCallback? onSave;
+  final SaveWarrantySuccessCallback? onSaveSuccess;
+
+  const WarrantyForm({
+    super.key,
+    this.initialData,
+    this.onSave,
+    this.onSaveSuccess,
+  });
 
   @override
   State<WarrantyForm> createState() => _WarrantyFormState();
@@ -405,7 +419,9 @@ class _WarrantyFormState extends State<WarrantyForm> {
                               formValue['imgAdditional'],
                             );
 
-                            final productId = await _product.save();
+                            final productId = await (widget.onSave != null
+                                ? widget.onSave!(_product)
+                                : _product.save());
 
                             await EasyLoading.dismiss();
 
@@ -417,12 +433,17 @@ class _WarrantyFormState extends State<WarrantyForm> {
                             );
 
                             setState(() {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      WarrantyDetailsScreen(productId: productId),
-                                ),
-                              );
+                              if (widget.onSaveSuccess != null) {
+                                widget.onSaveSuccess!(context, productId);
+                              } else {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => WarrantyDetailsScreen(
+                                      productId: productId,
+                                    ),
+                                  ),
+                                );
+                              }
                             });
                           } catch (err) {
                             debugPrint(err.toString());
