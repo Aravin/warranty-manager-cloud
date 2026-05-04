@@ -9,6 +9,7 @@ import 'package:warranty_manager_cloud/screens/contact/contact_screen.dart';
 import 'package:warranty_manager_cloud/screens/warranty_details_screen/warranty_details.dart';
 import 'package:warranty_manager_cloud/shared/categories.dart';
 import 'package:warranty_manager_cloud/shared/constants.dart';
+import 'package:warranty_manager_cloud/shared/form_image_value.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
@@ -27,19 +28,6 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
   late dynamic _formInitialValues;
   late Product _product;
   late Future<WarrantyWithImages> _warrantyWithImages;
-
-  XFile? _imageFromFormValue(dynamic value) {
-    if (value is! List || value.isEmpty) {
-      return null;
-    }
-
-    final image = value.first;
-    if (image is String) {
-      return XFile(image);
-    }
-
-    return image is XFile ? image : null;
-  }
 
   // steps
   int currentStep = 0;
@@ -459,13 +447,13 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                           // added later
                           _product.category = formValue['category'];
                           // images
-                            _product.productImage =
-                              _imageFromFormValue(formValue['productImage']);
-                            _product.purchaseCopy =
-                              _imageFromFormValue(formValue['imgBill']);
-                            _product.warrantyCopy =
-                              _imageFromFormValue(formValue['imgWarranty']);
-                            _product.additionalImage = _imageFromFormValue(
+                          _product.productImage =
+                              parseFormImageValue(formValue['productImage']);
+                          _product.purchaseCopy =
+                              parseFormImageValue(formValue['imgBill']);
+                          _product.warrantyCopy =
+                              parseFormImageValue(formValue['imgWarranty']);
+                          _product.additionalImage = parseFormImageValue(
                             formValue['imgAdditional'],
                             );
 
