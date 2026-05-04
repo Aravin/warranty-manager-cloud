@@ -258,7 +258,6 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                                 prefixIconColor: kPrimaryColor,
                                 hintStyle: const TextStyle(color: Colors.grey),
                               ),
-                              initialValue: 'Other',
                               items: categoryList
                                   .map((category) => DropdownMenuItem(
                                       value: category, child: Text(category)))
@@ -372,7 +371,9 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               imageQuality: 80,
                               maxHeight: 2048,
                               maxWidth: 2048,
-                              initialValue: [data.images['productImage']],
+                              initialValue: data.images['productImage'] != null
+                                  ? [data.images['productImage']]
+                                  : null,
                             ),
                             FormBuilderImagePicker(
                               name: 'imgBill',
@@ -385,7 +386,9 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               imageQuality: 80,
                               maxHeight: 2048,
                               maxWidth: 2048,
-                              initialValue: [data.images['purchaseCopy']],
+                              initialValue: data.images['purchaseCopy'] != null
+                                  ? [data.images['purchaseCopy']]
+                                  : null,
                             ),
                             FormBuilderImagePicker(
                               name: 'imgWarranty',
@@ -398,7 +401,10 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               imageQuality: 80,
                               maxHeight: 2048,
                               maxWidth: 2048,
-                              initialValue: [data.images['warrantyCopy']],
+                              initialValue:
+                                  data.images['warrantyCopy'] != null
+                                      ? [data.images['warrantyCopy']]
+                                      : null,
                             ),
                             FormBuilderImagePicker(
                               name: 'imgAdditional',
@@ -411,7 +417,10 @@ class _WarrantyEditFormState extends State<WarrantyEditForm> {
                               imageQuality: 80,
                               maxHeight: 2048,
                               maxWidth: 2048,
-                              initialValue: [data.images['additionalImage']],
+                              initialValue:
+                                  data.images['additionalImage'] != null
+                                      ? [data.images['additionalImage']]
+                                      : null,
                             ),
                           ],
                         ),
