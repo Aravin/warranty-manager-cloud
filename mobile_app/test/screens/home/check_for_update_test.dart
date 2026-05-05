@@ -32,7 +32,7 @@ void main() {
     // ---------------------------------------------------------------------------
 
     /// Builds an [AppUpdateInfo] with the given availability.
-    AppUpdateInfo _makeInfo(UpdateAvailability availability) {
+    AppUpdateInfo makeInfo(UpdateAvailability availability) {
       return AppUpdateInfo(
         updateAvailability: availability,
         immediateUpdateAllowed: availability == UpdateAvailability.updateAvailable,
@@ -57,7 +57,7 @@ void main() {
 
       await performUpdateCheck(
         isAndroid: true,
-        checkForUpdate: () async => _makeInfo(UpdateAvailability.updateAvailable),
+        checkForUpdate: () async => makeInfo(UpdateAvailability.updateAvailable),
         performImmediateUpdate: () async {
           immediateUpdateCalled = true;
         },
@@ -77,7 +77,7 @@ void main() {
       await performUpdateCheck(
         isAndroid: true,
         checkForUpdate: () async =>
-            _makeInfo(UpdateAvailability.updateNotAvailable),
+            makeInfo(UpdateAvailability.updateNotAvailable),
         performImmediateUpdate: () async {
           immediateUpdateCalled = true;
         },
@@ -96,7 +96,7 @@ void main() {
 
       await performUpdateCheck(
         isAndroid: true,
-        checkForUpdate: () async => _makeInfo(UpdateAvailability.unknown),
+        checkForUpdate: () async => makeInfo(UpdateAvailability.unknown),
         performImmediateUpdate: () async {
           immediateUpdateCalled = true;
         },
@@ -136,7 +136,7 @@ void main() {
         performUpdateCheck(
           isAndroid: true,
           checkForUpdate: () async =>
-              _makeInfo(UpdateAvailability.updateAvailable),
+              makeInfo(UpdateAvailability.updateAvailable),
           performImmediateUpdate: () async =>
               throw Exception('User cancelled update'),
         ),
@@ -156,7 +156,7 @@ void main() {
         isAndroid: false,
         checkForUpdate: () async {
           checkCalled = true;
-          return _makeInfo(UpdateAvailability.updateAvailable);
+          return makeInfo(UpdateAvailability.updateAvailable);
         },
         performImmediateUpdate: () async {
           immediateUpdateCalled = true;
@@ -180,7 +180,7 @@ void main() {
       // updateAvailable and must not trigger an immediate update flow.
       await performUpdateCheck(
         isAndroid: true,
-        checkForUpdate: () async => _makeInfo(
+        checkForUpdate: () async => makeInfo(
           UpdateAvailability.developerTriggeredUpdateInProgress,
         ),
         performImmediateUpdate: () async {
@@ -201,7 +201,7 @@ void main() {
       await performUpdateCheck(
         isAndroid: true,
         checkForUpdate: () => Future.value(
-          _makeInfo(UpdateAvailability.updateAvailable),
+          makeInfo(UpdateAvailability.updateAvailable),
         ),
         performImmediateUpdate: () {
           immediateUpdateCalled = true;
