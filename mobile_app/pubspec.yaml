@@ -78,6 +78,7 @@ dependencies:
   flutter_speed_dial: ^7.0.0
   file_picker: ^8.0.0
   pdfx: ^2.5.0
+  in_app_update: ^4.2.5
 
 dev_dependencies:
   flutter_test:

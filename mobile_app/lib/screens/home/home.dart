@@ -16,6 +16,7 @@ import 'package:warranty_manager_cloud/screens/home/widgets/highlight_card.dart'
 import 'package:warranty_manager_cloud/screens/profile.dart';
 import 'package:warranty_manager_cloud/screens/settings_screen/settings_screen.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:warranty_manager_cloud/screens/static/about.dart';
 import 'package:warranty_manager_cloud/screens/static/privacy_policy.dart';
 import 'package:warranty_manager_cloud/screens/warranty_form.dart';
@@ -84,9 +85,28 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Future<void> checkForUpdate() async {
+    if (Platform.isAndroid) {
+      try {
+        final info = await InAppUpdate.checkForUpdate();
+        if (info.updateAvailability == UpdateAvailability.updateAvailable &&
+            info.immediateUpdateAllowed == true) {
+          await InAppUpdate.performImmediateUpdate();
+        } else if (info.updateAvailability ==
+            UpdateAvailability.developerTriggeredUpdateInProgress) {
+          // Monitor install status instead of re-triggering update
+          debugPrint('Update in progress, current status: ${info.installStatus}');
+        }
+      } catch (e) {
+        debugPrint('Failed to check for updates: $e');
+      }
+    }
+  }
+
   @override
   void initState() {
     saveOnboardingSettings();
+    checkForUpdate();
     _initPackageInfo();
     super.initState();
 
