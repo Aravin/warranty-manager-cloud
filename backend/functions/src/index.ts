@@ -199,24 +199,24 @@ export const sendWarrantyReminders = onSchedule(
           const daysLeft = Math.floor((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 
           if (daysLeft === 7 || daysLeft === 1) {
-             const message = {
-               notification: {
-                 title: `Warranty Expiring Soon`,
-                 body: `Your warranty for ${wData.name || 'a product'} expires in ${daysLeft} ${daysLeft === 1 ? 'day' : 'days'}.`,
-               },
-               token: fcmToken,
-               data: {
-                 productId: wDoc.id
-               }
-             };
+            const message = {
+              notification: {
+                title: 'Warranty Expiring Soon',
+                body: `Your warranty for ${wData.name || 'a product'} expires in ${daysLeft} ${daysLeft === 1 ? 'day' : 'days'}.`,
+              },
+              token: fcmToken,
+              data: {
+                productId: wDoc.id
+              }
+            };
 
-             try {
-               await getMessaging().send(message);
-               notificationCount++;
-               logger.log(`Sent reminder for product ${wDoc.id} to user ${userId}`);
-             } catch (sendErr) {
-               logger.warn(`Failed to send FCM to token ${fcmToken}:`, sendErr);
-             }
+            try {
+              await getMessaging().send(message);
+              notificationCount++;
+              logger.log(`Sent reminder for product ${wDoc.id} to user ${userId}`);
+            } catch (sendErr) {
+              logger.warn(`Failed to send FCM to token ${fcmToken}:`, sendErr);
+            }
           }
         }
       }
