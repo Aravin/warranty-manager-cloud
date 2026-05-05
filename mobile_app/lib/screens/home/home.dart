@@ -96,6 +96,9 @@ class _HomeScreenState extends State<HomeScreen> {
             UpdateAvailability.developerTriggeredUpdateInProgress) {
           // Monitor install status instead of re-triggering update
           debugPrint('Update in progress, current status: ${info.installStatus}');
+          InAppUpdate.installStatusStream.listen((status) {
+            debugPrint('Install status update: $status');
+          });
         }
       } catch (e) {
         debugPrint('Failed to check for updates: $e');
