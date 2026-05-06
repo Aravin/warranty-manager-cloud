@@ -104,10 +104,248 @@ void main() {
     });
   });
 
+  group('WarrantyForm initialData', () {
+    testWidgets('pre-populates all text fields from initialData', (
+      tester,
+    ) async {
+      final initialData = {
+        'name': 'Samsung TV',
+        'company': 'Samsung',
+        'purchaseDate': DateTime(2025, 1, 15),
+        'warrantyPeriod': '2 Year',
+        'category': 'Electronics',
+        'price': '45000',
+        'purchasedAt': 'Croma Store',
+        'salesPerson': 'John Doe',
+        'phone': '9876543210',
+        'email': 'support@samsung.com',
+        'notes': 'Keep the receipt safe',
+      };
+
+      await _pumpTestApp(tester, WarrantyForm(initialData: initialData));
+
+      final formState = tester.state<FormBuilderState>(
+        find.byWidgetPredicate((widget) => widget is FormBuilder),
+      );
+
+      expect(formState.fields['name']?.value, 'Samsung TV');
+      expect(formState.fields['company']?.value, 'Samsung');
+      expect(formState.fields['purchaseDate']?.value, DateTime(2025, 1, 15));
+      expect(formState.fields['warrantyPeriod']?.value, '2 Year');
+      expect(formState.fields['category']?.value, 'Electronics');
+      expect(formState.fields['price']?.value, '45000');
+      expect(formState.fields['purchasedAt']?.value, 'Croma Store');
+      expect(formState.fields['salesPerson']?.value, 'John Doe');
+      expect(formState.fields['phone']?.value, '9876543210');
+      expect(formState.fields['email']?.value, 'support@samsung.com');
+      expect(formState.fields['notes']?.value, 'Keep the receipt safe');
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('shows empty text fields and Other category when initialData is null', (
+      tester,
+    ) async {
+      await _pumpTestApp(tester, const WarrantyForm());
+
+      final formState = tester.state<FormBuilderState>(
+        find.byWidgetPredicate((widget) => widget is FormBuilder),
+      );
+
+      expect(formState.fields['name']?.value, isNull);
+      expect(formState.fields['company']?.value, isNull);
+      expect(formState.fields['purchaseDate']?.value, isNull);
+      // warrantyPeriod falls back to Product().warrantyPeriod which is null
+      expect(formState.fields['warrantyPeriod']?.value, isNull);
+      // category falls back to 'Other'
+      expect(formState.fields['category']?.value, 'Other');
+      expect(formState.fields['price']?.value, isNull);
+      expect(formState.fields['purchasedAt']?.value, isNull);
+      expect(formState.fields['salesPerson']?.value, isNull);
+      expect(formState.fields['phone']?.value, isNull);
+      expect(formState.fields['email']?.value, isNull);
+      expect(formState.fields['notes']?.value, isNull);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('defaults category to Other when initialData has no category key', (
+      tester,
+    ) async {
+      // Provide initialData without a category entry
+      await _pumpTestApp(
+        tester,
+        WarrantyForm(initialData: {'name': 'Mixer'}),
+      );
+
+      final formState = tester.state<FormBuilderState>(
+        find.byWidgetPredicate((widget) => widget is FormBuilder),
+      );
+
+      expect(formState.fields['category']?.value, 'Other');
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('uses initialData category over the Other default', (
+      tester,
+    ) async {
+      await _pumpTestApp(
+        tester,
+        WarrantyForm(initialData: {'category': 'Appliances'}),
+      );
+
+      final formState = tester.state<FormBuilderState>(
+        find.byWidgetPredicate((widget) => widget is FormBuilder),
+      );
+
+      expect(formState.fields['category']?.value, 'Appliances');
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('uses initialData warrantyPeriod over Product default', (
+      tester,
+    ) async {
+      await _pumpTestApp(
+        tester,
+        WarrantyForm(initialData: {'warrantyPeriod': '5 Year'}),
+      );
+
+      final formState = tester.state<FormBuilderState>(
+        find.byWidgetPredicate((widget) => widget is FormBuilder),
+      );
+
+      expect(formState.fields['warrantyPeriod']?.value, '5 Year');
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('converts non-string price to string for the price field', (
+      tester,
+    ) async {
+      // OCR may extract price as a number; the form should convert it
+      await _pumpTestApp(
+        tester,
+        WarrantyForm(initialData: {'price': 12500}),
+      );
+
+      final formState = tester.state<FormBuilderState>(
+        find.byWidgetPredicate((widget) => widget is FormBuilder),
+      );
+
+      expect(formState.fields['price']?.value, '12500');
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('submits correct product when all initialData fields are present', (
+      tester,
+    ) async {
+      Product? submittedProduct;
+      final purchaseDate = DateTime(2024, 6, 20);
+
+      await _pumpTestApp(
+        tester,
+        WarrantyForm(
+          initialData: {
+            'name': 'LG Refrigerator',
+            'company': 'LG',
+            'purchaseDate': purchaseDate,
+            'warrantyPeriod': '3 Year',
+            'category': 'Appliances',
+            'price': '35000',
+            'purchasedAt': 'Reliance Digital',
+            'salesPerson': 'Ramesh',
+            'phone': '9000000001',
+            'email': 'care@lg.com',
+            'notes': 'Extended warranty card inside box',
+          },
+          onSave: (product) async {
+            submittedProduct = product;
+            return 'new-product-id';
+          },
+          onSaveSuccess: (_, __) {},
+        ),
+      );
+
+      await tester.tap(_actionButtonFinder());
+      await tester.pumpAndSettle();
+      await tester.pump(const Duration(seconds: 3));
+
+      expect(submittedProduct, isNotNull);
+      expect(submittedProduct!.name, 'LG Refrigerator');
+      expect(submittedProduct!.company, 'LG');
+      expect(submittedProduct!.purchaseDate, purchaseDate);
+      expect(submittedProduct!.warrantyPeriod, '3 Year');
+      expect(submittedProduct!.category, 'Appliances');
+      expect(submittedProduct!.price, 35000);
+      expect(submittedProduct!.purchasedAt, 'Reliance Digital');
+      expect(submittedProduct!.salesPerson, 'Ramesh');
+      expect(submittedProduct!.phone, '9000000001');
+      expect(submittedProduct!.email, 'care@lg.com');
+      expect(submittedProduct!.notes, 'Extended warranty card inside box');
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('tolerates partial initialData with only required fields', (
+      tester,
+    ) async {
+      Product? submittedProduct;
+      final purchaseDate = DateTime(2025, 3, 10);
+
+      await _pumpTestApp(
+        tester,
+        WarrantyForm(
+          initialData: {
+            'name': 'Bosch Mixer',
+            'company': 'Bosch',
+            'purchaseDate': purchaseDate,
+            'warrantyPeriod': '1 Year',
+          },
+          onSave: (product) async {
+            submittedProduct = product;
+            return 'partial-id';
+          },
+          onSaveSuccess: (_, __) {},
+        ),
+      );
+
+      await tester.tap(_actionButtonFinder());
+      await tester.pumpAndSettle();
+      await tester.pump(const Duration(seconds: 3));
+
+      expect(submittedProduct, isNotNull);
+      expect(submittedProduct!.name, 'Bosch Mixer');
+      expect(submittedProduct!.company, 'Bosch');
+      expect(submittedProduct!.warrantyPeriod, '1 Year');
+      // Optional fields not in initialData should be null
+      expect(submittedProduct!.price, isNull);
+      expect(submittedProduct!.purchasedAt, isNull);
+      expect(submittedProduct!.salesPerson, isNull);
+      expect(submittedProduct!.phone, isNull);
+      expect(submittedProduct!.email, isNull);
+      expect(submittedProduct!.notes, isNull);
+      expect(tester.takeException(), isNull);
+    });
+
+    // Regression: verify the old hardcoded category default 'Other' still works
+    // now that it uses initialData?['category'] ?? 'Other'.
+    testWidgets('regression: category still defaults to Other when initialData is empty map', (
+      tester,
+    ) async {
+      await _pumpTestApp(
+        tester,
+        WarrantyForm(initialData: const {}),
+      );
+
+      final formState = tester.state<FormBuilderState>(
+        find.byWidgetPredicate((widget) => widget is FormBuilder),
+      );
+
+      expect(formState.fields['category']?.value, 'Other');
+      expect(tester.takeException(), isNull);
+    });
+  });
+
   group('WarrantyEditForm', () {
     testWidgets('updates preloaded values without optional images', (
       tester,
-    ) async {
+
       Product? updatedProduct;
 
       await _pumpTestApp(
