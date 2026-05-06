@@ -113,7 +113,7 @@ void main() {
         'company': 'Samsung',
         'purchaseDate': DateTime(2025, 1, 15),
         'warrantyPeriod': '2 Year',
-        'category': 'Electronics',
+        'category': 'Electronics and Appliances',
         'price': '45000',
         'purchasedAt': 'Croma Store',
         'salesPerson': 'John Doe',
@@ -132,7 +132,7 @@ void main() {
       expect(formState.fields['company']?.value, 'Samsung');
       expect(formState.fields['purchaseDate']?.value, DateTime(2025, 1, 15));
       expect(formState.fields['warrantyPeriod']?.value, '2 Year');
-      expect(formState.fields['category']?.value, 'Electronics');
+      expect(formState.fields['category']?.value, 'Electronics and Appliances');
       expect(formState.fields['price']?.value, '45000');
       expect(formState.fields['purchasedAt']?.value, 'Croma Store');
       expect(formState.fields['salesPerson']?.value, 'John Doe');
@@ -189,14 +189,14 @@ void main() {
     ) async {
       await _pumpTestApp(
         tester,
-        WarrantyForm(initialData: {'category': 'Appliances'}),
+        WarrantyForm(initialData: {'category': 'Electronics and Appliances'}),
       );
 
       final formState = tester.state<FormBuilderState>(
         find.byWidgetPredicate((widget) => widget is FormBuilder),
       );
 
-      expect(formState.fields['category']?.value, 'Appliances');
+      expect(formState.fields['category']?.value, 'Electronics and Appliances');
       expect(tester.takeException(), isNull);
     });
 
@@ -247,7 +247,7 @@ void main() {
             'company': 'LG',
             'purchaseDate': purchaseDate,
             'warrantyPeriod': '3 Year',
-            'category': 'Appliances',
+            'category': 'Electronics and Appliances',
             'price': '35000',
             'purchasedAt': 'Reliance Digital',
             'salesPerson': 'Ramesh',
@@ -272,7 +272,7 @@ void main() {
       expect(submittedProduct!.company, 'LG');
       expect(submittedProduct!.purchaseDate, purchaseDate);
       expect(submittedProduct!.warrantyPeriod, '3 Year');
-      expect(submittedProduct!.category, 'Appliances');
+      expect(submittedProduct!.category, 'Electronics and Appliances');
       expect(submittedProduct!.price, 35000);
       expect(submittedProduct!.purchasedAt, 'Reliance Digital');
       expect(submittedProduct!.salesPerson, 'Ramesh');

@@ -247,21 +247,9 @@ void main() {
         return null;
       });
 
-      // We can't invoke InAppUpdate.checkForUpdate() directly on a non-Android
-      // host because the native resolver isn't present; we instead verify that
-      // the mock handler is wired correctly and responds as expected.
-      final completer = Completer<Map<Object?, Object?>?>();
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .handlePlatformMessage(
-        channel.name,
-        channel.codec.encodeMethodCall(const MethodCall('checkForUpdate')),
-        (data) {
-          if(data == null){completer.complete(null);return;}final result = channel.codec.decodeEnvelope(data);
-          completer.complete(result as Map<Object?, Object?>?);
-        },
+      final result = await channel.invokeMapMethod<String, dynamic>(
+        'checkForUpdate',
       );
-
-      final result = await completer.future;
       expect(result, isNotNull);
       expect(result!['updateAvailability'], equals(1));
       expect(result['immediateUpdateAllowed'], isTrue);
@@ -277,19 +265,7 @@ void main() {
         return null;
       });
 
-      final completer = Completer<Object?>();
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .handlePlatformMessage(
-        channel.name,
-        channel.codec
-            .encodeMethodCall(const MethodCall('performImmediateUpdate')),
-        (data) {
-          if(data == null){completer.complete(null);return;}final result = channel.codec.decodeEnvelope(data);
-          completer.complete(result);
-        },
-      );
-
-      final result = await completer.future;
+      final result = await channel.invokeMethod<int>('performImmediateUpdate');
       expect(result, equals(1));
     });
 
@@ -303,19 +279,7 @@ void main() {
         return null;
       });
 
-      final completer = Completer<Object?>();
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .handlePlatformMessage(
-        channel.name,
-        channel.codec
-            .encodeMethodCall(const MethodCall('performImmediateUpdate')),
-        (data) {
-          if(data == null){completer.complete(null);return;}final result = channel.codec.decodeEnvelope(data);
-          completer.complete(result);
-        },
-      );
-
-      final result = await completer.future;
+      final result = await channel.invokeMethod<int>('performImmediateUpdate');
       expect(result, equals(0));
     });
   });
