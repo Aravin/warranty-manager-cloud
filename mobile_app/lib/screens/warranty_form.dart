@@ -167,7 +167,24 @@ class _WarrantyFormState extends State<WarrantyForm> {
                         ),
                         FormBuilderDateTimePicker(
                           name: "purchaseDate",
-                          initialValue: widget.initialData?['purchaseDate'],
+                          initialValue: () {
+                            final rawValue = widget.initialData?['purchaseDate'];
+                            if (rawValue == null) return null;
+                            if (rawValue is DateTime) return rawValue;
+                            if (rawValue is String) {
+                              final parsed = DateTime.tryParse(rawValue);
+                              if (parsed != null) return parsed;
+                              final milliseconds = int.tryParse(rawValue);
+                              if (milliseconds != null) {
+                                return DateTime.fromMillisecondsSinceEpoch(milliseconds);
+                              }
+                              return null;
+                            }
+                            if (rawValue is int) {
+                              return DateTime.fromMillisecondsSinceEpoch(rawValue);
+                            }
+                            return null;
+                          }(),
                           textInputAction: TextInputAction.next,
                           validator: FormBuilderValidators.compose(
                               [FormBuilderValidators.required()]),
@@ -184,7 +201,10 @@ class _WarrantyFormState extends State<WarrantyForm> {
                         ),
                         FormBuilderDropdown(
                           name: "warrantyPeriod",
-                          initialValue: widget.initialData?['warrantyPeriod'] ?? _product.warrantyPeriod,
+                          initialValue: () {
+                            final value = widget.initialData?['warrantyPeriod'] ?? _product.warrantyPeriod;
+                            return kWarrantyPeriods.contains(value) ? value : null;
+                          }(),
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.timer),
                             labelText: 'warranty_period'.tr(),
@@ -210,7 +230,10 @@ class _WarrantyFormState extends State<WarrantyForm> {
                             prefixIconColor: kPrimaryColor,
                             hintStyle: const TextStyle(color: Colors.grey),
                           ),
-                          initialValue: widget.initialData?['category']?.toString() ?? 'Other',
+                          initialValue: () {
+                            final value = widget.initialData?['category']?.toString() ?? 'Other';
+                            return categoryList.contains(value) ? value : null;
+                          }(),
                           items: categoryList
                               .map((category) => DropdownMenuItem(
                                   value: category, child: Text(category)))
