@@ -343,9 +343,7 @@ void main() {
   });
 
   group('WarrantyEditForm', () {
-    testWidgets('updates preloaded values without optional images', (
-      tester,
-
+    testWidgets('updates preloaded values without optional images', (tester) async {
       Product? updatedProduct;
 
       await _pumpTestApp(
