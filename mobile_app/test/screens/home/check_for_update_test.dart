@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:in_app_update/in_app_update.dart';
@@ -32,12 +30,18 @@ void main() {
     // ---------------------------------------------------------------------------
 
     /// Builds an [AppUpdateInfo] with the given availability.
-    AppUpdateInfo _makeInfo(UpdateAvailability availability) {
+    AppUpdateInfo makeInfo(UpdateAvailability availability) {
       return AppUpdateInfo(
         updateAvailability: availability,
         immediateUpdateAllowed: availability == UpdateAvailability.updateAvailable,
         flexibleUpdateAllowed: false,
         availableVersionCode: availability == UpdateAvailability.updateAvailable ? 999 : null,
+        clientVersionStalenessDays: null,
+        flexibleAllowedPreconditions: [],
+        immediateAllowedPreconditions: [],
+        installStatus: InstallStatus.unknown,
+        packageName: 'com.example.app',
+        updatePriority: 0,
       );
     }
 
@@ -51,7 +55,7 @@ void main() {
 
       await performUpdateCheck(
         isAndroid: true,
-        checkForUpdate: () async => _makeInfo(UpdateAvailability.updateAvailable),
+        checkForUpdate: () async => makeInfo(UpdateAvailability.updateAvailable),
         performImmediateUpdate: () async {
           immediateUpdateCalled = true;
         },
@@ -71,7 +75,7 @@ void main() {
       await performUpdateCheck(
         isAndroid: true,
         checkForUpdate: () async =>
-            _makeInfo(UpdateAvailability.updateNotAvailable),
+            makeInfo(UpdateAvailability.updateNotAvailable),
         performImmediateUpdate: () async {
           immediateUpdateCalled = true;
         },
@@ -90,7 +94,7 @@ void main() {
 
       await performUpdateCheck(
         isAndroid: true,
-        checkForUpdate: () async => _makeInfo(UpdateAvailability.unknown),
+        checkForUpdate: () async => makeInfo(UpdateAvailability.unknown),
         performImmediateUpdate: () async {
           immediateUpdateCalled = true;
         },
@@ -130,7 +134,7 @@ void main() {
         performUpdateCheck(
           isAndroid: true,
           checkForUpdate: () async =>
-              _makeInfo(UpdateAvailability.updateAvailable),
+              makeInfo(UpdateAvailability.updateAvailable),
           performImmediateUpdate: () async =>
               throw Exception('User cancelled update'),
         ),
@@ -150,7 +154,7 @@ void main() {
         isAndroid: false,
         checkForUpdate: () async {
           checkCalled = true;
-          return _makeInfo(UpdateAvailability.updateAvailable);
+          return makeInfo(UpdateAvailability.updateAvailable);
         },
         performImmediateUpdate: () async {
           immediateUpdateCalled = true;
@@ -174,7 +178,7 @@ void main() {
       // updateAvailable and must not trigger an immediate update flow.
       await performUpdateCheck(
         isAndroid: true,
-        checkForUpdate: () async => _makeInfo(
+        checkForUpdate: () async => makeInfo(
           UpdateAvailability.developerTriggeredUpdateInProgress,
         ),
         performImmediateUpdate: () async {
@@ -195,7 +199,7 @@ void main() {
       await performUpdateCheck(
         isAndroid: true,
         checkForUpdate: () => Future.value(
-          _makeInfo(UpdateAvailability.updateAvailable),
+          makeInfo(UpdateAvailability.updateAvailable),
         ),
         performImmediateUpdate: () {
           immediateUpdateCalled = true;
@@ -241,21 +245,9 @@ void main() {
         return null;
       });
 
-      // We can't invoke InAppUpdate.checkForUpdate() directly on a non-Android
-      // host because the native resolver isn't present; we instead verify that
-      // the mock handler is wired correctly and responds as expected.
-      final completer = Completer<Map<Object?, Object?>?>();
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .handlePlatformMessage(
-        channel.name,
-        channel.codec.encodeMethodCall(const MethodCall('checkForUpdate')),
-        (data) {
-          final result = channel.codec.decodeEnvelope(data!);
-          completer.complete(result as Map<Object?, Object?>?);
-        },
+      final result = await channel.invokeMapMethod<String, dynamic>(
+        'checkForUpdate',
       );
-
-      final result = await completer.future;
       expect(result, isNotNull);
       expect(result!['updateAvailability'], equals(1));
       expect(result['immediateUpdateAllowed'], isTrue);
@@ -271,19 +263,7 @@ void main() {
         return null;
       });
 
-      final completer = Completer<Object?>();
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .handlePlatformMessage(
-        channel.name,
-        channel.codec
-            .encodeMethodCall(const MethodCall('performImmediateUpdate')),
-        (data) {
-          final result = channel.codec.decodeEnvelope(data!);
-          completer.complete(result);
-        },
-      );
-
-      final result = await completer.future;
+      final result = await channel.invokeMethod<int>('performImmediateUpdate');
       expect(result, equals(1));
     });
 
@@ -297,19 +277,7 @@ void main() {
         return null;
       });
 
-      final completer = Completer<Object?>();
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .handlePlatformMessage(
-        channel.name,
-        channel.codec
-            .encodeMethodCall(const MethodCall('performImmediateUpdate')),
-        (data) {
-          final result = channel.codec.decodeEnvelope(data!);
-          completer.complete(result);
-        },
-      );
-
-      final result = await completer.future;
+      final result = await channel.invokeMethod<int>('performImmediateUpdate');
       expect(result, equals(0));
     });
   });

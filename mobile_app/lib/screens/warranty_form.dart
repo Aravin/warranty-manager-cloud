@@ -12,6 +12,22 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:warranty_manager_cloud/shared/loader.dart';
 
+Map<String, dynamic> _sanitizeInitialData(Map<String, dynamic>? initialData) {
+  final sanitized = Map<String, dynamic>.from(initialData ?? const {});
+  final category = sanitized['category']?.toString();
+  final warrantyPeriod = sanitized['warrantyPeriod'];
+
+  if (category != null && !categoryList.contains(category)) {
+    sanitized.remove('category');
+  }
+
+  if (warrantyPeriod != null && !kWarrantyPeriods.contains(warrantyPeriod)) {
+    sanitized.remove('warrantyPeriod');
+  }
+
+  return sanitized;
+}
+
 typedef SaveWarrantyCallback = Future<String> Function(Product product);
 typedef SaveWarrantySuccessCallback = void Function(
   BuildContext context,
@@ -81,6 +97,8 @@ class _WarrantyFormState extends State<WarrantyForm> {
 
   @override
   Widget build(BuildContext context) {
+    final initialData = _sanitizeInitialData(widget.initialData);
+
     return Scaffold(
       appBar: AppBar(title: const Text('add_warranty').tr()),
       body: Column(
@@ -94,7 +112,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                 debugPrint(_formKey.currentState!.value.toString());
               },
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              initialValue: widget.initialData ?? {},
+              initialValue: initialData,
               skipDisabled: true,
               child: Stepper(
                 type: StepperType.vertical,
@@ -133,7 +151,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                       children: [
                         FormBuilderTextField(
                           name: 'name',
-                          initialValue: widget.initialData?['name']?.toString(),
+                          initialValue: initialData['name']?.toString(),
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(),
                             FormBuilderValidators.minLength(3),
@@ -150,7 +168,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                         ),
                         FormBuilderTextField(
                           name: 'company',
-                          initialValue: widget.initialData?['company']?.toString(),
+                          initialValue: initialData['company']?.toString(),
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.branding_watermark),
@@ -168,7 +186,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                         FormBuilderDateTimePicker(
                           name: "purchaseDate",
                           initialValue: () {
-                            final rawValue = widget.initialData?['purchaseDate'];
+                            final rawValue = initialData['purchaseDate'];
                             if (rawValue == null) return null;
                             if (rawValue is DateTime) return rawValue;
                             if (rawValue is String) {
@@ -202,7 +220,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                         FormBuilderDropdown(
                           name: "warrantyPeriod",
                           initialValue: () {
-                            final value = widget.initialData?['warrantyPeriod'] ?? _product.warrantyPeriod;
+                            final value = initialData['warrantyPeriod'] ?? _product.warrantyPeriod;
                             return kWarrantyPeriods.contains(value) ? value : null;
                           }(),
                           decoration: InputDecoration(
@@ -231,7 +249,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                             hintStyle: const TextStyle(color: Colors.grey),
                           ),
                           initialValue: () {
-                            final value = widget.initialData?['category']?.toString() ?? 'Other';
+                            final value = initialData['category']?.toString() ?? 'Other';
                             return categoryList.contains(value) ? value : null;
                           }(),
                           items: categoryList
@@ -249,7 +267,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                       children: [
                         FormBuilderTextField(
                           name: 'price',
-                          initialValue: widget.initialData?['price']?.toString(),
+                          initialValue: initialData['price']?.toString(),
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                           validator: (value) {
@@ -270,7 +288,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                         ),
                         FormBuilderTextField(
                           name: 'purchasedAt',
-                          initialValue: widget.initialData?['purchasedAt']?.toString(),
+                          initialValue: initialData['purchasedAt']?.toString(),
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.add_location),
@@ -282,7 +300,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                         ),
                         FormBuilderTextField(
                           name: 'salesPerson',
-                          initialValue: widget.initialData?['salesPerson']?.toString(),
+                          initialValue: initialData['salesPerson']?.toString(),
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.people),
@@ -294,7 +312,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                         ),
                         FormBuilderTextField(
                           name: 'phone',
-                          initialValue: widget.initialData?['phone']?.toString(),
+                          initialValue: initialData['phone']?.toString(),
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
@@ -307,7 +325,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                         ),
                         FormBuilderTextField(
                           name: 'email',
-                          initialValue: widget.initialData?['email']?.toString(),
+                          initialValue: initialData['email']?.toString(),
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.email),
@@ -321,7 +339,7 @@ class _WarrantyFormState extends State<WarrantyForm> {
                           maxLines: null,
                           keyboardType: TextInputType.multiline,
                           name: 'notes',
-                          initialValue: widget.initialData?['notes']?.toString(),
+                          initialValue: initialData['notes']?.toString(),
                           textInputAction: TextInputAction.done,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.note_add),
