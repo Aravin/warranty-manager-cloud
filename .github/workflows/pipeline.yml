@@ -3,13 +3,73 @@ name: CI Pipeline
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'backend/**'
+      - 'mobile_app/**'
+      - '.github/workflows/pipeline.yml'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'backend/**'
+      - 'mobile_app/**'
+      - '.github/workflows/pipeline.yml'
 
 jobs:
+  changes:
+    name: Detect changed areas
+    runs-on: ubuntu-24.04
+    outputs:
+      mobile_app: ${{ steps.detect.outputs.mobile_app }}
+      backend: ${{ steps.detect.outputs.backend }}
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - id: detect
+        name: Check changed files
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            base_sha="${{ github.event.pull_request.base.sha }}"
+            head_sha="${{ github.event.pull_request.head.sha }}"
+          else
+            base_sha="${{ github.event.before }}"
+            head_sha="${{ github.sha }}"
+          fi
+
+          if [[ -z "$base_sha" || "$base_sha" == "0000000000000000000000000000000000000000" ]]; then
+            changed_files=$(git ls-tree -r --name-only "$head_sha")
+          else
+            changed_files=$(git diff --name-only "$base_sha" "$head_sha")
+          fi
+
+          mobile_changed=false
+          backend_changed=false
+
+          while IFS= read -r file; do
+            [[ -z "$file" ]] && continue
+            case "$file" in
+              mobile_app/*)
+                mobile_changed=true
+                ;;
+              backend/*)
+                backend_changed=true
+                ;;
+              .github/workflows/pipeline.yml)
+                mobile_changed=true
+                backend_changed=true
+                ;;
+            esac
+          done <<< "$changed_files"
+
+          echo "mobile_app=$mobile_changed" >> "$GITHUB_OUTPUT"
+          echo "backend=$backend_changed" >> "$GITHUB_OUTPUT"
+
   flutter:
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    needs: changes
+    if: needs.changes.outputs.mobile_app == 'true'
     name: Flutter CI
     runs-on: ubuntu-24.04
 
@@ -18,7 +78,7 @@ jobs:
         working-directory: ./mobile_app
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -35,8 +95,8 @@ jobs:
         run: flutter test
 
   firebase-functions:
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
     name: Firebase Functions CI
     runs-on: ubuntu-24.04
 
@@ -45,7 +105,7 @@ jobs:
         working-directory: ./backend/functions
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Use Node.js
         uses: actions/setup-node@v4
